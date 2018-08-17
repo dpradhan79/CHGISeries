@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SuiteTestBreyers" parallel="tests" thread-count="5" preserve-order="true">  
+  <!-- Test On Stage URL -->
+  <test name="TestPhoneBookStageEnv" preserve-order="true">
+  <parameter name="appURL" value="https://stage.chgit.com/phonebook" />  
+  <parameter name="automationKit" value="selenium" />  
+  <parameter name="browserName" value="Chrome" />
+     <classes>     
+      <class name="test.iseries.phonebook.TestPhoneBook"/> 
+      
+    </classes>
+  </test>  
+  
+  <!-- Test On Prod URL -->
+  <test name="TestPhoneBookProdEnv" preserve-order="true">
+  <parameter name="appURL" value="https://internal.chgcompanies.com/phonebook" />  
+  <parameter name="automationKit" value="selenium" />  
+  <parameter name="browserName" value="Chrome" />
+     <classes>     
+      <class name="test.iseries.phonebook.TestPhoneBook"/>
+    </classes>
+  </test>  
+
+</suite>
