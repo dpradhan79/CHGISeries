@@ -75,8 +75,8 @@ public abstract class TestTemplateMethodLevelInit extends TestTemplate {
 	 */
 	@BeforeTest
 	protected void beforeTest(ITestContext testContext) {
-		LOG.info(String.format("Thread - %d, Executes Next Test - %s ", Thread.currentThread().getId(),
-				testContext.getCurrentXmlTest().getName()));
+		LOG.info(String.format("Thread - %d, Executes Next Test - %s On URL - %s", Thread.currentThread().getId(),
+				testContext.getCurrentXmlTest().getName(), testContext.getCurrentXmlTest().getParameter("appURL")));
 		if (((ExtentReporter) TestTemplate.testReport)
 				.getExtentTestVisibilityMode() == ExtentTestVisibilityMode.TestNGTestTagAsTestsAtLeft) {
 			TestTemplate.testReport
@@ -200,8 +200,8 @@ public abstract class TestTemplateMethodLevelInit extends TestTemplate {
 
 		} finally {
 			TestTemplate.testReport.logInfo(String.format(
-					"Thread - %d , Executes Next Test Method - %s On Browser - %s", Thread.currentThread().getId(),
-					m.getName(), this.getTestParameter(testContext, ITestParamsConstants.BROWSER)));
+					"Thread - %d , Executes Next Test Method - %s On Browser - %s On URL - %s", Thread.currentThread().getId(),
+					m.getName(), this.getTestParameter(testContext, ITestParamsConstants.BROWSER), this.getTestParameter(testContext, ITestParamsConstants.APPURL)));
 		}
 
 	}
@@ -216,7 +216,7 @@ public abstract class TestTemplateMethodLevelInit extends TestTemplate {
 	 * @throws Exception
 	 */
 	@AfterMethod
-	protected void afterMethod(ITestContext testContext, ITestResult testResult, Method m) throws Exception {
+	protected void afterMethod(ITestContext testContext, ITestResult testResult, Method m) throws Exception {		
 		LOG.info(String.format("Thread - %d , Completes Executing Test Method - %s", Thread.currentThread().getId(),
 				m.getName()));
 		TestTemplate.testReport.logInfo(String.format(

@@ -19,7 +19,18 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
 		mapIdSearchCriteria.put("searchFirstName", "Joe");
-		int iCountCheckBoxes = phoneBookPage.searchPhoneBook(mapIdSearchCriteria);		//validate search works
+		int iCountCheckBoxes = 0;
+		try
+		{
+			iCountCheckBoxes = phoneBookPage.searchPhoneBook(mapIdSearchCriteria);	
+		}
+		catch(Exception ex)
+		{
+			TestTemplate.testReport.logFailure("Phone Book Search", "Phone Book Search Fails", this.getScreenShotName());
+			TestTemplate.testReport.logException(ex);
+			return;
+		}
+		//validate search works
 		
 		softAssert.assertTrue(iCountCheckBoxes > 0, "Validation For Successful Search");
 		TestTemplate.testReport.logInfo(String.format("Total Records Found = %d", iCountCheckBoxes));
