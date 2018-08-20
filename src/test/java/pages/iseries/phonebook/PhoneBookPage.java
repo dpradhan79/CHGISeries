@@ -20,7 +20,7 @@ public class PhoneBookPage extends PageTemplate {
 		super(webDriver, testReport);
 		this.softAssert = new SoftAssert();
 	}
-
+	//interface for search phone book
 	public int searchPhoneBook(Map<String, String>mapIdSearchTextBoxes)
 	{
 		for(Map.Entry<String, String> entrySet : mapIdSearchTextBoxes.entrySet())

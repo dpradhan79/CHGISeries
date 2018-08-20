@@ -199,6 +199,7 @@ public abstract class TestTemplateMethodLevelInit extends TestTemplate {
 			TestTemplate.testReport.logException(ex);
 
 		} finally {
+			//Log Info to extent report
 			TestTemplate.testReport.logInfo(String.format(
 					"Thread - %d , Executes Next Test Method - %s On Browser - %s On URL - %s", Thread.currentThread().getId(),
 					m.getName(), this.getTestParameter(testContext, ITestParamsConstants.BROWSER), this.getTestParameter(testContext, ITestParamsConstants.APPURL)));
