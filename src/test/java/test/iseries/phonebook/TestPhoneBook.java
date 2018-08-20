@@ -26,6 +26,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		}
 		catch(Exception ex)
 		{
+			//Exception in Search Phone Book
 			TestTemplate.testReport.logFailure("Phone Book Search", "Phone Book Search Fails", this.getScreenShotName());
 			TestTemplate.testReport.logException(ex);
 			return;
