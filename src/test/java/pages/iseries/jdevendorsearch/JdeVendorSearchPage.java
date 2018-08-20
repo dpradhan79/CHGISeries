@@ -15,6 +15,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 	By informationText	 	= By.xpath("//*[contains(text(),'You have tried')]");
 	By alertText 			= By.xpath("//*[contains(text(),'Do not')]/parent::font");
 	By auth 				= By.xpath("//div[@class='header']/div[3]");
+	By vendorSearchTitle 	= By.xpath("//div[@class='pageTitle' and contains(text(),'Vendor Search Form')]");
 	private SoftAssert softAssert = null;
 	public JdeVendorSearchPage(WebDriver webDriver, IReporter testReport) {
 		super(webDriver, testReport);
@@ -44,5 +45,11 @@ public class JdeVendorSearchPage extends PageTemplate {
 		validateTextPresent(informationText, "You have tried to access a secure area. Please enter your user name and password to gain access.");
 		validateTextPresent(alertText, "Do not bookmark this page. Doing so will cause an error on your next visit. The correct procedure is to bookmark the page that appears after you click \"login\".");
 		validateTextPresent(auth, "Not logged in");
+	}
+	
+	public void validateLoggedInToApplication()
+	{
+		this.waitUntilElementIsVisible(vendorSearchTitle);
+		validateTextPresent(vendorSearchTitle, "Vendor Search Form");
 	}
 }
