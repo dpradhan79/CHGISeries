@@ -33,4 +33,18 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		//Validating is user logged in to application successfully.
 		jdeVendorSearchPage.validateLoggedInToApplication();
 	}
+	
+	@Test
+	public void testC939923()
+	{
+		//Initialization
+		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		
+		//Logging in to application
+		loginPage.jdeVendorSearchLogin();
+				
+		//Validate list of fields exist in search form
+		jdeVendorSearchPage.validateFieldsPresentInSearchForm();
+	}
 }
