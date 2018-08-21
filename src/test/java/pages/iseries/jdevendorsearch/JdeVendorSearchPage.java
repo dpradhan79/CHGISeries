@@ -2,6 +2,7 @@ package pages.iseries.jdevendorsearch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,18 @@ public class JdeVendorSearchPage extends PageTemplate {
 	By auth 						= By.xpath("//div[@class='header']/div[3]");
 	By vendorSearchTitle 			= By.xpath("//div[@class='pageTitle' and contains(text(),'Vendor Search Form')]");
 	By fieldsPresentInSearchForm	= By.xpath("//form[@id='vendorSearchForm']//tr//input/../parent::tr/td[1][not(contains(@class,'button'))]");
-	
+	By serachJDEButton				= By.xpath("//input[@value='Search JDE']");
+	By resetButton					= By.xpath("//input[@value='Reset']");
+	By vendorNameInput				= By.xpath("//td[text()='Vendor Name:']/parent::tr//input");
+	By vendorNameof1stRecord		= By.xpath("//*[text()='Vendor Name']/../parent::tr/../parent::table//tbody/tr[1]/td[2]");
+	By vendorStateInput				= By.xpath("//td[text()='Vendor State (abbrev):']/parent::tr//input");
+	By vendorZipInput				= By.xpath("//td[text()='Vendor Zip:']/parent::tr//input");
+	By vendorNumberInput			= By.xpath("//td[text()='Vendor Number:']/parent::tr//input");
+	By vendorNumberof1stRecord		= By.xpath("//*[text()='Vendor Name']/../parent::tr/../parent::table//tbody/tr[1]/td[1]");
+	By vendorStateof1stRecord		= By.xpath("//*[text()='Vendor Name']/../parent::tr/../parent::table//tbody/tr[1]/td[6]");
+	By vendorZipof1stRecord			= By.xpath("//*[text()='Vendor Name']/../parent::tr/../parent::table//tbody/tr[1]/td[7]");
+	By vendorTableHeaders			= By.xpath("//table[@id='VendorList']//th[@role='columnheader']/div");
+	By vendorSearchResults1stDetail	= By.xpath("//table[@id='VendorList']/tbody/tr[1]/td");
 	
 	private SoftAssert softAssert = null;
 	public JdeVendorSearchPage(WebDriver webDriver, IReporter testReport) {
@@ -29,6 +41,11 @@ public class JdeVendorSearchPage extends PageTemplate {
 		this.softAssert = new SoftAssert();
 	}
 
+	/**
+	 * @param locator
+	 * @param expecxtedText
+	 * Validates text in locator and expected test is equals
+	 */
 	public void validateTextPresent(By locator, String expecxtedText)
 	{
 		try{
@@ -47,6 +64,31 @@ public class JdeVendorSearchPage extends PageTemplate {
 		}
 	}
 	
+	/**
+	 * @param expected
+	 * @param actual
+	 * Validated expected and actual texts are equal
+	 */
+	public void validateTextEquals(String expected, String actual)
+	{
+		try{
+			if((actual.replaceAll("[\r\n]+", " ")).equalsIgnoreCase(expected))
+			{
+				this.testReport.logSuccess("Validate Text Present", "Expected Test is "+expected+" Actual Text is "+actual);
+			}
+			else
+			{
+				this.testReport.logFailure("Validate Text Present", "Expected Test is "+expected+" Actual Text is "+actual, this.getScreenShotName());
+			}
+		}catch(Exception e)
+		{
+			this.testReport.logFailure("Validate Text Present", e.getMessage().toString(), this.getScreenShotName());
+		}
+	}
+	
+	/**
+	 * Validates information present on Login page
+	 */
 	public void validateInformationPresentOnLoginPage()
 	{
 		validateTextPresent(informationText, "You have tried to access a secure area. Please enter your user name and password to gain access.");
@@ -54,12 +96,18 @@ public class JdeVendorSearchPage extends PageTemplate {
 		validateTextPresent(auth, "Not logged in");
 	}
 	
+	/**
+	 * Validates is application logged in successfully 
+	 */
 	public void validateLoggedInToApplication()
 	{
 		this.waitUntilElementIsVisible(vendorSearchTitle);
 		validateTextPresent(vendorSearchTitle, "Vendor Search Form");
 	}
 	
+	/**
+	 * Validates list fields present in the search form
+	 */
 	public void validateFieldsPresentInSearchForm()
 	{
 		List<String> expectedList = new ArrayList<>(Arrays.asList("Vendor Name:", "Vendor State (abbrev):", "Vendor Zip:", "Vendor Number:"));
@@ -75,5 +123,154 @@ public class JdeVendorSearchPage extends PageTemplate {
 				this.testReport.logFailure("Validate Text Present", "Expected Test is "+expectedList.get(i)+" Actual Text is "+fieldsExist.get(i).getText(), this.getScreenShotName());
 			}
 		}
+		
+		//Verify search button displayed
+		verifyElementPresent(serachJDEButton, "Search JDE Button");
+		
+		//Verify reset button displayed
+		verifyElementPresent(resetButton, "Reset Button");
+	}
+	
+	/**
+	 * @param locator
+	 * @param elementTitle
+	 * Verifies is element present on screen
+	 */
+	public void verifyElementPresent(By locator, String elementTitle)
+	{
+		try
+		{
+			this.wd.findElement(locator);
+			this.testReport.logSuccess("Verify element Present", " "+elementTitle+" displayed on screen");
+		}
+		catch(Exception e)
+		{
+			this.testReport.logFailure("Verify element Present", " "+elementTitle+" displayed on application "+e.getMessage().toString(), this.getScreenShotName());
+		}
+	}
+	
+	/**
+	 * @param vendorName
+	 * Search for a vendor using vendor name
+	 */
+	public void searchForAVendor(String vendorName)
+	{
+		this.sendKeys(vendorNameInput, vendorName);
+		this.click(serachJDEButton);
+		this.implicitwait(3);
+		validateTextPresent(vendorNameof1stRecord, vendorName);
+	}
+	
+	/**
+	 * @param state
+	 * Search for a vendor using vendor State
+	 */
+	public void searchForAVendorWithState(String state)
+	{
+		//Enter state into the field
+		this.sendKeys(vendorStateInput, state);
+		
+		//Click on seach button
+		this.click(serachJDEButton);
+		this.implicitwait(3);
+		
+		//Get the values and store to a Map
+		List<WebElement> vendorTableColumns = this.wd.findElements(vendorTableHeaders);
+		List<WebElement> vendorResults1stRowDetails = this.wd.findElements(vendorSearchResults1stDetail);		
+		Map<String, String> details = new HashMap<String, String>();
+		for(int i=0; i<vendorTableColumns.size(); i++)
+		{
+			details.put(vendorTableColumns.get(i).getText(), vendorResults1stRowDetails.get(i).getText());
+		}
+
+		//Validation
+		validateTextEquals(state, details.get("State"));
+	}
+	
+	/**
+	 * @param zip
+	 * Search for a vendor using vendor Zip
+	 */
+	public void searchForAVendorWithZip(String zip)
+	{
+		//Enter zip into the field
+		this.sendKeys(vendorZipInput, zip);
+		
+		//Click on search button
+		this.click(serachJDEButton);
+		this.implicitwait(3);
+
+		//Get the values and store to a Map
+		List<WebElement> vendorTableColumns = this.wd.findElements(vendorTableHeaders);
+		List<WebElement> vendorResults1stRowDetails = this.wd.findElements(vendorSearchResults1stDetail);
+		Map<String, String> details = new HashMap<String, String>();
+		for(int i=0; i<vendorTableColumns.size(); i++)
+		{
+			details.put(vendorTableColumns.get(i).getText(), vendorResults1stRowDetails.get(i).getText());
+		}
+
+		//Validation
+		validateTextEquals(zip, details.get("Zip"));
+	}
+	
+	/**
+	 * @param vendorNumber
+	 * Search for a vendor using vendor number
+	 */
+	public void searchForAVendorWithNumber(String vendorNumber)
+	{
+		//Enter vendor number in field
+		this.sendKeys(vendorNumberInput, vendorNumber);
+		
+		//Click on search button
+		this.click(serachJDEButton);
+		this.implicitwait(3);
+
+		//Get the values and store to a Map
+		List<WebElement> vendorTableColumns = this.wd.findElements(vendorTableHeaders);
+		List<WebElement> vendorResults1stRowDetails = this.wd.findElements(vendorSearchResults1stDetail);
+		Map<String, String> details = new HashMap<String, String>();
+		for(int i=0; i<vendorTableColumns.size(); i++)
+		{
+			details.put(vendorTableColumns.get(i).getText(), vendorResults1stRowDetails.get(i).getText());
+		}
+
+		//Validation
+		validateTextEquals(vendorNumber, details.get("Vendor Number"));
+	}
+	
+	/**
+	 * @param vendorName
+	 * @param state
+	 * @param zip
+	 * @param number
+	 * Search for a vendor by giving all the fields
+	 */
+	public void searchForAVendorWithAllFields(String vendorName, String state, String zip, String number)
+	{
+		//Type in values in all fields
+		this.sendKeys(vendorNameInput, vendorName);
+		this.sendKeys(vendorStateInput, state);
+		this.sendKeys(vendorZipInput, zip);
+		this.sendKeys(vendorNumberInput, number);
+		
+		//Click on search button
+		this.click(serachJDEButton);
+		this.implicitwait(3);
+
+		//Get the values and store to a Map
+		List<WebElement> vendorTableColumns = this.wd.findElements(vendorTableHeaders);
+		List<WebElement> vendorResults1stRowDetails = this.wd.findElements(vendorSearchResults1stDetail);		
+		Map<String, String> details = new HashMap<String, String>();
+		for(int i=0; i<vendorTableColumns.size(); i++)
+		{
+			details.put(vendorTableColumns.get(i).getText(), vendorResults1stRowDetails.get(i).getText());
+		}
+
+		//Validations
+		validateTextEquals(number, details.get("Vendor Number"));
+		validateTextEquals(zip, details.get("Zip"));
+		validateTextEquals(state, details.get("State"));
+		validateTextEquals(vendorName, details.get("Vendor Name"));
 	}
 }
