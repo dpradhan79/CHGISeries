@@ -104,17 +104,17 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		jdeVendorSearchPage.searchForAVendorWithNumber("1618048");
 	}
 	
-		@Test
-		public void testC939934()
-		{
-			//Initialization
-			LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-			JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+	@Test
+	public void testC939934()
+	{
+		//Initialization
+		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 			
-			//Logging in to application
-			loginPage.jdeVendorSearchLogin();
+		//Logging in to application
+		loginPage.jdeVendorSearchLogin();
 					
-			//search with Vendor Number and validate record
-			jdeVendorSearchPage.searchForAVendorWithAllFields("Verizon", "TX", "75266-0720", "1618048");
-		}
+		//search with Vendor Number and validate record
+		jdeVendorSearchPage.searchForAVendorWithAllFields("Verizon", "TX", "75266-0720", "1618048");
+	}
 }
