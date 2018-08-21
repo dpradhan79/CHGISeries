@@ -1,8 +1,10 @@
 package test.iseries.phonebook;
 
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
-
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -12,13 +14,13 @@ import pages.iseries.phonebook.PhoneBookPage;
 
 public class TestPhoneBook extends TestTemplateMethodLevelInit{
 
-	@Test
-	public void testPhoneBookSearch()
+	@Test(dataProvider="getDataFromExcel")
+	public void testPhoneBookSearch(Hashtable<String, String> data)
 	{
 		SoftAssert softAssert = new SoftAssert();
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
-		mapIdSearchCriteria.put("searchFirstName", "Joe");
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();		
+		mapIdSearchCriteria.put("searchFirstName", data.get("FirstName"));
 		int iCountCheckBoxes = 0;
 		try
 		{
@@ -46,4 +48,240 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		
 		softAssert.assertAll();		
 	}
+	
+	@Test
+	public void testC939913()
+	{
+		//initialization
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		
+		//Adding test data and locators of required fields
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", "Aaron");
+		mapIdSearchCriteria.put("searchLastName", "Cook");
+		
+		//Searching for the record
+		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
+		
+		//Check 1st Record
+		phoneBookPage.check1StRecordInSearchResults();
+		
+		//Click on Email all checked link
+		phoneBookPage.clickOnEmailAllCheckedlink();		
+	}
+	
+	
+	@Test
+	public void testC939914() throws InterruptedException
+	{
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", "Aaron");
+		mapIdSearchCriteria.put("searchLastName", "Cook");
+		
+		//Searching for the record
+		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
+				
+		//Check 1st Record
+		phoneBookPage.uncheck1stRecordIfChecked(mapIdSearchCriteria);
+				
+		//Click on Email all checked link
+		phoneBookPage.clickOnEmailAllCheckedlink();	
+		
+		//Verify the alert text
+		String alertText = phoneBookPage.getTextFromEmailAllCheckedAlert();	
+				
+		if(alertText.contains("No people have been selected for emails."))			
+		{	
+			TestTemplate.testReport.logSuccess("Email All Checked", "Email All Checked Alert Text Succeeds");
+		}
+		else
+		{			
+			TestTemplate.testReport.logFailure("Email All Checked", "Email All Checked Alert Text Fails", this.getScreenShotName());
+		}
+		
+	}
+	
+	@Test
+	public void testC939915() throws InterruptedException
+	{
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", "Aaron");
+		mapIdSearchCriteria.put("searchLastName", "Cook");
+		
+		//Searching for the record
+		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
+		
+		//Verifying record is active link
+	
+		phoneBookPage.verifyRecordIsEnabled();
+		
+		//Clicking on the 1st record
+		phoneBookPage.clickOn1StRecordLink();
+		
+		//Get contact Title
+		String values[] = phoneBookPage.getTextContactTitle();
+		if(values[0].contains("CHG"))			
+		{	
+			TestTemplate.testReport.logSuccess("PhoneBookLogo", "Logo Text Succeeds");
+		}
+		if(values[1].contains("Phone Book"))			
+		{	
+			TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
+		}
+		//Get contact Info
+		List<WebElement> Info = phoneBookPage.getTextContactInfo();
+		String[] PhoneBookdetails = {"Aaron Cook" , "(801) 930-4029 x4029","aaron.cook@chghealthcare.com","Mgr II IT Project Mgmt","Midvale, UT ","IS Project Management"};
+		
+		for(int i=0; i<Info.size();i++)
+		{
+		if(Info.get(i).getText().equals(PhoneBookdetails[i]))
+		{
+			System.out.println("Phonbook Deatils" + Info.get(i).getText() +"is matched with test data " +PhoneBookdetails[i]);
+		}
+		else
+		{
+			System.out.println("Phonbook Deatils" + Info.get(i).getText() +"is mismatched with test data " +PhoneBookdetails[i]);
+		}
+		}
+	}
+	
+	@Test
+	public void testC939916() throws InterruptedException
+	{
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", "Aaron");
+		mapIdSearchCriteria.put("searchLastName", "Cook");
+		
+		//Searching for the record
+		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
+		
+		//Verifying record is active link
+	
+		phoneBookPage.verifyRecordIsEnabled();
+		
+		//Clicking on the 1st record
+		phoneBookPage.clickOn1StRecordLink();
+		
+		//Get contact Title
+		String values[] = phoneBookPage.getTextContactTitle();
+				
+		if(values[1].contains("Phone Book"))			
+		{	
+		TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
+		}
+			
+		//Verifying Call Button In Phone book
+		phoneBookPage.verifyCallButtonInPhoneBook();
+		
+		//Verifying Email Button In Phone book
+		phoneBookPage.verifyEmailButtonInPhoneBook();
+				
+		//Verifying Return Button In Phone book
+		phoneBookPage.verifyReturnButtonInPhoneBook();
+		
+	}
+	@Test
+	public void testC939917() throws InterruptedException
+	{
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", "Aaron");
+		mapIdSearchCriteria.put("searchLastName", "Cook");
+		
+		//Searching for the record
+		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
+		
+		//Verifying record is active link
+	
+		phoneBookPage.verifyRecordIsEnabled();
+		
+		//Clicking on the 1st record
+		phoneBookPage.clickOn1StRecordLink();
+		
+		//Get contact Title
+		String values[] = phoneBookPage.getTextContactTitle();
+						
+		if(values[1].contains("Phone Book"))			
+		{	
+		TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
+		}
+			
+		//Clicking on Call Button In Phone book
+		phoneBookPage.clickCallButtonInPhoneBook();
+		
+		//Clicking on Email Button In Phone book
+		phoneBookPage.clickEmailButtonInPhoneBook();
+		
+		
+		
+		//Switch to New Window
+		phoneBookPage.switchtoWindow();
+		
+		System.out.println("Switching to New Window");
+
+		
+		//Switch back to Default
+		phoneBookPage.switchtoDefaultWindow();
+		
+		System.out.println("Window is switching back to default");
+		
+				
+		//Clicking  on Return Button In Phone book
+		phoneBookPage.clickReturnButtonInPhoneBook();
+	
+		//Verifying Return To Phone Book Page
+		boolean returnValidation = phoneBookPage.VerifyReturnToPhoneBookPage();
+		if(returnValidation)
+		{
+			TestTemplate.testReport.logSuccess("ReturnValidation", "Return to phonebook page Succeeds");
+		}
+		else
+		{
+			TestTemplate.testReport.logFailure("ReturnValidation", "Return to phonebook page Fails" + getScreenShotName());
+		}
+
+	}  
+
+	@Test
+	public void testC939918() throws InterruptedException
+	{
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", "Aaron");
+		mapIdSearchCriteria.put("searchLastName", "Cook");
+		
+		//Searching for the record
+		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
+		
+		//Verifying phone book is active link
+		phoneBookPage.verifyPhoneNumberIsEnabled();
+		
+		//Click phone book is active link
+		phoneBookPage.clickOnPhoneNumber();
+		
+			
+	}
+	@Test
+	public void testC939919() throws InterruptedException
+	{
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", "Aaron");
+		mapIdSearchCriteria.put("searchLastName", "Cook");
+		
+		//Searching for the record
+		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
+		
+		//Verifying email is active link
+		phoneBookPage.verifyEmailIsEnabled();
+		
+		//Click email is active link
+		phoneBookPage.clickOnEmail();
+		
+			
+	}
+	
 }
