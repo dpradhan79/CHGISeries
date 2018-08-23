@@ -2,8 +2,10 @@ package test.iseries.phonebook;
 
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -48,7 +50,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		softAssert.assertAll();		
 	}
 	
-	/*@Test
+	@Test
 	public void testC939913()
 	{
 		//initialization
@@ -280,6 +282,6 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		//Click email is active link
 		phoneBookPage.clickOnEmail();		
 			
-	}*/
+	}
 	
 }
