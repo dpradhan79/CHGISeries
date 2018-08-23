@@ -1,9 +1,9 @@
 package test.iseries.phonebook;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Hashtable;
 import java.util.Map;
-import org.openqa.selenium.WebElement;
+
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -13,13 +13,13 @@ import pages.iseries.phonebook.PhoneBookPage;
 
 public class TestPhoneBook extends TestTemplateMethodLevelInit{
 
-	@Test
-	public void testPhoneBookSearch()
+	@Test(dataProvider = "getDataFromExcel")
+	public void testPhoneBookSearch(Hashtable<String, String> data)
 	{
 		SoftAssert softAssert = new SoftAssert();
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
-		mapIdSearchCriteria.put("searchFirstName", "Joe");
+		mapIdSearchCriteria.put("searchFirstName", data.get("FirstName"));
 		int iCountCheckBoxes = 0;
 		try
 		{
@@ -48,7 +48,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		softAssert.assertAll();		
 	}
 	
-	@Test
+	/*@Test
 	public void testC939913()
 	{
 		//initialization
@@ -280,6 +280,6 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		//Click email is active link
 		phoneBookPage.clickOnEmail();		
 			
-	}
+	}*/
 	
 }

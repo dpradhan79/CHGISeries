@@ -112,21 +112,12 @@ public abstract class TestTemplate {
 	 * @return
 	 * @throws URISyntaxException
 	 */
-	@DataProvider(name = "getDataFromExcel", parallel = true)
+	@DataProvider(name = "getDataFromExcel", parallel = false)
 	protected Object[][] getDataFromExcel() throws URISyntaxException {
 		URL urlFilePath = Resources.getResource(String.format("%s/%s", IConstants.TEST_DATA_LOCATION, IConstants.TEST_DATA_EXCEL_FILE));
 		String filePath = Paths.get(urlFilePath.toURI()).toFile().getAbsolutePath();
 		Xls_Reader xlsReader = new Xls_Reader(filePath);
-		Object[][] objMetrics = TestUtil.getData("WriteReview", xlsReader, "ProductItemReview");
-		return objMetrics;
-	}
-	
-	@DataProvider(name = "getUrlsFromExcel", parallel = true)
-	protected Object[][] getUrlsFromExcel() throws URISyntaxException {
-		URL urlFilePath = Resources.getResource(String.format("%s/%s", IConstants.TEST_DATA_LOCATION, IConstants.TEST_DATA_EXCEL_FILE));
-		String filePath = Paths.get(urlFilePath.toURI()).toFile().getAbsolutePath();
-		Xls_Reader xlsReader = new Xls_Reader(filePath);
-		Object[][] objMetrics = TestUtil.getData("TestBrokenLinks", xlsReader, "URLList");
+		Object[][] objMetrics = TestUtil.getData("PhoneBookSearch", xlsReader, "PhoneBook");
 		return objMetrics;
 	}
 

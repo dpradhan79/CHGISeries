@@ -52,7 +52,7 @@ public class PhoneBookPage extends PageTemplate {
 		    switch(searchCriteria)
 		    {
 			    case "searchFirstName":
-			    this.wd.findElement(byFirstNameTextBox).sendKeys(searchValue);
+			    this.sendKeys(byFirstNameTextBox, searchValue);			    
 			    break;
 			    
 		    }
