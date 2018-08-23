@@ -315,14 +315,14 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		
 	}
 	
-	@Test(description="Verify CHG Phonebook page is displayed")
-	public void testC939955()
+	@Test(dataProvider="getTitleFromExcel",description="Verify CHG Phonebook page is displayed")
+	public void testC939955(Hashtable<String, String> data)
 	{
 		//Get Page Title
 		String title=this.threadLocalWebDriver.get().getTitle();
 		
 		//Validate the CHG Phone book title
-		if(title.equals("Phone Book")){
+		if(title.equals(data.get("Title"))){
 			
 			TestTemplate.testReport.logSuccess("Phone Book page", "Phone Book page is successfully displayed.", this.getScreenShotName());
 		}

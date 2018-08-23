@@ -120,6 +120,15 @@ public abstract class TestTemplate {
 		Object[][] objMetrics = TestUtil.getData("PhoneBookSearch", xlsReader, "PhoneBook");
 		return objMetrics;
 	}
+	
+	@DataProvider(name = "getTitleFromExcel", parallel = false)
+	protected Object[][] getTitleFromExcel() throws URISyntaxException {
+		URL urlFilePath = Resources.getResource(String.format("%s/%s", IConstants.TEST_DATA_LOCATION, IConstants.TEST_DATA_EXCEL_FILE));
+		String filePath = Paths.get(urlFilePath.toURI()).toFile().getAbsolutePath();
+		Xls_Reader xlsReader = new Xls_Reader(filePath);
+		Object[][] objMetrics = TestUtil.getData("PhoneBookPageTitleVerify", xlsReader, "PhoneBook");
+		return objMetrics;
+	}
 
 	/**
 	 * Returns screenshot name for screenshot being captured
