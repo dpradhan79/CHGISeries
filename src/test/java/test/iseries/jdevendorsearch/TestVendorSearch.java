@@ -1,5 +1,7 @@
 package test.iseries.jdevendorsearch;
 
+import java.util.Hashtable;
+
 import org.testng.annotations.Test;
 
 import dweb.test.templates.TestTemplate;
@@ -20,8 +22,11 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 
 	}
 	
-	@Test
-	public void testC939922()
+	/**
+	 * description : Login Info
+	 */
+	@Test(dataProvider = "getVendorDataFromExcel")
+	public void testC939922(Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -34,8 +39,11 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		jdeVendorSearchPage.validateLoggedInToApplication();
 	}
 	
-	@Test
-	public void testC939923()
+	/**
+	 * description : Validate fields present in search form
+	 */
+	@Test(dataProvider = "getVendorDataFromExcel")
+	public void testC939923(Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -48,8 +56,11 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		jdeVendorSearchPage.validateFieldsPresentInSearchForm();
 	}
 	
-	@Test
-	public void testC939924()
+	/**
+	 * description : Search for a vendor using vendor name
+	 */
+	@Test(dataProvider = "getVendorDataFromExcel")
+	public void testC939924(Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -59,11 +70,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		loginPage.jdeVendorSearchLogin();
 				
 		//Validate list of fields exist in search form
-		jdeVendorSearchPage.searchForAVendor("Verizon");
+		jdeVendorSearchPage.searchForAVendorAndValidate(data.get("VendorName"));
 	}
 	
-	@Test
-	public void testC939931()
+	/**
+	 * description : Search for a vendor using vendor state
+	 */
+	@Test(dataProvider = "getVendorDataFromExcel")
+	public void testC939931(Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -73,11 +87,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		loginPage.jdeVendorSearchLogin();
 				
 		//search with state and validate record
-		jdeVendorSearchPage.searchForAVendorWithState("TX");
+		jdeVendorSearchPage.searchForAVendorWithStateAndValidate(data.get("State"));
 	}
 	
-	@Test
-	public void testC939932()
+	/**
+	 * description : Search for a vendor using vendor zip
+	 */
+	@Test(dataProvider = "getVendorDataFromExcel")
+	public void testC939932(Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -87,11 +104,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		loginPage.jdeVendorSearchLogin();
 				
 		//search with zip and validate record
-		jdeVendorSearchPage.searchForAVendorWithZip("75266-0720");
+		jdeVendorSearchPage.searchForAVendorWithZipAndValidate(data.get("ZIP"));
 	}
 	
-	@Test
-	public void testC939933()
+	/**
+	 * description : Search for a vendor using vendor number
+	 */
+	@Test(dataProvider = "getVendorDataFromExcel")
+	public void testC939933(Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -101,11 +121,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		loginPage.jdeVendorSearchLogin();
 				
 		//search with Vendor Number and validate record
-		jdeVendorSearchPage.searchForAVendorWithNumber("1618048");
+		jdeVendorSearchPage.searchForAVendorWithNumberAndValidate(data.get("Number"));
 	}
 	
-	@Test
-	public void testC939934()
+	/**
+	 * description : Search for a vendor by filling all the fields in vendor search form
+	 */
+	@Test(dataProvider = "getVendorDataFromExcel")
+	public void testC939934(Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -115,6 +138,6 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		loginPage.jdeVendorSearchLogin();
 					
 		//search with Vendor Number and validate record
-		jdeVendorSearchPage.searchForAVendorWithAllFields("Verizon", "TX", "75266-0720", "1618048");
+		jdeVendorSearchPage.searchForAVendorWithAllFieldsAndValidate(data.get("VendorName"), data.get("State"), data.get("ZIP"), data.get("Number"));
 	}
 }

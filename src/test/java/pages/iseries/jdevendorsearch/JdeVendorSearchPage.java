@@ -17,23 +17,20 @@ import dweb.aut.pages.templates.PageTemplate;
 
 public class JdeVendorSearchPage extends PageTemplate {
 
-	By informationText	 			= By.xpath("//*[contains(text(),'You have tried')]");
-	By alertText 					= By.xpath("//*[contains(text(),'Do not')]/parent::font");
-	By auth 						= By.xpath("//div[@class='header']/div[3]");
-	By vendorSearchTitle 			= By.xpath("//div[@class='pageTitle' and contains(text(),'Vendor Search Form')]");
-	By fieldsPresentInSearchForm	= By.xpath("//form[@id='vendorSearchForm']//tr//input/../parent::tr/td[1][not(contains(@class,'button'))]");
-	By serachJDEButton				= By.xpath("//input[@value='Search JDE']");
-	By resetButton					= By.xpath("//input[@value='Reset']");
-	By vendorNameInput				= By.xpath("//td[text()='Vendor Name:']/parent::tr//input");
-	By vendorNameof1stRecord		= By.xpath("//*[text()='Vendor Name']/../parent::tr/../parent::table//tbody/tr[1]/td[2]");
-	By vendorStateInput				= By.xpath("//td[text()='Vendor State (abbrev):']/parent::tr//input");
-	By vendorZipInput				= By.xpath("//td[text()='Vendor Zip:']/parent::tr//input");
-	By vendorNumberInput			= By.xpath("//td[text()='Vendor Number:']/parent::tr//input");
-	By vendorNumberof1stRecord		= By.xpath("//*[text()='Vendor Name']/../parent::tr/../parent::table//tbody/tr[1]/td[1]");
-	By vendorStateof1stRecord		= By.xpath("//*[text()='Vendor Name']/../parent::tr/../parent::table//tbody/tr[1]/td[6]");
-	By vendorZipof1stRecord			= By.xpath("//*[text()='Vendor Name']/../parent::tr/../parent::table//tbody/tr[1]/td[7]");
-	By vendorTableHeaders			= By.xpath("//table[@id='VendorList']//th[@role='columnheader']/div");
-	By vendorSearchResults1stDetail	= By.xpath("//table[@id='VendorList']/tbody/tr[1]/td");
+	private By informationText	 			= By.xpath("//*[contains(text(),'You have tried')]");
+	private By alertText 					= By.xpath("//*[contains(text(),'Do not')]/parent::font");
+	private By auth 						= By.xpath("//div[@class='header']/div[3]");
+	private By vendorSearchTitle 			= By.xpath("//div[@class='pageTitle' and contains(text(),'Vendor Search Form')]");
+	private By fieldsPresentInSearchForm	= By.xpath("//form[@id='vendorSearchForm']//tr//input/../parent::tr/td[1][not(contains(@class,'button'))]");
+	private By serachJDEButton				= By.xpath("//input[@value='Search JDE']");
+	private By resetButton					= By.xpath("//input[@value='Reset']");
+	private By vendorNameInput				= By.xpath("//td[text()='Vendor Name:']/parent::tr//input");
+	private By vendorNameof1stRecord		= By.xpath("//*[text()='Vendor Name']/../parent::tr/../parent::table//tbody/tr[1]/td[2]");
+	private By vendorStateInput				= By.xpath("//td[text()='Vendor State (abbrev):']/parent::tr//input");
+	private By vendorZipInput				= By.xpath("//td[text()='Vendor Zip:']/parent::tr//input");
+	private By vendorNumberInput			= By.xpath("//td[text()='Vendor Number:']/parent::tr//input");
+	private By vendorTableHeaders			= By.xpath("//table[@id='VendorList']//th[@role='columnheader']/div");
+	private By vendorSearchResults1stDetail	= By.xpath("//table[@id='VendorList']/tbody/tr[1]/td");
 	
 	private SoftAssert softAssert = null;
 	public JdeVendorSearchPage(WebDriver webDriver, IReporter testReport) {
@@ -46,7 +43,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 	 * @param expecxtedText
 	 * Validates text in locator and expected test is equals
 	 */
-	public void validateTextPresent(By locator, String expecxtedText)
+	private void validateTextPresent(By locator, String expecxtedText)
 	{
 		try{
 			String actualText = this.getText(locator);
@@ -69,7 +66,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 	 * @param actual
 	 * Validated expected and actual texts are equal
 	 */
-	public void validateTextEquals(String expected, String actual)
+	private void validateTextEquals(String expected, String actual)
 	{
 		try{
 			if((actual.replaceAll("[\r\n]+", " ")).equalsIgnoreCase(expected))
@@ -136,7 +133,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 	 * @param elementTitle
 	 * Verifies is element present on screen
 	 */
-	public void verifyElementPresent(By locator, String elementTitle)
+	private void verifyElementPresent(By locator, String elementTitle)
 	{
 		try
 		{
@@ -153,7 +150,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 	 * @param vendorName
 	 * Search for a vendor using vendor name
 	 */
-	public void searchForAVendor(String vendorName)
+	public void searchForAVendorAndValidate(String vendorName)
 	{
 		this.sendKeys(vendorNameInput, vendorName);
 		this.click(serachJDEButton);
@@ -165,7 +162,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 	 * @param state
 	 * Search for a vendor using vendor State
 	 */
-	public void searchForAVendorWithState(String state)
+	public void searchForAVendorWithStateAndValidate(String state)
 	{
 		//Enter state into the field
 		this.sendKeys(vendorStateInput, state);
@@ -191,7 +188,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 	 * @param zip
 	 * Search for a vendor using vendor Zip
 	 */
-	public void searchForAVendorWithZip(String zip)
+	public void searchForAVendorWithZipAndValidate(String zip)
 	{
 		//Enter zip into the field
 		this.sendKeys(vendorZipInput, zip);
@@ -217,7 +214,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 	 * @param vendorNumber
 	 * Search for a vendor using vendor number
 	 */
-	public void searchForAVendorWithNumber(String vendorNumber)
+	public void searchForAVendorWithNumberAndValidate(String vendorNumber)
 	{
 		//Enter vendor number in field
 		this.sendKeys(vendorNumberInput, vendorNumber);
@@ -246,7 +243,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 	 * @param number
 	 * Search for a vendor by giving all the fields
 	 */
-	public void searchForAVendorWithAllFields(String vendorName, String state, String zip, String number)
+	public void searchForAVendorWithAllFieldsAndValidate(String vendorName, String state, String zip, String number)
 	{
 		//Type in values in all fields
 		this.sendKeys(vendorNameInput, vendorName);
