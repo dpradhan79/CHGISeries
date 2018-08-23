@@ -32,8 +32,16 @@ public class PhoneBookPage extends PageTemplate {
 	private By byReturnButton = By.xpath("//input[@value='Return']");
 	private By byPhoneNumberLink = By.xpath("(//span[@class='DropPhone']//a)[2]");
 	private By byEmailLink = By.xpath("(//span[@class='DropPhone']//a)[3]");
-	
-	
+	private By byPhoneTextBox = By.id("searchPhone");
+	private By byOfficeDropdown = By.id("searchOffice");
+	private By byEmailBox = By.id("searchEmail");
+	private By byJobTitleDropdown = By.id("searchTitle");
+	private By byTeamDropdown = By.id("searchTeam");
+	private By bySearchListCheckBox_Name = By.xpath("(//span[@class='DropPhone']/a)[1]");
+	private By bySearchListCheckBox_PhoneNo = By.xpath("(//span[@class='DropPhone']/a)[2]");
+	private By bySearchListCheckBox_Email = By.xpath("//a[contains(text(),'.com')]");
+	private By bySearchListCheckBox_Team = By.xpath("(//*[@class='Value odd'])[4]/span");
+	private By bySearchListCheckBox_TitleAndOffice = By.xpath("(//*[@class='Value odd'])[3]/span");
 	
 	private SoftAssert softAssert = null;
 	private Object retuen;
@@ -310,4 +318,80 @@ public class PhoneBookPage extends PageTemplate {
 	{
 		this.click(byEmailLink);
 	}
+	/**
+     * Fill all the fields in the Phone book and click on search btn 
+     */
+	
+	public String[] verifyPhoneBookFileds(Map<String, String>mapIdSearchTextBoxes)
+	{
+		String[] recordDetails = new String[5];
+		for(Map.Entry<String, String> entrySet : mapIdSearchTextBoxes.entrySet())
+		{
+			String searchCriteria = entrySet.getKey();
+			String searchValue = entrySet.getValue();
+			
+			
+		    switch(searchCriteria)
+		    {
+			    case "searchFirstName":
+			    	 this.sendKeys(byFirstNameTextBox, searchValue);
+			    break;
+			    case "searchLastName":
+			    	 this.sendKeys(byLastNameTextBox, searchValue);
+				    break;	
+			    case "searchPhone":
+				    this.sendKeys(byPhoneTextBox, searchValue);
+				    break;
+			    case "searchOffice":
+				    this.SelectDropDownByText(byOfficeDropdown, searchValue);
+				    break;
+			    case "searchEmail":
+				    this.sendKeys(byEmailBox, searchValue);
+				    break;
+			    case "searchTitle":
+				    this.SelectDropDownByText(byJobTitleDropdown, searchValue);
+				    break;
+			    case "searchTeam":
+				    this.SelectDropDownByText(byTeamDropdown, searchValue);
+				    break;
+				   
+		    }
+		 			    
+		}
+		
+		this.click(bySearchButton);
+		
+		int iCountCheckBoxes = this.wd.findElements(bySearchListCheckBox).size();
+		softAssert.assertTrue(iCountCheckBoxes == 1, "Validation for Successful Search Of Single Record");
+		
+		recordDetails[0]=this.getText(bySearchListCheckBox_Name);				
+		recordDetails[1]=this.getText(bySearchListCheckBox_PhoneNo);
+		recordDetails[2]=this.getText(bySearchListCheckBox_Email);
+		recordDetails[3]=this.getText(bySearchListCheckBox_TitleAndOffice);
+		recordDetails[4]=this.getText(bySearchListCheckBox_Team);
+		
+		return recordDetails;
+	}
+		
+	/**
+     * @param expected
+     * @param actual
+     * Validated expected and actual texts are equal
+     */
+     public void validateTextEquals(String expected, String actual)
+     {
+            try{
+                   if((actual.replaceAll("[\r\n]+", " ")).equalsIgnoreCase(expected))
+                   {
+                         this.testReport.logSuccess("Validate Text Present", "Expected Test is "+expected+" Actual Text is "+actual);
+                   }
+                   else
+                   {
+                         this.testReport.logFailure("Validate Text Present", "Expected Test is "+expected+" Actual Text is "+actual, this.getScreenShotName());
+                   }
+            }catch(Exception e)
+            {
+                   this.testReport.logFailure("Validate Text Present", e.getMessage().toString(), this.getScreenShotName());
+            }
+     }
 }

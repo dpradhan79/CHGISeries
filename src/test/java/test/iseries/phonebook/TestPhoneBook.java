@@ -284,4 +284,52 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 			
 	}
 	
+	@Test(dataProvider = "getDataFromExcel",description="Validate the record in PhoneBook on filling all the fields")
+	public void testC939912(Hashtable<String, String> data)
+	{
+		String firstName=data.get("FirstName"),lastName=data.get("LastName"),phoneNo=data.get("Phone"),office=data.get("Office"),
+				email=data.get("Email"),title=data.get("JobTitle"),team=data.get("Team");
+		
+		
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName", lastName);
+		mapIdSearchCriteria.put("searchPhone", phoneNo);
+		mapIdSearchCriteria.put("searchOffice", office);
+		mapIdSearchCriteria.put("searchTitle", title);
+		mapIdSearchCriteria.put("searchEmail", email);
+		mapIdSearchCriteria.put("searchTeam", team);	
+		
+		
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		
+		// Fill all the fields in Phone Book page and click on search
+		String[] iSearchDetails = phoneBookPage.verifyPhoneBookFileds(mapIdSearchCriteria);		
+		
+		//Validate all details in a record
+		phoneBookPage.validateTextEquals(firstName+" "+lastName,iSearchDetails[0]);	
+		phoneBookPage.validateTextEquals(phoneNo,iSearchDetails[1]);		
+		phoneBookPage.validateTextEquals(email,iSearchDetails[2]);		
+		phoneBookPage.validateTextEquals(title+" "+office,iSearchDetails[3]);					
+		phoneBookPage.validateTextEquals(team,iSearchDetails[4]);		
+		
+	}
+	
+	@Test(description="Verify CHG Phonebook page is displayed")
+	public void testC939955()
+	{
+		//Get Page Title
+		String title=this.threadLocalWebDriver.get().getTitle();
+		
+		//Validate the CHG Phone book title
+		if(title.equals("Phone Book")){
+			
+			TestTemplate.testReport.logSuccess("Phone Book page", "Phone Book page is successfully displayed.", this.getScreenShotName());
+		}
+		else
+		{			
+			TestTemplate.testReport.logFailure("Phone Book page", "Phone Book page is not displayed.", this.getScreenShotName());
+		}
+		
+	}
 }
