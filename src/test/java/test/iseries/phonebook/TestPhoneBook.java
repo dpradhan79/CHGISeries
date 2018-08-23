@@ -285,6 +285,31 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 	}
 	
 	@Test(dataProvider = "getDataFromExcel",description="Validate the record in PhoneBook on filling all the fields")
+	public void testC939920(Hashtable<String, String> data)
+	{
+		String firstName=data.get("FirstName"),lastName=data.get("LastName"),phoneNo=data.get("Phone"),office=data.get("Office"),
+				email=data.get("Email"),title=data.get("JobTitle"),team=data.get("Team");
+		
+		
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName", lastName);
+		mapIdSearchCriteria.put("searchPhone", phoneNo);
+		mapIdSearchCriteria.put("searchOffice", office);
+		mapIdSearchCriteria.put("searchTitle", title);
+		mapIdSearchCriteria.put("searchEmail", email);
+		mapIdSearchCriteria.put("searchTeam", team);	
+		
+		
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		
+		//Validate all the fields in Phone Book page are reset
+		 phoneBookPage.verifyPhoneBookFiledsReset(mapIdSearchCriteria);		
+						
+			
+	}
+	
+	@Test(dataProvider = "getDataFromExcel",description="Validate the record in PhoneBook on filling all the fields")
 	public void testC939912(Hashtable<String, String> data)
 	{
 		String firstName=data.get("FirstName"),lastName=data.get("LastName"),phoneNo=data.get("Phone"),office=data.get("Office"),

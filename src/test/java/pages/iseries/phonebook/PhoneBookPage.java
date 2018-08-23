@@ -32,6 +32,7 @@ public class PhoneBookPage extends PageTemplate {
 	private By byReturnButton = By.xpath("//input[@value='Return']");
 	private By byPhoneNumberLink = By.xpath("(//span[@class='DropPhone']//a)[2]");
 	private By byEmailLink = By.xpath("(//span[@class='DropPhone']//a)[3]");
+	private By byResetBtn = By.xpath("//input[@value='Reset']");
 	private By byPhoneTextBox = By.id("searchPhone");
 	private By byOfficeDropdown = By.id("searchOffice");
 	private By byEmailBox = By.id("searchEmail");
@@ -318,19 +319,73 @@ public class PhoneBookPage extends PageTemplate {
 	{
 		this.click(byEmailLink);
 	}
+	
 	/**
-     * Fill all the fields in the Phone book and click on search btn 
+	 * click on Reset button
+	 */
+	private void clickOnReset() 
+	{
+		this.click(byResetBtn);
+	}
+	
+	/**
+     * Verify all fields are Reset in the Phone book page
      */
 	
-	public String[] verifyPhoneBookFileds(Map<String, String>mapIdSearchTextBoxes)
+	public void verifyPhoneBookFiledsReset(Map<String, String>mapIdSearchTextBoxes)
 	{
-		String[] recordDetails = new String[5];
+		//Filling all fields in Phone book page
+		
+		FillPhoneBookFileds(mapIdSearchTextBoxes);
+		
+		// Click on Reset button.
+		
+		clickOnReset();
+		
+		String firstname = this.wd.findElement(byFirstNameTextBox).getAttribute("value");
+		
+		List<WebElement> textfields = wd.findElements(By.xpath("//table[@class='SearchField']"));
+		List<WebElement> pickupfields = wd.findElements(By.xpath("//table[@class='SearchField DropTable']"));
+		
+	    for(int i=0; i<textfields.size(); i++)
+	    {
+	    	if(textfields.get(i).getAttribute("value").isEmpty())
+			{
+				this.testReport.logSuccess("Validate Field", "Expected Test is Null" + "Actual Text is "+ textfields.get(i).getText());
+	        }
+	        else
+	        {
+	              this.testReport.logFailure("Validate Field", "Expected Test is Null" + "Actual Text is "+ textfields.get(i).getText(), this.getScreenShotName());
+	        }
+			
+	    }
+		
+	    for(int i=0; i<pickupfields.size(); i++)
+	    {
+	    	if(pickupfields.get(i).getAttribute("value").isEmpty())
+			{
+				this.testReport.logSuccess("Validate Field", "Expected Test is Null" + "Actual Text is "+ pickupfields.get(i).getText());
+	        }
+	        else
+	        {
+	              this.testReport.logFailure("Validate Field", "Expected Test is Null" + "Actual Text is "+ pickupfields.get(i).getText(), this.getScreenShotName());
+	        }
+			
+	    }
+		
+	}
+	
+	/**
+     * Fill all the fields in the Phone book
+     */
+	
+	private void FillPhoneBookFileds(Map<String, String>mapIdSearchTextBoxes)
+	{
 		for(Map.Entry<String, String> entrySet : mapIdSearchTextBoxes.entrySet())
 		{
 			String searchCriteria = entrySet.getKey();
 			String searchValue = entrySet.getValue();
-			
-			
+						
 		    switch(searchCriteria)
 		    {
 			    case "searchFirstName":
@@ -358,6 +413,16 @@ public class PhoneBookPage extends PageTemplate {
 		    }
 		 			    
 		}
+	}
+	
+	/**
+     * Fill all the fields in the Phone book and click on search btn and verify the record
+     */
+	
+	public String[] verifyPhoneBookFileds(Map<String, String>mapIdSearchTextBoxes)
+	{
+		FillPhoneBookFileds(mapIdSearchTextBoxes);
+		String[] recordDetails = new String[5];
 		
 		this.click(bySearchButton);
 		
@@ -372,7 +437,14 @@ public class PhoneBookPage extends PageTemplate {
 		
 		return recordDetails;
 	}
-		
+	
+	/**
+     * @param expected
+     * @param actual
+     * Validated expected and actual texts are equal
+     */
+	
+	
 	/**
      * @param expected
      * @param actual
