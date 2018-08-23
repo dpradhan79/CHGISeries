@@ -16,7 +16,7 @@ import dweb.test.templates.TestTemplate;
 
 public class TestUnit extends TestTemplate {
 	
-	@Test(dataProvider = "getDataFromExcel )
+	@Test(dataProvider = "getDataFromExcel" )
 	public void testData() throws URISyntaxException
 	{
 		URL urlFilePath = Resources.getResource(String.format("%s/%s", IConstants.TEST_DATA_LOCATION, IConstants.TEST_DATA_EXCEL_FILE));
