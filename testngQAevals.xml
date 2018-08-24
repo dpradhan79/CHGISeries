@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SuiteTestBreyers" parallel="tests" thread-count="5" preserve-order="true">  
+  <!-- Test On Stage URL -->
+  <!-- <test name="TestVendorStageEnv" preserve-order="true">
+  <parameter name="appURL" value="https://test.salesforce.com/" />  
+  <parameter name="automationKit" value="selenium" />  
+  <parameter name="browserName" value="Chrome" />
+  <parameter name="userName" value="test.automation@chghealthcare.com." />
+  <parameter name="password" value="testAuto2" />
+  <parameter name="environment" value="FC" />
+  <parameter name="division" value="ITQA chs" />
+     <classes>     
+      <class name="test.iseries.qaevals.TestQAevals"/> 
+      
+    </classes>
+  </test>  --> 
+  
+  <!-- Test On Prod URL -->
+	<test name="TestVendorProdEnv" preserve-order="true">
+  <parameter name="appURL" value="https://test.salesforce.com/" />  
+  <parameter name="automationKit" value="selenium" />  
+  <parameter name="browserName" value="Chrome" />
+  <parameter name="userName" value="test.automation@chghealthcare.com." />
+  <parameter name="password" value="testAuto2" />
+  <parameter name="environment" value="UAT" />
+  <parameter name="division" value="ITQA chs" />
+  <parameter name="qaEvalsUserName" value="v_atalas" />
+  <parameter name="qaEvalspassword" value="!Mpr0veMent4" />
+     <classes>     
+      <class name="test.iseries.qaevals.TestQAevals"/>
+    </classes>
+  </test>
+
+</suite>
