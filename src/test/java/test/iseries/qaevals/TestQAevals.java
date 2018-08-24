@@ -24,10 +24,10 @@ public class TestQAevals extends TestTemplateMethodLevelInit{
 		//Logging in to application
 		loginPage.loginToFoxApplicationAndDivision(testContext);
 		
-		//Navigating QA Evals page
+		//Navigating QAEvals page
 		String clientName = qaEvalsPage.navigateToQAevalsFromClient();
 		
-		//Login to QA Evals
+		//Login to QAEvals
 		loginPage.qaEvalsLogin(testContext);
 		
 		//Get title and store to actual
@@ -64,10 +64,10 @@ public class TestQAevals extends TestTemplateMethodLevelInit{
 		//Logging in to application
 		loginPage.loginToFoxApplicationAndDivision(testContext);
 		
-		//Navigating QA Evals page
+		//Navigating QAEvals page
 		String providerName = qaEvalsPage.navigateToQAevalsFromProvider();
 		
-		//Login to QA Evals
+		//Login to QAEvals
 		loginPage.qaEvalsLogin(testContext);
 		
 		//Get title and store to actual

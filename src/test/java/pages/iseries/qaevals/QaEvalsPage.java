@@ -47,7 +47,7 @@ public class QaEvalsPage extends PageTemplate {
 	
 	private void clickOnQAevalsButton()
 	{
-		//click on QA Evals button
+		//click on QAEvals button
 		this.waitUntilElementIsClickable(qaEvalsButton);
 		this.click(qaEvalsButton);
 	}
@@ -73,7 +73,7 @@ public class QaEvalsPage extends PageTemplate {
 		//Click on clients tab
 		String ClientName = this.clickOn1stClientAvailable();
 		
-		//click on QA Evals button
+		//click on QAEvals button
 		this.clickOnQAevalsButton();
 		
 		//Switch to window
@@ -112,7 +112,7 @@ public class QaEvalsPage extends PageTemplate {
 		//Click on clients tab
 		String ClientName = this.clickOn1stProviderAvailable();
 		
-		//click on QA Evals button
+		//click on QAEvals button
 		this.clickOnQAevalsButton();
 		
 		//Switch to window
