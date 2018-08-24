@@ -14,7 +14,7 @@ public class TestQAevals extends TestTemplateMethodLevelInit{
 	 * @param testContext
 	 * Validate application navigating to QA Evals from Clients page
 	 */
-	//@Test
+	@Test
 	public void testC939941(ITestContext testContext)
 	{
 		//Initialization
