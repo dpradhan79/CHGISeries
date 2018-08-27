@@ -43,7 +43,6 @@ public class PhoneBookPage extends PageTemplate {
 	private By bySearchListCheckBox_TitleAndOffice = By.xpath("(//*[@class='Value odd'])[3]/span");
 	
 	private SoftAssert softAssert = null;
-	private Object retuen;
 	public PhoneBookPage(WebDriver webDriver, IReporter testReport) {
 		super(webDriver, testReport);
 		this.softAssert = new SoftAssert();
@@ -240,9 +239,17 @@ public class PhoneBookPage extends PageTemplate {
 	 */
 	public String getTextFromAlert()
 	{
-		Alert alert = wd.switchTo().alert();
-		String alertText = alert.getText();
-		return alertText;
+		try
+		{
+			Alert alert = wd.switchTo().alert();		
+			String alertText = alert.getText();
+			return alertText;
+		}
+		catch(Exception e)
+		{
+			this.testReport.logFailure("Get text from alert", "Alert not present "+e.getMessage().toString(), this.getScreenShotName());
+			return "testFailed";
+		}
 	}
 	/**
 	 * Get text from alert
@@ -297,20 +304,29 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * Click on  Call Button In Phone book
 	 */
-	public void clickCallButtonInPhoneBook() 
+	public void verifyCallButtonInPhoneBookPageIsClickable() 
 	{
-		this.waitUntilElementIsVisible(byCallButton);
-		this.click(byCallButton);
+		this.waitUntilElementIsClickable(byCallButton);
+		
 	}
 
 	
 	/**
-	 * Click on Email Button In Phone book
+	 * Check Email Button In Phone book page is visible
 	 */
 	public void clickEmailButtonInPhoneBook() 
 	{
 		this.waitUntilElementIsVisible(byEmailButton);
 		//this.click(byEmailButton);
+	}
+	
+	/**
+	 * Click on Email Button In Phone book page
+	 */
+	public void clickEmailButtonInPhoneBookPage() 
+	{
+		this.waitUntilElementIsVisible(byEmailButton);
+		this.click(byEmailButton);
 	}
 	
 	/**

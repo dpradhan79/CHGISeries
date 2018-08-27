@@ -7,18 +7,16 @@ import java.util.Map;
 
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
+import pages.iseries.phonebook.PhoneBookPage;
 import dweb.test.templates.TestTemplate;
 import dweb.test.templates.TestTemplateMethodLevelInit;
-import pages.iseries.phonebook.PhoneBookPage;
 
 public class TestPhoneBook extends TestTemplateMethodLevelInit{
 
 	@Test(dataProvider = "getDataFromExcel")
 	public void testPhoneBookSearch(Hashtable<String, String> data)
-	{
-		SoftAssert softAssert = new SoftAssert();
+	{		
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
 		mapIdSearchCriteria.put("searchFirstName", data.get("FirstName"));
@@ -36,7 +34,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		}
 		//validate search works
 		
-		softAssert.assertTrue(iCountCheckBoxes > 0, "Validation For Successful Search");
+		this.softAssert.assertTrue(iCountCheckBoxes > 0, "Validation For Successful Search");
 		TestTemplate.testReport.logInfo(String.format("Total Records Found = %d", iCountCheckBoxes));
 		if(iCountCheckBoxes > 0)		{
 			
@@ -47,7 +45,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 			TestTemplate.testReport.logFailure("Phone Book Search", "Phone Book Search Fails", this.getScreenShotName());
 		}
 		
-		softAssert.assertAll();		
+		this.softAssert.assertAll();		
 	}
 	
 	/**
@@ -76,7 +74,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 	@Test(dataProvider = "getDataFromExcel")
 	public void testC939914(Hashtable<String, String> data) 
 	{
-		
+			
 		String firstName=data.get("FirstName"),lastName=data.get("LastName");
 		//initialization
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -88,18 +86,21 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		
 		phoneBookPage.verifyMessageAlertWhenCheckboxIsUnchecked(mapIdSearchCriteria);
 		
+	
 		//Verify the alert text
 		String alertText = phoneBookPage.getTextFromAlert();	
+		//SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(alertText, "No people have been selected for emails.");
 				
 		if(alertText.contains("No people have been selected for emails."))			
 		{	
-			TestTemplate.testReport.logSuccess("Email All Checked", "Email All Checked Alert Text Succeeds");
+			TestTemplate.testReport.logSuccess("Email All Checked", "Email All Checked Alert Text Succeeds: Expected text is No people have been selected for emails." +"\t"+ "Actual Value is "+ alertText);
 		}
 		else
 		{			
 			TestTemplate.testReport.logFailure("Email All Checked", "Email All Checked Alert Text Fails", this.getScreenShotName());
 		}
-		
+	   this.softAssert.assertAll();	
 	}
 	
 	/**
@@ -119,25 +120,29 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		mapIdSearchCriteria.put("searchLastName", lastName);
 		
 		phoneBookPage.verifyNameLinkInSearchResultIsEnableAndClick(mapIdSearchCriteria);
-		
-		
+				
 		//Get contact Title
 		String values[] = phoneBookPage.getTextContactTitle();
+		this.softAssert.assertEquals(values[0], "CHG");
 		if(values[0].contains("CHG"))			
 		{	
 			TestTemplate.testReport.logSuccess("PhoneBookLogo", "Logo Text Succeeds");
 		}
+		this.softAssert.assertAll();
+		
+		this.softAssert.assertEquals(values[1], "Phone Book");
 		if(values[1].contains("Phone Book"))			
 		{	
 			TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
 		}
+		this.softAssert.assertAll();
 		//Get contact Info
 		List<WebElement> Info = phoneBookPage.getTextContactInfo();
 		String[] PhoneBookdetails = {"Aaron Cook" , "(801) 930-4029 x4029","aaron.cook@chghealthcare.com","Mgr II IT Project Mgmt","Midvale, UT ","IS Project Management"};
 		
 		for(int i=0; i<Info.size();i++)
 		{
-		if(Info.get(i).getText().equals(PhoneBookdetails[i]))
+		 if(Info.get(i).getText().equals(PhoneBookdetails[i]))
 		{
 			System.out.println("Phonbook Deatils" + Info.get(i).getText() +"is matched with test data " +PhoneBookdetails[i]);
 		}
@@ -167,15 +172,16 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		
 		//Get contact Title
 		String values[] = phoneBookPage.getTextContactTitle();
-				
+		
+		this.softAssert.assertEquals(values[1],"Phone Book");
+		
 		if(values[1].contains("Phone Book"))			
 		{	
 		TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
 		}
-			
+		this.softAssert.assertAll();	
 		//Verifying Buttons In Phone book
 		phoneBookPage.verifyButtonsInDisplayedContactInfo();
-		
 	}
 	
 	
@@ -194,23 +200,19 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		
 		//Get contact Title
 		String values[] = phoneBookPage.getTextContactTitle();
-						
+		
+		this.softAssert.assertEquals(values[1],"Phone Book");
+		
 		if(values[1].contains("Phone Book"))			
 		{	
 		TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
 		}
-		
-		/*//Clicking on Call Button In Phone book
-		phoneBookPage.clickCallButtonInPhoneBook();
-		
-		//Verify the alert text
-		String alertText = phoneBookPage.getTextFromAlert();
-		System.out.println(""+alertText);
-		phoneBookPage.acceptAlert();*/
-		
-		
+		this.softAssert.assertAll();	
+		//Clicking on Call Button In Phone book
+		phoneBookPage.verifyCallButtonInPhoneBookPageIsClickable();
+				
 		//Clicking on Email Button In Phone book
-		phoneBookPage.clickEmailButtonInPhoneBook();
+		phoneBookPage.clickEmailButtonInPhoneBookPage();
 		
 		//Switch to New Window
 		phoneBookPage.switchtoWindow();
@@ -223,6 +225,8 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 	
 		//Verifying Return To Phone Book Page
 		boolean returnValidation = phoneBookPage.VerifyReturnToPhoneBookPage();
+		
+		this.softAssert.assertTrue(returnValidation);
 		if(returnValidation)
 		{
 			TestTemplate.testReport.logSuccess("ReturnValidation", "Return to phonebook page Succeeds");
@@ -231,7 +235,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		{
 			TestTemplate.testReport.logFailure("ReturnValidation", "Return to phonebook page Fails" + getScreenShotName());
 		}
-	
+		this.softAssert.assertAll();
 
 	}  
 
@@ -339,6 +343,8 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		//Get Page Title
 		String title=this.threadLocalWebDriver.get().getTitle();
 		
+		softAssert.assertEquals(title,data.get("Title"));	
+		
 		//Validate the CHG Phone book title
 		if(title.equals(data.get("Title"))){
 			
@@ -348,6 +354,6 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		{			
 			TestTemplate.testReport.logFailure("Phone Book page", "Phone Book page is not displayed.", this.getScreenShotName());
 		}
-		
+		softAssert.assertAll();
 	}
 }
