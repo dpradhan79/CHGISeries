@@ -86,20 +86,26 @@ public class JdeVendorSearchPage extends PageTemplate {
 	/**
 	 * Validates information present on Login page
 	 */
-	public void validateInformationPresentOnLoginPage()
+	public void validateInformationPresentOnLoginPage(String informationtex, String alertTex, String loginStatus)
 	{
-		validateTextPresent(informationText, "You have tried to access a secure area. Please enter your user name and password to gain access.");
-		validateTextPresent(alertText, "Do not bookmark this page. Doing so will cause an error on your next visit. The correct procedure is to bookmark the page that appears after you click \"login\".");
-		validateTextPresent(auth, "Not logged in");
+		this.softAssert.assertEquals(informationtex, this.getText(informationText).replaceAll("[\r\n]+", " "));
+		validateTextPresent(informationText, informationtex);
+		
+		this.softAssert.assertEquals(alertTex+"\"login\".", this.getText(alertText).replaceAll("[\r\n]+", " "));
+		validateTextPresent(alertText, alertTex+"\"login\".");
+		
+		this.softAssert.assertEquals(loginStatus, this.getText(auth).replaceAll("[\r\n]+", " "));
+		validateTextPresent(auth, loginStatus);
 	}
 	
 	/**
 	 * Validates is application logged in successfully 
 	 */
-	public void validateLoggedInToApplication()
+	public void validateLoggedInToApplication(String expectedText)
 	{
 		this.waitUntilElementIsVisible(vendorSearchTitle);
-		validateTextPresent(vendorSearchTitle, "Vendor Search Form");
+		this.softAssert.assertEquals(this.getText(vendorSearchTitle).replaceAll("[\r\n]+", " "), expectedText);
+		validateTextPresent(vendorSearchTitle, expectedText);
 	}
 	
 	/**
@@ -111,6 +117,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 		List<WebElement> fieldsExist = this.wd.findElements(fieldsPresentInSearchForm);
 		for(int i=0; i<fieldsExist.size(); i++)
 		{
+			this.softAssert.assertEquals(fieldsExist.get(i).getText(), expectedList.get(i));
 			if(fieldsExist.get(i).getText().equalsIgnoreCase(expectedList.get(i)))
 			{
 				this.testReport.logSuccess("Validate Text Present", "Expected Test is "+expectedList.get(i)+" Actual Text is "+fieldsExist.get(i).getText());
@@ -155,6 +162,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 		this.sendKeys(vendorNameInput, vendorName);
 		this.click(serachJDEButton);
 		this.implicitwait(3);
+		this.softAssert.assertEquals(vendorName, this.getText(vendorNameof1stRecord));
 		validateTextPresent(vendorNameof1stRecord, vendorName);
 	}
 	
@@ -167,7 +175,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 		//Enter state into the field
 		this.sendKeys(vendorStateInput, state);
 		
-		//Click on seach button
+		//Click on search button
 		this.click(serachJDEButton);
 		this.implicitwait(3);
 		
@@ -181,6 +189,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 		}
 
 		//Validation
+		this.softAssert.assertEquals(details.get("State"), state);
 		validateTextEquals(state, details.get("State"));
 	}
 	
@@ -207,6 +216,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 		}
 
 		//Validation
+		this.softAssert.assertEquals(details.get("Zip"), zip);
 		validateTextEquals(zip, details.get("Zip"));
 	}
 	
@@ -233,6 +243,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 		}
 
 		//Validation
+		softAssert.assertEquals(details.get("Vendor Number"), vendorNumber);
 		validateTextEquals(vendorNumber, details.get("Vendor Number"));
 	}
 	
@@ -265,9 +276,16 @@ public class JdeVendorSearchPage extends PageTemplate {
 		}
 
 		//Validations
+		this.softAssert.assertEquals(details.get("Vendor Number"), number);
 		validateTextEquals(number, details.get("Vendor Number"));
+		
+		this.softAssert.assertEquals(details.get("Zip"), zip);
 		validateTextEquals(zip, details.get("Zip"));
+		
+		this.softAssert.assertEquals(details.get("State"), state);
 		validateTextEquals(state, details.get("State"));
+		
+		this.softAssert.assertEquals(details.get("Vendor Name"), vendorName);
 		validateTextEquals(vendorName, details.get("Vendor Name"));
 	}
 }

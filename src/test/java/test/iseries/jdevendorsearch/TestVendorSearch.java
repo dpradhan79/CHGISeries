@@ -12,15 +12,15 @@ import pages.iseries.loginpage.LoginPage;
 
 public class TestVendorSearch extends TestTemplateMethodLevelInit{
 
-	@Test
-	public void testC939958()
+	@Test(dataProvider = "getVendorDataFromExcel")
+	public void testC939958(Hashtable<String, String> data)
 	{
 		//Initialization
 		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		
 		//Validating login info
-		jdeVendorSearchPage.validateInformationPresentOnLoginPage();
-
+		jdeVendorSearchPage.validateInformationPresentOnLoginPage(data.get("informationtex"), data.get("alertTex"), data.get("loginStatus"));
+		this.softAssert.assertAll();
 	}
 	
 	/**
@@ -37,7 +37,8 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		loginPage.jdeVendorSearchLogin(testContext);
 		
 		//Validating is user logged in to application successfully.
-		jdeVendorSearchPage.validateLoggedInToApplication();
+		jdeVendorSearchPage.validateLoggedInToApplication(data.get("HomePageTitle"));
+		this.softAssert.assertAll();
 	}
 	
 	/**
@@ -55,6 +56,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 				
 		//Validate list of fields exist in search form
 		jdeVendorSearchPage.validateFieldsPresentInSearchForm();
+		this.softAssert.assertAll();
 	}
 	
 	/**
@@ -72,6 +74,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 				
 		//Validate list of fields exist in search form
 		jdeVendorSearchPage.searchForAVendorAndValidate(data.get("VendorName"));
+		this.softAssert.assertAll();
 	}
 	
 	/**
@@ -89,6 +92,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 				
 		//search with state and validate record
 		jdeVendorSearchPage.searchForAVendorWithStateAndValidate(data.get("State"));
+		this.softAssert.assertAll();
 	}
 	
 	/**
@@ -106,6 +110,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 				
 		//search with zip and validate record
 		jdeVendorSearchPage.searchForAVendorWithZipAndValidate(data.get("ZIP"));
+		this.softAssert.assertAll();
 	}
 	
 	/**
@@ -123,6 +128,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 				
 		//search with Vendor Number and validate record
 		jdeVendorSearchPage.searchForAVendorWithNumberAndValidate(data.get("Number"));
+		this.softAssert.assertAll();
 	}
 	
 	/**
@@ -140,5 +146,6 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 					
 		//search with Vendor Number and validate record
 		jdeVendorSearchPage.searchForAVendorWithAllFieldsAndValidate(data.get("VendorName"), data.get("State"), data.get("ZIP"), data.get("Number"));
+		this.softAssert.assertAll();
 	}
 }
