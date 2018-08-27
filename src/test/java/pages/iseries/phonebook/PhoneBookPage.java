@@ -98,7 +98,8 @@ public class PhoneBookPage extends PageTemplate {
 		uncheck1stRecordIfChecked(mapIdSearchCriteria);
 				
 		//Click on Email all checked link
-		clickOnEmailAllCheckedlink();		
+		this.waitUntilElementIsClickable(byEmailAllCheckedLink);
+		this.click(byEmailAllCheckedLink);		
 	}
 	
 	/**
@@ -309,7 +310,7 @@ public class PhoneBookPage extends PageTemplate {
 	public void clickEmailButtonInPhoneBook() 
 	{
 		this.waitUntilElementIsVisible(byEmailButton);
-		this.click(byEmailButton);
+		//this.click(byEmailButton);
 	}
 	
 	/**
