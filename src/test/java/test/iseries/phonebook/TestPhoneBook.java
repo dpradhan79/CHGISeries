@@ -50,47 +50,46 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		softAssert.assertAll();		
 	}
 	
-	@Test
-	public void testC939913()
+	/**
+	 * description="Validate Email letter opens up if user check check-box and clicked on Email all Checked Link"
+	 */
+	@Test(dataProvider = "getDataFromExcel")
+	public void testC939913(Hashtable<String, String> data)
 	{
+		
+		String firstName=data.get("FirstName"),lastName=data.get("LastName");
 		//initialization
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		
 		//Adding test data and locators of required fields
 		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
-		mapIdSearchCriteria.put("searchFirstName", "Aaron");
-		mapIdSearchCriteria.put("searchLastName", "Cook");
+		mapIdSearchCriteria.put("searchFirstName",firstName);
+		mapIdSearchCriteria.put("searchLastName",lastName);
 		
-		//Searching for the record
-		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
-		
-		//Check 1st Record
-		phoneBookPage.check1StRecordInSearchResults();
-		
-		//Click on Email all checked link
-		phoneBookPage.clickOnEmailAllCheckedlink();		
+		phoneBookPage.verifyAnEmailLetterOpensUp(mapIdSearchCriteria);
+			
 	}
 	
-	
-	@Test
-	public void testC939914() throws InterruptedException
+	/**
+	 * description="Validate message alert if user does not check check-box and clicked on Email all Checked Link"
+	 */
+	@Test(dataProvider = "getDataFromExcel")
+	public void testC939914(Hashtable<String, String> data) 
 	{
-		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
-		mapIdSearchCriteria.put("searchFirstName", "Aaron");
-		mapIdSearchCriteria.put("searchLastName", "Cook");
 		
-		//Searching for the record
-		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
-				
-		//Check 1st Record
-		phoneBookPage.uncheck1stRecordIfChecked(mapIdSearchCriteria);
-				
-		//Click on Email all checked link
-		phoneBookPage.clickOnEmailAllCheckedlink();	
+		String firstName=data.get("FirstName"),lastName=data.get("LastName");
+		//initialization
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		
+		//Adding test data and locators of required fields
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName",lastName);
+		
+		phoneBookPage.verifyMessageAlertWhenCheckboxIsUnchecked(mapIdSearchCriteria);
 		
 		//Verify the alert text
-		String alertText = phoneBookPage.getTextFromEmailAllCheckedAlert();	
+		String alertText = phoneBookPage.getTextFromAlert();	
 				
 		if(alertText.contains("No people have been selected for emails."))			
 		{	
@@ -103,23 +102,24 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		
 	}
 	
-	@Test
-	public void testC939915() throws InterruptedException
+	/**
+	 * description="Validate CHG contact Info when user clicks on name link in search result"
+	 */
+	@Test(dataProvider = "getDataFromExcel")
+	public void testC939915(Hashtable<String, String> data) 
 	{
+		
+		String firstName=data.get("FirstName"),lastName=data.get("LastName");
+		//initialization
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		
+		//Adding test data and locators of required fields
 		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
-		mapIdSearchCriteria.put("searchFirstName", "Aaron");
-		mapIdSearchCriteria.put("searchLastName", "Cook");
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName", lastName);
 		
-		//Searching for the record
-		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
+		phoneBookPage.verifyNameLinkInSearchResultIsEnableAndClick(mapIdSearchCriteria);
 		
-		//Verifying record is active link
-	
-		phoneBookPage.verifyRecordIsEnabled();
-		
-		//Clicking on the 1st record
-		phoneBookPage.clickOn1StRecordLink();
 		
 		//Get contact Title
 		String values[] = phoneBookPage.getTextContactTitle();
@@ -148,23 +148,22 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		}
 	}
 	
-	@Test
-	public void testC939916() throws InterruptedException
+	/**
+	 * description="Validate Call,Email and Return Buttons on CHG contact Info"
+	 */
+	
+	@Test(dataProvider = "getDataFromExcel")
+	public void testC939916(Hashtable<String, String> data) 
 	{
+		
+		String firstName=data.get("FirstName"),lastName=data.get("LastName");
+		//initialization
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
-		mapIdSearchCriteria.put("searchFirstName", "Aaron");
-		mapIdSearchCriteria.put("searchLastName", "Cook");
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName", lastName);
 		
-		//Searching for the record
-		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
-		
-		//Verifying record is active link
-	
-		phoneBookPage.verifyRecordIsEnabled();
-		
-		//Clicking on the 1st record
-		phoneBookPage.clickOn1StRecordLink();
+		phoneBookPage.verifyNameLinkInSearchResultIsEnableAndClick(mapIdSearchCriteria);
 		
 		//Get contact Title
 		String values[] = phoneBookPage.getTextContactTitle();
@@ -174,33 +173,24 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
 		}
 			
-		//Verifying Call Button In Phone book
-		phoneBookPage.verifyCallButtonInPhoneBook();
-		
-		//Verifying Email Button In Phone book
-		phoneBookPage.verifyEmailButtonInPhoneBook();
-				
-		//Verifying Return Button In Phone book
-		phoneBookPage.verifyReturnButtonInPhoneBook();
+		//Verifying Buttons In Phone book
+		phoneBookPage.verifyButtonsInDisplayedContactInfo();
 		
 	}
-	@Test
-	public void testC939917() throws InterruptedException
+	
+	
+	@Test(dataProvider = "getDataFromExcel")
+	public void testC939917(Hashtable<String, String> data) 
 	{
+		
+		String firstName=data.get("FirstName"),lastName=data.get("LastName");
+		//initialization
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
-		mapIdSearchCriteria.put("searchFirstName", "Aaron");
-		mapIdSearchCriteria.put("searchLastName", "Cook");
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName", lastName);
 		
-		//Searching for the record
-		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
-		
-		//Verifying record is active link
-	
-		phoneBookPage.verifyRecordIsEnabled();
-		
-		//Clicking on the 1st record
-		phoneBookPage.clickOn1StRecordLink();
+		phoneBookPage.verifyNameLinkInSearchResultIsEnableAndClick(mapIdSearchCriteria);
 		
 		//Get contact Title
 		String values[] = phoneBookPage.getTextContactTitle();
@@ -209,26 +199,24 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		{	
 		TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
 		}
-			
-		//Clicking on Call Button In Phone book
+		
+		/*//Clicking on Call Button In Phone book
 		phoneBookPage.clickCallButtonInPhoneBook();
+		
+		//Verify the alert text
+		String alertText = phoneBookPage.getTextFromAlert();
+		System.out.println(""+alertText);
+		phoneBookPage.acceptAlert();*/
+		
 		
 		//Clicking on Email Button In Phone book
 		phoneBookPage.clickEmailButtonInPhoneBook();
 		
-		
-		
 		//Switch to New Window
 		phoneBookPage.switchtoWindow();
 		
-		System.out.println("Switching to New Window");
-
-		
 		//Switch back to Default
 		phoneBookPage.switchtoDefaultWindow();
-		
-		System.out.println("Window is switching back to default");
-		
 				
 		//Clicking  on Return Button In Phone book
 		phoneBookPage.clickReturnButtonInPhoneBook();
@@ -243,45 +231,123 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		{
 			TestTemplate.testReport.logFailure("ReturnValidation", "Return to phonebook page Fails" + getScreenShotName());
 		}
+	
 
 	}  
 
-	@Test
-	public void testC939918() throws InterruptedException
+	
+	/**
+	 * description="Validate phone number link displays the ability to make a call(Via Skype) when user clicks in search result"
+	 */
+	@Test(dataProvider = "getDataFromExcel")
+	public void testC939918(Hashtable<String, String> data)
 	{
+		
+		String firstName=data.get("FirstName"),lastName=data.get("LastName");
+		//initialization
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
-		mapIdSearchCriteria.put("searchFirstName", "Aaron");
-		mapIdSearchCriteria.put("searchLastName", "Cook");
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName", lastName);
 		
 		//Searching for the record
-		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
+		phoneBookPage.verifyPhoneNumberLinkIsEnableAndClick(mapIdSearchCriteria);
 		
-		//Verifying phone book is active link
-		phoneBookPage.verifyPhoneNumberIsEnabled();
-		
-		//Click phone book is active link
-		phoneBookPage.clickOnPhoneNumber();
-		
-			
-	}
-	@Test
-	public void testC939919() throws InterruptedException
-	{
-		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
-		mapIdSearchCriteria.put("searchFirstName", "Aaron");
-		mapIdSearchCriteria.put("searchLastName", "Cook");
-		
-		//Searching for the record
-		phoneBookPage.searchingForARecord(mapIdSearchCriteria);
-		
-		//Verifying email is active link
-		phoneBookPage.verifyEmailIsEnabled();
-		
-		//Click email is active link
-		phoneBookPage.clickOnEmail();		
 			
 	}
 	
+	/**
+	 * description="Validate email link displays an email letter when user clicks in search result"
+	 */
+	@Test(dataProvider = "getDataFromExcel")
+	public void testC939919(Hashtable<String, String> data) 
+	{
+		
+		String firstName=data.get("FirstName"),lastName=data.get("LastName");
+		//initialization
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName",lastName);
+		
+		//Searching for the record
+		phoneBookPage.verifyEmailLinkIsEnableAndClick(mapIdSearchCriteria);
+		
+	}
+	
+	/**
+	 * description="Validate all field are reset if user clicks on reset button"
+	 */
+	@Test(dataProvider = "getDataFromExcel",description="Validate the record in PhoneBook on filling all the fields")
+	public void testC939920(Hashtable<String, String> data)
+	{
+		String firstName=data.get("FirstName"),lastName=data.get("LastName"),phoneNo=data.get("Phone"),office=data.get("Office"),
+				email=data.get("Email"),title=data.get("JobTitle"),team=data.get("Team");
+		
+		
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName", lastName);
+		mapIdSearchCriteria.put("searchPhone", phoneNo);
+		mapIdSearchCriteria.put("searchOffice", office);
+		mapIdSearchCriteria.put("searchTitle", title);
+		mapIdSearchCriteria.put("searchEmail", email);
+		mapIdSearchCriteria.put("searchTeam", team);	
+		
+		
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		
+		//Validate all the fields in Phone Book page are reset
+		 phoneBookPage.verifyPhoneBookFiledsReset(mapIdSearchCriteria);		
+								
+	}
+	
+	@Test(dataProvider = "getDataFromExcel",description="Validate the record in PhoneBook on filling all the fields")
+	public void testC939912(Hashtable<String, String> data)
+	{
+		String firstName=data.get("FirstName"),lastName=data.get("LastName"),phoneNo=data.get("Phone"),office=data.get("Office"),
+				email=data.get("Email"),title=data.get("JobTitle"),team=data.get("Team");
+		
+		
+		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName", lastName);
+		mapIdSearchCriteria.put("searchPhone", phoneNo);
+		mapIdSearchCriteria.put("searchOffice", office);
+		mapIdSearchCriteria.put("searchTitle", title);
+		mapIdSearchCriteria.put("searchEmail", email);
+		mapIdSearchCriteria.put("searchTeam", team);	
+		
+		
+		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		
+		// Fill all the fields in Phone Book page and click on search
+		String[] iSearchDetails = phoneBookPage.verifyPhoneBookFileds(mapIdSearchCriteria);		
+		
+		//Validate all details in a record
+		phoneBookPage.validateTextEquals(firstName+" "+lastName,iSearchDetails[0]);	
+		phoneBookPage.validateTextEquals(phoneNo,iSearchDetails[1]);		
+		phoneBookPage.validateTextEquals(email,iSearchDetails[2]);		
+		phoneBookPage.validateTextEquals(title+" "+office,iSearchDetails[3]);					
+		phoneBookPage.validateTextEquals(team,iSearchDetails[4]);		
+		
+	}
+	
+	@Test(dataProvider="getTitleFromExcel",description="Verify CHG Phonebook page is displayed")
+	public void testC939955(Hashtable<String, String> data)
+	{
+		//Get Page Title
+		String title=this.threadLocalWebDriver.get().getTitle();
+		
+		//Validate the CHG Phone book title
+		if(title.equals(data.get("Title"))){
+			
+			TestTemplate.testReport.logSuccess("Phone Book page", "Phone Book page is successfully displayed.", this.getScreenShotName());
+		}
+		else
+		{			
+			TestTemplate.testReport.logFailure("Phone Book page", "Phone Book page is not displayed.", this.getScreenShotName());
+		}
+		
+	}
 }

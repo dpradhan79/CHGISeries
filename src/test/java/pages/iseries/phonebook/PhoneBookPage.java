@@ -1,8 +1,6 @@
 package pages.iseries.phonebook;
 
 import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +30,17 @@ public class PhoneBookPage extends PageTemplate {
 	private By byReturnButton = By.xpath("//input[@value='Return']");
 	private By byPhoneNumberLink = By.xpath("(//span[@class='DropPhone']//a)[2]");
 	private By byEmailLink = By.xpath("(//span[@class='DropPhone']//a)[3]");
-	
-	
+	private By byResetBtn = By.xpath("//input[@value='Reset']");
+	private By byPhoneTextBox = By.id("searchPhone");
+	private By byOfficeDropdown = By.id("searchOffice");
+	private By byEmailBox = By.id("searchEmail");
+	private By byJobTitleDropdown = By.id("searchTitle");
+	private By byTeamDropdown = By.id("searchTeam");
+	private By bySearchListCheckBox_Name = By.xpath("(//span[@class='DropPhone']/a)[1]");
+	private By bySearchListCheckBox_PhoneNo = By.xpath("(//span[@class='DropPhone']/a)[2]");
+	private By bySearchListCheckBox_Email = By.xpath("//a[contains(text(),'.com')]");
+	private By bySearchListCheckBox_Team = By.xpath("(//*[@class='Value odd'])[4]/span");
+	private By bySearchListCheckBox_TitleAndOffice = By.xpath("(//*[@class='Value odd'])[3]/span");
 	
 	private SoftAssert softAssert = null;
 	private Object retuen;
@@ -63,10 +70,104 @@ public class PhoneBookPage extends PageTemplate {
 		
 	}
 	
+	
+	/**
+	 * interface for Email Letter OpensUp 
+	 */
+	public void verifyAnEmailLetterOpensUp(Map<String, String>mapIdSearchCriteria)
+	{
+		//Searching for the record
+		searchingForARecord(mapIdSearchCriteria);
+				
+		//Check 1st Record
+		check1StRecordInSearchResults();
+				
+		//Click on Email all checked link
+		clickOnEmailAllCheckedlink();		
+	}
+	
+	/**
+	 * interface for Message Alert When Check-box is Unchecked 
+	 */
+	public void verifyMessageAlertWhenCheckboxIsUnchecked(Map<String, String>mapIdSearchCriteria)
+	{
+		//Searching for the record
+		searchingForARecord(mapIdSearchCriteria);
+				
+		//Check 1st Record
+		uncheck1stRecordIfChecked(mapIdSearchCriteria);
+				
+		//Click on Email all checked link
+		clickOnEmailAllCheckedlink();		
+	}
+	
+	/**
+	 * interface for Name Link in Search Result is Enable and click
+	 */
+	public void verifyNameLinkInSearchResultIsEnableAndClick(Map<String, String>mapIdSearchCriteria)
+	{
+		//Searching for the record
+		searchingForARecord(mapIdSearchCriteria);
+				
+		//Verifying record is active link
+			
+		verifyRecordIsEnabled();
+				
+		//Clicking on the 1st record
+		clickOn1StRecordLink();	
+	}
+	
+	/**
+	 * interface for verify buttons in phone-book
+	 */
+	public void verifyButtonsInDisplayedContactInfo()
+	{
+		//Verifying Call Button In Phone book
+		verifyCallButtonInPhoneBook();
+				
+		//Verifying Email Button In Phone book
+		verifyEmailButtonInPhoneBook();
+						
+		//Verifying Return Button In Phone book
+		verifyReturnButtonInPhoneBook();
+	}
+	
+	/**
+	 * interface for phone number link is enable and clicked
+	 */
+	public void verifyPhoneNumberLinkIsEnableAndClick(Map<String, String>mapIdSearchCriteria)
+	{
+		//Searching for the record
+		searchingForARecord(mapIdSearchCriteria);
+				
+		//Verifying phone book is active link
+		verifyPhoneNumberIsEnabled();
+				
+		//Click phone book is active link
+		clickOnPhoneNumber();
+	}
+	
+	/**
+	 * interface for email link is enable and clicked
+	 */
+	public void verifyEmailLinkIsEnableAndClick(Map<String, String>mapIdSearchCriteria)
+	{
+		//Searching for the record
+		searchingForARecord(mapIdSearchCriteria);
+				
+		//Verifying email is active link
+		verifyEmailIsEnabled();
+				
+		//Click email is active link
+		clickOnEmail();
+	}
+	
+	
+	
 	/**
 	 * Clicking on Search button 
 	 */
-	public void clickOnSearchButton()
+	private void clickOnSearchButton()
 	{
 		this.waitUntilElementIsClickable(bySearchButton);
 		this.click(bySearchButton);
@@ -75,7 +176,7 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * Searching For Record
 	 */
-	public void searchingForARecord(Map<String, String>mapIdSearchTextBoxes)
+	private void searchingForARecord(Map<String, String>mapIdSearchTextBoxes)
 	{
 		for(Map.Entry<String, String> entrySet : mapIdSearchTextBoxes.entrySet())
 		{
@@ -100,7 +201,7 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * Check 1st record check-box in search results 
 	 */
-	public void check1StRecordInSearchResults()
+	private void check1StRecordInSearchResults()
 	{
 		this.waitUntilElementIsClickable(bySearchListCheckBox);
 		this.click(bySearchListCheckBox);
@@ -109,16 +210,16 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * Click on Email all Checked link
 	 */
-	public void clickOnEmailAllCheckedlink()
+	private void clickOnEmailAllCheckedlink()
 	{
 		this.waitUntilElementIsClickable(byEmailAllCheckedLink);
 		this.click(byEmailAllCheckedLink);
 	}
 	
 	/**
-	 * Uncheck 1st Record If Checked
+	 * Un-check 1st Record If Checked
 	 */
-	public void uncheck1stRecordIfChecked(Map<String, String>mapIdSearchTextBoxes) throws InterruptedException
+	private void uncheck1stRecordIfChecked(Map<String, String>mapIdSearchCriteria)
 	{
 		WebElement checkBox = this.wd.findElement(bySearchListCheckBox);
 
@@ -134,18 +235,27 @@ public class PhoneBookPage extends PageTemplate {
 	}
 	
 	/**
-	 * Get text from Email all Checked alert
+	 * Get text from alert
 	 */
-	public String getTextFromEmailAllCheckedAlert()
+	public String getTextFromAlert()
 	{
 		Alert alert = wd.switchTo().alert();
 		String alertText = alert.getText();
 		return alertText;
 	}
 	/**
+	 * Get text from alert
+	 */
+	public void acceptAlert()
+	{
+		Alert alert = wd.switchTo().alert();
+		alert.accept();
+	}
+	
+	/**
 	 * Verify Record is Enabled
 	 */
-	public void verifyRecordIsEnabled() 
+	private void verifyRecordIsEnabled() 
 	{
 		assertTrue(wd.findElement(by1StRecordLink).isEnabled());			
 	}
@@ -153,7 +263,7 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * Click on the 1st Record
 	 */
-	public void clickOn1StRecordLink() 
+	private void clickOn1StRecordLink() 
 	{
 		this.waitUntilElementIsClickable(by1StRecordLink);
 		this.click(by1StRecordLink);
@@ -162,7 +272,7 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * Verify Call Button In Phone book
 	 */
-	public void verifyCallButtonInPhoneBook() 
+	private void verifyCallButtonInPhoneBook() 
 	{
 		this.waitUntilElementIsVisible(byCallButton);
 	}
@@ -170,7 +280,7 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * Verify Email Button In Phone book
 	 */
-	public void verifyEmailButtonInPhoneBook() 
+	private void verifyEmailButtonInPhoneBook() 
 	{
 		this.waitUntilElementIsVisible(byEmailButton);
 	}
@@ -178,7 +288,7 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * Verify Return Button In Phone book
 	 */
-	public void verifyReturnButtonInPhoneBook() 
+	private void verifyReturnButtonInPhoneBook() 
 	{
 		this.waitUntilElementIsVisible(byReturnButton);
 	}
@@ -191,6 +301,7 @@ public class PhoneBookPage extends PageTemplate {
 		this.waitUntilElementIsVisible(byCallButton);
 		this.click(byCallButton);
 	}
+
 	
 	/**
 	 * Click on Email Button In Phone book
@@ -282,7 +393,7 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * Verify PhoneNumber is Enabled
 	 */
-	public void verifyPhoneNumberIsEnabled() 
+	private void verifyPhoneNumberIsEnabled() 
 	{
 		assertTrue(wd.findElement(byPhoneNumberLink).isEnabled());			
 	}
@@ -290,7 +401,7 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * click on PhoneNumber
 	 */
-	public void clickOnPhoneNumber() 
+	private void clickOnPhoneNumber() 
 	{
 		this.click(byPhoneNumberLink);
 	}
@@ -298,7 +409,7 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * Verify Email is Enabled
 	 */
-	public void verifyEmailIsEnabled() 
+	private void verifyEmailIsEnabled() 
 	{
 		assertTrue(wd.findElement(byEmailLink).isEnabled());			
 	}
@@ -306,8 +417,149 @@ public class PhoneBookPage extends PageTemplate {
 	/**
 	 * click on Email
 	 */
-	public void clickOnEmail() 
+	private void clickOnEmail() 
 	{
 		this.click(byEmailLink);
 	}
+	
+	/**
+	 * click on Reset button
+	 */
+	private void clickOnReset() 
+	{
+		this.click(byResetBtn);
+	}
+	
+	/**
+     * Verify all fields are Reset in the Phone book page 
+     */
+	
+	public void verifyPhoneBookFiledsReset(Map<String, String>mapIdSearchTextBoxes)
+	{
+		//Filling all fields in Phone book page
+		
+		FillPhoneBookFileds(mapIdSearchTextBoxes);
+		
+		// Click on Reset button.	
+		clickOnReset();
+		
+		List<WebElement> textfields = wd.findElements(By.xpath("//table[contains(@class,'SearchField')]//td[@class='Value']/input"));
+		List<WebElement> pickupfields = wd.findElements(By.xpath("//table[contains(@class,'SearchField')]//td[@class='Value']/select"));
+		
+	    for(int i=0; i<textfields.size(); i++)
+	    {
+	    	if(textfields.get(i).getAttribute("value").isEmpty())
+			{
+				this.testReport.logSuccess("Validate Field", "Expected Test is Null" + "Actual Text is "+ textfields.get(i));
+	        }
+	        else
+	        {
+	              this.testReport.logFailure("Validate Field", "Expected Test is Null" + "Actual Text is "+ textfields.get(i), this.getScreenShotName());
+	        }
+			
+	    }
+		
+	    for(int i=0; i<pickupfields.size(); i++)
+	    {
+	    	if(pickupfields.get(i).getAttribute("value").isEmpty())
+			{
+				this.testReport.logSuccess("Validate Field", "Expected Test is Null" + "Actual Text is "+ pickupfields.get(i));
+	        }
+	        else
+	        {
+	              this.testReport.logFailure("Validate Field", "Expected Test is Null" + "Actual Text is "+ pickupfields.get(i), this.getScreenShotName());
+	        }
+			
+	    }
+		
+	}
+	
+	/**
+     * Fill all the fields in the Phone book
+     */
+	
+	private void FillPhoneBookFileds(Map<String, String>mapIdSearchTextBoxes)
+	{
+		for(Map.Entry<String, String> entrySet : mapIdSearchTextBoxes.entrySet())
+		{
+			String searchCriteria = entrySet.getKey();
+			String searchValue = entrySet.getValue();
+						
+		    switch(searchCriteria)
+		    {
+			    case "searchFirstName":
+			    	 this.sendKeys(byFirstNameTextBox, searchValue);
+			    break;
+			    case "searchLastName":
+			    	 this.sendKeys(byLastNameTextBox, searchValue);
+				    break;	
+			    case "searchPhone":
+				    this.sendKeys(byPhoneTextBox, searchValue);
+				    break;
+			    case "searchOffice":
+				    this.SelectDropDownByText(byOfficeDropdown, searchValue);
+				    break;
+			    case "searchEmail":
+				    this.sendKeys(byEmailBox, searchValue);
+				    break;
+			    case "searchTitle":
+				    this.SelectDropDownByText(byJobTitleDropdown, searchValue);
+				    break;
+			    case "searchTeam":
+				    this.SelectDropDownByText(byTeamDropdown, searchValue);
+				    break;
+				   
+		    }
+		 			    
+		}
+	}
+	
+	/**
+     * Fill all the fields in the Phone book and click on search btn and verify the record
+     */
+	
+	public String[] verifyPhoneBookFileds(Map<String, String>mapIdSearchTextBoxes)
+	{
+		FillPhoneBookFileds(mapIdSearchTextBoxes);
+		String[] recordDetails = new String[5];
+		
+		this.click(bySearchButton);
+		
+		int iCountCheckBoxes = this.wd.findElements(bySearchListCheckBox).size();
+		softAssert.assertTrue(iCountCheckBoxes == 1, "Validation for Successful Search Of Single Record");
+		
+		recordDetails[0]=this.getText(bySearchListCheckBox_Name);				
+		recordDetails[1]=this.getText(bySearchListCheckBox_PhoneNo);
+		recordDetails[2]=this.getText(bySearchListCheckBox_Email);
+		recordDetails[3]=this.getText(bySearchListCheckBox_TitleAndOffice);
+		recordDetails[4]=this.getText(bySearchListCheckBox_Team);
+		
+		return recordDetails;
+	}
+	
+	
+	/**
+     * @param expected
+     * @param actual
+     * Validated expected and actual texts are equal
+     */
+     public void validateTextEquals(String expected, String actual)
+     {
+            try{
+                   if((actual.replaceAll("[\r\n]+", " ")).equalsIgnoreCase(expected))
+                   {
+                         this.testReport.logSuccess("Validate Text Present", "Expected Test is "+expected+" Actual Text is "+actual);
+                   }
+                   else
+                   {
+                         this.testReport.logFailure("Validate Text Present", "Expected Test is "+expected+" Actual Text is "+actual, this.getScreenShotName());
+                   }
+            }catch(Exception e)
+            {
+                   this.testReport.logFailure("Validate Text Present", e.getMessage().toString(), this.getScreenShotName());
+            }
+     }
+     
+     
+     
 }
