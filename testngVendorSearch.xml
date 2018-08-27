@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="SuiteTestBreyers" parallel="tests" thread-count="5" preserve-order="true">  
+<suite name="SuiteTestBreyers" parallel="tests" thread-count="5" preserve-order="true">
+<listeners>
+	<listener class-name = "org.uncommons.reportng.HTMLReporter"/>	
+	<listener class-name = "org.uncommons.reportng.JUnitXMLReporter"/>			
+</listeners>  
   <!-- Test On Stage URL -->
   <test name="TestVendorStageEnv" preserve-order="true">
   <parameter name="appURL" value="https://stage.chgit.com/vendorsearch/" />  
