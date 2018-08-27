@@ -19,6 +19,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 import com.config.ITestParamsConstants;
 import com.testreport.IReporter;
@@ -39,8 +40,7 @@ public abstract class PageTemplate {
 	protected WebDriver wd = null;
 	protected IReporter testReport = null;
 	protected int implicitWaitInSecs = 0;
-	protected int pageLoadTimeOutInSecs = 0;
-
+	protected int pageLoadTimeOutInSecs = 0;	
 	protected PageTemplate(WebDriver webDriver, IReporter testReport) {
 		this.wd = webDriver;
 		this.testReport = testReport;
@@ -48,7 +48,7 @@ public abstract class PageTemplate {
 				.parseInt(ReusableLibs.getConfigProperty(ITestParamsConstants.IMPLICIT_WAIT_IN_SECS));
 		this.pageLoadTimeOutInSecs = Integer
 				.parseInt(ReusableLibs.getConfigProperty(ITestParamsConstants.PAGE_LOAD_TIME_OUT_IN_SECS));
-
+		
 	}
 
 	protected void sendKeys(By byLocator, String text) {
@@ -74,7 +74,9 @@ public abstract class PageTemplate {
 					.format("Failed To Enter Text - <mark>%s</mark> To Locator - <mark>%s</mark>", text, byLocator),
 					this.getScreenShotName());
 			this.testReport.logException(ex);
-
+			SoftAssert softAssert = new SoftAssert();
+			softAssert.fail(ex.getMessage(), ex);			
+			softAssert.assertAll();
 		}
 
 	}
@@ -178,6 +180,9 @@ public abstract class PageTemplate {
 							visibleText, byLocator),
 					this.getScreenShotName());
 			this.testReport.logException(ex);
+			SoftAssert softAssert = new SoftAssert();
+			softAssert.fail(ex.getMessage(), ex);			
+			softAssert.assertAll();
 
 		}
 	}
@@ -197,6 +202,9 @@ public abstract class PageTemplate {
 							value, byLocator),
 					this.getScreenShotName());
 			this.testReport.logException(ex);
+			SoftAssert softAssert = new SoftAssert();
+			softAssert.fail(ex.getMessage(), ex);			
+			softAssert.assertAll();
 
 		}
 	}
@@ -216,6 +224,9 @@ public abstract class PageTemplate {
 							index, byLocator),
 					this.getScreenShotName());
 			this.testReport.logException(ex);
+			SoftAssert softAssert = new SoftAssert();
+			softAssert.fail(ex.getMessage(), ex);			
+			softAssert.assertAll();
 
 		}
 	}

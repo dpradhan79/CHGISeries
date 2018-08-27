@@ -14,6 +14,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
+import org.testng.asserts.SoftAssert;
 import org.testng.xml.XmlTest;
 
 import com.config.IConstants;
@@ -40,7 +41,7 @@ public abstract class TestTemplateMethodLevelInit extends TestTemplate {
 
 	private static final Logger LOG = Logger.getLogger(TestTemplateMethodLevelInit.class);
 	private AppiumDriverLocalService appiumDriverLocalService = null;
-
+	protected SoftAssert softAssert = null;
 	/**
 	 * Configuration/Initialization before starting suite
 	 * 
@@ -62,7 +63,7 @@ public abstract class TestTemplateMethodLevelInit extends TestTemplate {
 				ExtentTestVisibilityMode.valueOf(extentTestVisibilityMode));
 	}
 
-	@AfterSuite
+	@AfterSuite(alwaysRun = true)
 	protected void afterSuite(ITestContext testContext) {
 		LOG.info(String.format("Suite - %s , Completed", testContext.getSuite().getName()));
 		TestTemplate.testReport.updateTestCaseStatus();
@@ -116,7 +117,7 @@ public abstract class TestTemplateMethodLevelInit extends TestTemplate {
 	 * 
 	 * @param testContext
 	 */
-	@AfterTest
+	@AfterTest(alwaysRun = true)
 	protected void afterTest(ITestContext testContext) {
 		LOG.info(String.format("Test - %s , Completed", testContext.getCurrentXmlTest().getName()));
 		TestTemplate.testReport.updateTestCaseStatus();
@@ -138,13 +139,13 @@ public abstract class TestTemplateMethodLevelInit extends TestTemplate {
 	 * @param m
 	 * @throws URISyntaxException
 	 */
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	protected void beforeMethod(ITestContext testContext, Method m) throws URISyntaxException {
 
 		try {
 			LOG.info(String.format("Thread - %d , Executes Next Test Method - %s", Thread.currentThread().getId(),
 					m.getName()));
-
+			this.softAssert = new SoftAssert();
 			WebDriver webDriver = null;
 			if (TestTemplate.testReport instanceof ExtentReporter) {
 
@@ -216,7 +217,7 @@ public abstract class TestTemplateMethodLevelInit extends TestTemplate {
 	 * @param m
 	 * @throws Exception
 	 */
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	protected void afterMethod(ITestContext testContext, ITestResult testResult, Method m) throws Exception {		
 		LOG.info(String.format("Thread - %d , Completes Executing Test Method - %s", Thread.currentThread().getId(),
 				m.getName()));
@@ -242,7 +243,7 @@ public abstract class TestTemplateMethodLevelInit extends TestTemplate {
 		}
 
 		finally {
-			TestTemplate.testReport.updateTestCaseStatus();
+			TestTemplate.testReport.updateTestCaseStatus();			
 		}
 	}
 
