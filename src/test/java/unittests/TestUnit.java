@@ -25,6 +25,7 @@ public class TestUnit extends TestTemplate {
 		Object[][] objMetrics = TestUtil.getData("PhoneBookSearch", xlsReader, "PhoneBook");
 		for(Object[] o : objMetrics)
 		{
+			//convert object to Hashtable
 			Hashtable table = (Hashtable) o[0];
 			System.out.println(table.get("FirstName"));
 		}		
