@@ -6,6 +6,8 @@
   <parameter name="appURL" value="https://stage.chgit.com/vendorsearch/" />  
   <parameter name="automationKit" value="selenium" />  
   <parameter name="browserName" value="Chrome" />
+  <parameter name="userName" value="chstest" />
+  <parameter name="password" value="!L0veMyJ0b" />
      <classes>     
       <class name="test.iseries.jdevendorsearch.TestVendorSearch"/> 
       
@@ -17,6 +19,8 @@
   <parameter name="appURL" value="https://internal.chgcompanies.com/vendorsearch/" />  
   <parameter name="automationKit" value="selenium" />  
   <parameter name="browserName" value="Chrome" />
+  <parameter name="userName" value="chstest" />
+  <parameter name="password" value="!L0veMyJ0b" />
      <classes>     
       <class name="test.iseries.jdevendorsearch.TestVendorSearch"/>
     </classes>

@@ -213,7 +213,7 @@ public class PhoneBookPage extends PageTemplate {
 	private void clickOnEmailAllCheckedlink()
 	{
 		this.waitUntilElementIsClickable(byEmailAllCheckedLink);
-		this.click(byEmailAllCheckedLink);
+		//this.click(byEmailAllCheckedLink);
 	}
 	
 	/**
@@ -419,7 +419,8 @@ public class PhoneBookPage extends PageTemplate {
 	 */
 	private void clickOnEmail() 
 	{
-		this.click(byEmailLink);
+		this.waitUntilElementIsClickable(byEmailLink);
+		//this.click(byEmailLink);
 	}
 	
 	/**

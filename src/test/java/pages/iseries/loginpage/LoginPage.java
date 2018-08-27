@@ -36,13 +36,13 @@ public class LoginPage extends PageTemplate {
 	/**
 	 * Login to JDE vendor search application
 	 */
-	public void jdeVendorSearchLogin()
+	public void jdeVendorSearchLogin(ITestContext testContext)
 	{
 		//Wait until user name displayed then enter user name
 		this.waitUntilElementIsVisible(userName);
-		this.sendKeys(userName, "chstest");
+		this.sendKeys(userName, testContext.getCurrentXmlTest().getParameter("userName"));
 		//Enter password
-		this.sendKeys(password, "!L0veMyJ0b");
+		this.sendKeys(password, testContext.getCurrentXmlTest().getParameter("password"));
 		
 		//Click on login button
 		this.click(loginButton);
