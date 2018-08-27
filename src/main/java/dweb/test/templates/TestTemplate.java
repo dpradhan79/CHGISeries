@@ -139,6 +139,7 @@ public abstract class TestTemplate {
 		return objMetrics;
 	}
 
+	
 	/**
 	 * Returns screenshot name for screenshot being captured
 	 * 

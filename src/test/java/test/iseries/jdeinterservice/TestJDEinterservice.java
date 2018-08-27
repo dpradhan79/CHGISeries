@@ -17,7 +17,7 @@ public class TestJDEinterservice extends TestTemplateMethodLevelInit{
 		JdeInterservicePage jdeInterServicePage = new JdeInterservicePage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		
 		//Logging in to application
-		loginPage.jdeVendorSearchLogin();
+		//loginPage.jdeVendorSearchLogin();
 
 	}
 }

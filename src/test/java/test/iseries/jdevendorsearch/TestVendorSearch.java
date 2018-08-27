@@ -2,6 +2,7 @@ package test.iseries.jdevendorsearch;
 
 import java.util.Hashtable;
 
+import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
 import dweb.test.templates.TestTemplate;
@@ -26,14 +27,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	 * description : Login Info
 	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
-	public void testC939922(Hashtable<String, String> data)
+	public void testC939922(ITestContext testContext, Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		
 		//Logging in to application
-		loginPage.jdeVendorSearchLogin();
+		loginPage.jdeVendorSearchLogin(testContext);
 		
 		//Validating is user logged in to application successfully.
 		jdeVendorSearchPage.validateLoggedInToApplication();
@@ -43,14 +44,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	 * description : Validate fields present in search form
 	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
-	public void testC939923(Hashtable<String, String> data)
+	public void testC939923(ITestContext testContext, Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		
 		//Logging in to application
-		loginPage.jdeVendorSearchLogin();
+		loginPage.jdeVendorSearchLogin(testContext);
 				
 		//Validate list of fields exist in search form
 		jdeVendorSearchPage.validateFieldsPresentInSearchForm();
@@ -60,14 +61,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	 * description : Search for a vendor using vendor name
 	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
-	public void testC939924(Hashtable<String, String> data)
+	public void testC939924(ITestContext testContext, Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		
 		//Logging in to application
-		loginPage.jdeVendorSearchLogin();
+		loginPage.jdeVendorSearchLogin(testContext);
 				
 		//Validate list of fields exist in search form
 		jdeVendorSearchPage.searchForAVendorAndValidate(data.get("VendorName"));
@@ -77,14 +78,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	 * description : Search for a vendor using vendor state
 	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
-	public void testC939931(Hashtable<String, String> data)
+	public void testC939931(ITestContext testContext, Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		
 		//Logging in to application
-		loginPage.jdeVendorSearchLogin();
+		loginPage.jdeVendorSearchLogin(testContext);
 				
 		//search with state and validate record
 		jdeVendorSearchPage.searchForAVendorWithStateAndValidate(data.get("State"));
@@ -94,14 +95,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	 * description : Search for a vendor using vendor zip
 	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
-	public void testC939932(Hashtable<String, String> data)
+	public void testC939932(ITestContext testContext, Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		
 		//Logging in to application
-		loginPage.jdeVendorSearchLogin();
+		loginPage.jdeVendorSearchLogin(testContext);
 				
 		//search with zip and validate record
 		jdeVendorSearchPage.searchForAVendorWithZipAndValidate(data.get("ZIP"));
@@ -111,14 +112,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	 * description : Search for a vendor using vendor number
 	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
-	public void testC939933(Hashtable<String, String> data)
+	public void testC939933(ITestContext testContext, Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		
 		//Logging in to application
-		loginPage.jdeVendorSearchLogin();
+		loginPage.jdeVendorSearchLogin(testContext);
 				
 		//search with Vendor Number and validate record
 		jdeVendorSearchPage.searchForAVendorWithNumberAndValidate(data.get("Number"));
@@ -128,14 +129,14 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	 * description : Search for a vendor by filling all the fields in vendor search form
 	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
-	public void testC939934(Hashtable<String, String> data)
+	public void testC939934(ITestContext testContext, Hashtable<String, String> data)
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 			
 		//Logging in to application
-		loginPage.jdeVendorSearchLogin();
+		loginPage.jdeVendorSearchLogin(testContext);
 					
 		//search with Vendor Number and validate record
 		jdeVendorSearchPage.searchForAVendorWithAllFieldsAndValidate(data.get("VendorName"), data.get("State"), data.get("ZIP"), data.get("Number"));

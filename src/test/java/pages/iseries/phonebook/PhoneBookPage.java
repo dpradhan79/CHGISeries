@@ -98,7 +98,8 @@ public class PhoneBookPage extends PageTemplate {
 		uncheck1stRecordIfChecked(mapIdSearchCriteria);
 				
 		//Click on Email all checked link
-		clickOnEmailAllCheckedlink();		
+		this.waitUntilElementIsClickable(byEmailAllCheckedLink);
+		this.click(byEmailAllCheckedLink);		
 	}
 	
 	/**
@@ -213,7 +214,7 @@ public class PhoneBookPage extends PageTemplate {
 	private void clickOnEmailAllCheckedlink()
 	{
 		this.waitUntilElementIsClickable(byEmailAllCheckedLink);
-		this.click(byEmailAllCheckedLink);
+		//this.click(byEmailAllCheckedLink);
 	}
 	
 	/**
@@ -309,7 +310,7 @@ public class PhoneBookPage extends PageTemplate {
 	public void clickEmailButtonInPhoneBook() 
 	{
 		this.waitUntilElementIsVisible(byEmailButton);
-		this.click(byEmailButton);
+		//this.click(byEmailButton);
 	}
 	
 	/**
@@ -419,7 +420,8 @@ public class PhoneBookPage extends PageTemplate {
 	 */
 	private void clickOnEmail() 
 	{
-		this.click(byEmailLink);
+		this.waitUntilElementIsClickable(byEmailLink);
+		//this.click(byEmailLink);
 	}
 	
 	/**
