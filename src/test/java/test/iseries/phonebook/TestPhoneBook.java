@@ -55,14 +55,14 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 	public void testC939913(Hashtable<String, String> data)
 	{
 		
-		String firstName=data.get("FirstName"),lastName=data.get("LastName");
+		String firstName=data.get("FirstName"), lastName=data.get("LastName");
 		//initialization
 		PhoneBookPage phoneBookPage = new PhoneBookPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		
 		//Adding test data and locators of required fields
 		Map<String, String> mapIdSearchCriteria = new HashMap<String, String>();
-		mapIdSearchCriteria.put("searchFirstName",firstName);
-		mapIdSearchCriteria.put("searchLastName",lastName);
+		mapIdSearchCriteria.put("searchFirstName", firstName);
+		mapIdSearchCriteria.put("searchLastName", lastName);
 		
 		phoneBookPage.verifyAnEmailLetterOpensUp(mapIdSearchCriteria);
 			
@@ -88,8 +88,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		
 	
 		//Verify the alert text
-		String alertText = phoneBookPage.getTextFromAlert();	
-		//SoftAssert softAssert = new SoftAssert();
+		String alertText = phoneBookPage.getTextFromAlert();		
         softAssert.assertEquals(alertText, "No people have been selected for emails.");
 				
 		if(alertText.contains("No people have been selected for emails."))			
@@ -127,15 +126,14 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		if(values[0].contains("CHG"))			
 		{	
 			TestTemplate.testReport.logSuccess("PhoneBookLogo", "Logo Text Succeeds");
-		}
-		this.softAssert.assertAll();
+		}	
 		
 		this.softAssert.assertEquals(values[1], "Phone Book");
 		if(values[1].contains("Phone Book"))			
 		{	
 			TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
 		}
-		this.softAssert.assertAll();
+		
 		//Get contact Info
 		List<WebElement> Info = phoneBookPage.getTextContactInfo();
 		String[] PhoneBookdetails = {"Aaron Cook" , "(801) 930-4029 x4029","aaron.cook@chghealthcare.com","Mgr II IT Project Mgmt","Midvale, UT ","IS Project Management"};
@@ -151,6 +149,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 			System.out.println("Phonbook Deatils" + Info.get(i).getText() +"is mismatched with test data " +PhoneBookdetails[i]);
 		}
 		}
+		this.softAssert.assertAll();
 	}
 	
 	/**
@@ -178,10 +177,10 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		if(values[1].contains("Phone Book"))			
 		{	
 		TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
-		}
-		this.softAssert.assertAll();	
+		}		
 		//Verifying Buttons In Phone book
 		phoneBookPage.verifyButtonsInDisplayedContactInfo();
+		this.softAssert.assertAll();	
 	}
 	
 	
@@ -207,7 +206,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		{	
 		TestTemplate.testReport.logSuccess("PhoneBookTitle", "Title Text Succeeds");
 		}
-		this.softAssert.assertAll();	
+			
 		//Clicking on Call Button In Phone book
 		phoneBookPage.verifyCallButtonInPhoneBookPageIsClickable();
 				
@@ -329,11 +328,11 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 		String[] iSearchDetails = phoneBookPage.verifyPhoneBookFileds(mapIdSearchCriteria);		
 		
 		//Validate all details in a record
-		phoneBookPage.validateTextEquals(firstName+" "+lastName,iSearchDetails[0]);	
-		phoneBookPage.validateTextEquals(phoneNo,iSearchDetails[1]);		
-		phoneBookPage.validateTextEquals(email,iSearchDetails[2]);		
-		phoneBookPage.validateTextEquals(title+" "+office,iSearchDetails[3]);					
-		phoneBookPage.validateTextEquals(team,iSearchDetails[4]);		
+		phoneBookPage.validateTextEquals(firstName +" " + lastName, iSearchDetails[0]);	
+		phoneBookPage.validateTextEquals(phoneNo, iSearchDetails[1]);		
+		phoneBookPage.validateTextEquals(email, iSearchDetails[2]);		
+		phoneBookPage.validateTextEquals(title +" " + office, iSearchDetails[3]);					
+		phoneBookPage.validateTextEquals(team, iSearchDetails[4]);		
 		
 	}
 	
@@ -341,7 +340,7 @@ public class TestPhoneBook extends TestTemplateMethodLevelInit{
 	public void testC939955(Hashtable<String, String> data)
 	{
 		//Get Page Title
-		String title=this.threadLocalWebDriver.get().getTitle();
+		String title = TestTemplate.threadLocalWebDriver.get().getTitle();
 		
 		softAssert.assertEquals(title,data.get("Title"));	
 		
