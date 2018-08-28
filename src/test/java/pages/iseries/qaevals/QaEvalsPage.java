@@ -18,6 +18,10 @@ public class QaEvalsPage extends PageTemplate {
 	private By availableProviderTab 		= By.xpath("//th[text()='Name']/../parent::tbody/tr[2]/td[2][text()='Provider']/parent::tr//a");
 	private By providersPage 				= By.xpath("//h1[text()='Providers and Contacts']");
 	private By providerDetailText 			= By.xpath("//h2[text()='Provider or Contact Detail']");
+	private By assignmentsTab				= By.xpath("//ul[@id='tabBar']//a[@title='Assignments Tab']");
+	private By assignmentsPage 				= By.xpath("//h1[text()='Assignments']");
+	private By availableAssignment			= By.xpath("//a[contains(text(),'ASG-')]");
+	private By assignmentDetailText			= By.xpath("//h2[text()='Assignment Detail']");
 	
 	public QaEvalsPage(WebDriver webDriver, IReporter testReport) {
 		super(webDriver, testReport);
@@ -119,5 +123,44 @@ public class QaEvalsPage extends PageTemplate {
 		this.implicitwait(3);
 		this.switchToWindowUsingTitle("Login Page");
 		return ClientName;
+	}
+	
+	public String navigateToQAevalsFromAssignment()
+	{
+		//Navigate to clients tab
+		this.navigateToAssignementTab();
+		
+		//Click on clients tab
+		String assignmentName = this.clickOn1stAssignmentsAvailable();
+		
+		//click on QAEvals button
+		this.clickOnQAevalsButton();
+		
+		//Switch to window
+		this.implicitwait(3);
+		this.switchToWindowUsingTitle("Login Page");
+		return assignmentName;
+	}
+	
+	private void navigateToAssignementTab()
+	{
+		//Wait until providers tab is clickable and click on clients tab
+		this.waitUntilElementIsClickable(assignmentsTab);
+		this.click(assignmentsTab);
+		
+		//Wait providers clients page displayed
+		this.waitUntilElementIsVisible(assignmentsPage);
+	}
+	
+	private String clickOn1stAssignmentsAvailable()
+	{
+		//Click on client available
+		this.waitUntilElementIsClickable(availableAssignment);
+		String assignmentName = this.getText(availableAssignment);
+		this.click(availableAssignment);
+		
+		//Wait until it navigates to client details
+		this.waitUntilElementIsVisible(assignmentDetailText);
+		return assignmentName;
 	}
 }
