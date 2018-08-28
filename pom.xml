@@ -99,9 +99,8 @@
 				<version>2.20.1</version>
 				<configuration>
 					<suiteXmlFiles>										
-						<suiteXmlFile>testngBreyers_desktop_mobile.xml</suiteXmlFile>
-						<suiteXmlFile>testngVaseline.xml</suiteXmlFile>
-						<suiteXmlFile>testngBrokenLink.xml</suiteXmlFile>
+						<suiteXmlFile>testngPhoneBook.xml</suiteXmlFile>
+						<suiteXmlFile>testngVendorSearch.xml</suiteXmlFile>						
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
