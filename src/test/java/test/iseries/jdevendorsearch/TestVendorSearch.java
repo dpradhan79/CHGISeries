@@ -16,7 +16,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	public void testC939958(Hashtable<String, String> data)
 	{
 		//Initialization
-		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
 		
 		//Validating login info
 		jdeVendorSearchPage.validateInformationPresentOnLoginPage(data.get("informationtex"), data.get("alertTex"), data.get("loginStatus"));
@@ -31,7 +31,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
 		
 		//Logging in to application
 		loginPage.jdeVendorSearchLogin(testContext);
@@ -49,7 +49,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
 		
 		//Logging in to application
 		loginPage.jdeVendorSearchLogin(testContext);
@@ -67,7 +67,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
 		
 		//Logging in to application
 		loginPage.jdeVendorSearchLogin(testContext);
@@ -85,7 +85,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
 		
 		//Logging in to application
 		loginPage.jdeVendorSearchLogin(testContext);
@@ -103,7 +103,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
 		
 		//Logging in to application
 		loginPage.jdeVendorSearchLogin(testContext);
@@ -121,7 +121,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
 		
 		//Logging in to application
 		loginPage.jdeVendorSearchLogin(testContext);
@@ -139,7 +139,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 	{
 		//Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
 			
 		//Logging in to application
 		loginPage.jdeVendorSearchLogin(testContext);

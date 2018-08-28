@@ -35,7 +35,12 @@ public class JdeVendorSearchPage extends PageTemplate {
 	private SoftAssert softAssert = null;
 	public JdeVendorSearchPage(WebDriver webDriver, IReporter testReport) {
 		super(webDriver, testReport);
-		this.softAssert = new SoftAssert();
+		this.softAssert = null;
+	}
+	
+	public JdeVendorSearchPage(WebDriver webDriver, IReporter testReport, SoftAssert softAssert) {
+		super(webDriver, testReport);
+		this.softAssert = softAssert;
 	}
 
 	/**
@@ -104,7 +109,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 	public void validateLoggedInToApplication(String expectedText)
 	{
 		this.waitUntilElementIsVisible(vendorSearchTitle);
-		this.softAssert.assertEquals(this.getText(vendorSearchTitle).replaceAll("[\r\n]+", " "), expectedText);
+		this.softAssert.assertEquals(this.getText(vendorSearchTitle).replaceAll("[\r\n]+", " "), expectedText);		
 		validateTextPresent(vendorSearchTitle, expectedText);
 	}
 	
