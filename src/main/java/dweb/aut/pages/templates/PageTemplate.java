@@ -442,4 +442,28 @@ public abstract class PageTemplate {
 		String fileExtension = ReusableLibs.getConfigProperty(ITestParamsConstants.SCREENSHOT_PICTURE_FORMAT);
 		return ReusableLibs.getScreenshotFile(screenShotLocation, fileExtension);
 	}
+	
+	/*****Generic Application Level Validations */
+	
+	/**
+	 * @param actual
+	 * @param expected
+	 * Validates Text equals
+	 */
+	public void validateTextEquals(String actual, String expected)
+	{
+		try{
+			if((actual.replaceAll("[\r\n]+", " ")).equalsIgnoreCase(expected))
+			{
+				this.testReport.logSuccess("Validate Text Present", "Expected Test is "+expected+" Actual Text is "+actual);
+			}
+			else
+			{
+				this.testReport.logFailure("Validate Text Present", "Expected Test is "+expected+" Actual Text is "+actual, this.getScreenShotName());
+			}
+		}catch(Exception e)
+		{
+			this.testReport.logFailure("Validate Text Present", e.getMessage().toString(), this.getScreenShotName());
+		}
+	}
 }

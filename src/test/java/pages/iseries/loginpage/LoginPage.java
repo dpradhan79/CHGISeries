@@ -99,14 +99,14 @@ public class LoginPage extends PageTemplate {
 	 * @param testContext
 	 * Login to qa evals
 	 */
-	public void qaEvalsLogin(ITestContext testContext)
+	public void qaEvalsLogin(String userName, String password)
 	{
 		//Wait until user name displayed and enter user name
 		this.waitUntilElementIsClickable(qaEvalsUserName);
-		this.sendKeys(qaEvalsUserName, testContext.getCurrentXmlTest().getParameter("qaEvalsUserName"));
+		this.sendKeys(qaEvalsUserName, userName);
 			
 		//Enter password
-		this.sendKeys(qaEvalsPassword, testContext.getCurrentXmlTest().getParameter("qaEvalspassword"));
+		this.sendKeys(qaEvalsPassword, password);
 				
 		//Click on login button
 		this.click(qaEvalsSubmitButton);

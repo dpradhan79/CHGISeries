@@ -29,8 +29,6 @@
   <parameter name="password" value="testAuto2" />
   <parameter name="environment" value="UAT" />
   <parameter name="division" value="ITQA chs" />
-  <parameter name="qaEvalsUserName" value="v_atalas" />
-  <parameter name="qaEvalspassword" value="!Mpr0veMent4" />
      <classes>     
       <class name="test.iseries.qaevals.TestQAevals"/>
     </classes>

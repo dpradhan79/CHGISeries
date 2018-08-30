@@ -65,29 +65,7 @@ public class JdeVendorSearchPage extends PageTemplate {
 			this.testReport.logFailure("Validate Text Present", e.getMessage().toString(), this.getScreenShotName());
 		}
 	}
-	
-	/**
-	 * @param expected
-	 * @param actual
-	 * Validated expected and actual texts are equal
-	 */
-	private void validateTextEquals(String expected, String actual)
-	{
-		try{
-			if((actual.replaceAll("[\r\n]+", " ")).equalsIgnoreCase(expected))
-			{
-				this.testReport.logSuccess("Validate Text Present", "Expected Test is "+expected+" Actual Text is "+actual);
-			}
-			else
-			{
-				this.testReport.logFailure("Validate Text Present", "Expected Test is "+expected+" Actual Text is "+actual, this.getScreenShotName());
-			}
-		}catch(Exception e)
-		{
-			this.testReport.logFailure("Validate Text Present", e.getMessage().toString(), this.getScreenShotName());
-		}
-	}
-	
+		
 	/**
 	 * Validates information present on Login page
 	 */
