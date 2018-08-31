@@ -12,7 +12,7 @@ import pages.iseries.qaevals.QaEvalsPage;
 
 public class TestQAevals extends TestTemplateMethodLevelInit {
 
-	@Test(description = "Validate application navigating to QA Evals from Clients page")
+	/*@Test(description = "Validate application navigating to QA Evals from Clients page")
 	public void testC939941(ITestContext testContext) {
 		// Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -261,5 +261,88 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		
 		//Assert All
 		this.softAssert.assertAll();
-	}
+	}*/
+	
+	@Test(description = "Validate application navigating to QA Evals from Clients page")
+	public void testC939948(ITestContext testContext) {
+		// Initialization
+		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+
+		// Logging in to application
+		loginPage.loginToFoxApplicationAndDivision(testContext);
+
+		// Navigating QAEvals page
+		String clientName = qaEvalsPage.navigateToQAevalsFromClient();
+
+		// Login to QAEvals
+		String userName = this.getTestParameter(testContext, "vpnUserName");
+		String password = this.getTestParameter(testContext, "vpnpassword");
+		loginPage.qaEvalsLogin(userName, password);
+
+		// Get title and store to actual
+		String actual = TestQAevals.threadLocalWebDriver.get().getTitle();
+
+		// Validating Expected and Actual Text
+		this.softAssert.assertEquals(actual.replaceAll("[\r\n]+", " "), "Client: " + clientName);
+		
+		qaEvalsPage.validateTextEquals(actual.replaceAll("[\r\n]+", " "), "Client: " + clientName);
+		
+
+		qaEvalsPage.switchToWindowUsingTitle("Client: Z_CHSD_Automation_Client_UAT ~ Salesforce - Unlimited Edition");
+		
+		
+	
+			// Navigating QAEvals page
+			String providerName = qaEvalsPage.navigateToQAevalsFromProvider();
+
+			// Get title and store to actual
+			String actual1 = TestQAevals.threadLocalWebDriver.get().getTitle();
+
+			// Validating Expected and Actual Text
+			this.softAssert.assertEquals(actual1.replaceAll("[\r\n]+", " "), "QA Eval " + providerName);
+			
+			try {
+				if ((actual1.replaceAll("[\r\n]+", " ")).contains("Provider")) {
+					TestQAevals.testReport.logSuccess("Validate Text Present",
+							"Expected Test is " + "Provider: " + providerName + "and Actual Text is " + actual1);
+				} else {
+					TestQAevals.testReport.logFailure("Validate Text Present",
+							"Expected Test is " + "Provider: " + providerName + "and Actual Text is " + actual1,
+							this.getScreenShotName());
+				}
+			} catch (Exception e) {
+				TestQAevals.testReport.logFailure("Validate Text Present", e.getMessage().toString(),
+						this.getScreenShotName());
+			}
+			
+			qaEvalsPage.switchToWindowUsingTitle("Provider or Contact: Dr. CHSTestProvider3 Test3 ~ Salesforce - Unlimited Edition");
+			
+			
+			
+			// Navigating QAEvals page
+			String assignmentName = qaEvalsPage.navigateToQAevalsFromAssignment();
+
+			// Get title and store to actual
+			String actual2 = TestQAevals.threadLocalWebDriver.get().getTitle();
+
+			// Validating Expected and Actual Text
+			this.softAssert.assertEquals(actual2.replaceAll("[\r\n]+", " "), "QA Eval " + assignmentName);
+			try {
+				if ((actual2.replaceAll("[\r\n]+", " ")).equalsIgnoreCase("QA Eval " + assignmentName)) {
+					TestQAevals.testReport.logSuccess("Validate Text Present",
+							"Expected Test is " + "QA Eval " + assignmentName + " and Actual Text is " + actual2);
+				} else {
+					TestQAevals.testReport.logFailure("Validate Text Present",
+							"Expected Test is " + "QA Eval " + assignmentName + " and Actual Text is " + actual2,
+							this.getScreenShotName());
+				}
+			} catch (Exception e) {
+				TestQAevals.testReport.logFailure("Validate Text Present", e.getMessage().toString(),
+						this.getScreenShotName());
+			}
+
+			// Assert All
+			this.softAssert.assertAll();
+}
 }

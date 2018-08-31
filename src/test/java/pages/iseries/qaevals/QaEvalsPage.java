@@ -81,7 +81,7 @@ public class QaEvalsPage extends PageTemplate {
 		this.click(qaEvalsButton);
 	}
 	
-	private void switchToWindowUsingTitle(String title)
+	public void switchToWindowUsingTitle(String title)
 	{
 		String currentWindow = this.wd.getWindowHandle();  //will keep current window to switch back
 		for(String winHandle : this.wd.getWindowHandles()){
