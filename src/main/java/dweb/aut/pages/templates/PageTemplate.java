@@ -55,6 +55,7 @@ public abstract class PageTemplate {
 		try {
 			this.waitUntilElementIsClickable(byLocator);
 			try {
+				this.wd.findElement(byLocator).clear();
 				this.wd.findElement(byLocator).sendKeys(text);
 				LOG.info(String.format("SendKeys Successful - (By - %s, text - %s)", byLocator, text));
 				this.testReport.logSuccess("SendKeys",

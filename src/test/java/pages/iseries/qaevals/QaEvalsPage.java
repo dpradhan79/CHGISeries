@@ -1,8 +1,11 @@
 package pages.iseries.qaevals;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -45,6 +48,12 @@ public class QaEvalsPage extends PageTemplate {
 	private By clientEvalsEditLinkInProvider	= By.xpath("//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='Edit']");
 	private By clientEvalsPDFLinkInProvider		= By.xpath("//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='PDF']");
 	private By clientEvalsMoreLinkInProvider	= By.xpath("//tr[contains(@class,'status_CREATED')]/td[1]/a[contains(text(),'More')]");
+	private By clientLinkInSearchResult			= By.xpath("//a[text()='Client Type']/../parent::tr/following-sibling::tr/th/a");
+	private By summaryReport					= By.xpath("//input[@value='Summary Report']");
+	private By fromDateEvalCreated				= By.xpath("//*[@id='fromDate']");
+	private By toDateEvalCreated				= By.xpath("//*[@id='toDate']");
+	private By searchButtonQAEvals				= By.xpath("//input[@value='Search']");
+	private By clientNameInClientQAEVals		= By.xpath("//tr[contains(@class,'CREATED')]/td[@class='clientName']/a");
 
 	
 	
@@ -351,5 +360,61 @@ public class QaEvalsPage extends PageTemplate {
 		titles.put("providerName", providerName);
 		titles.put("providerTitle", providerTitle);
 		return titles;
+	}
+	
+	public String navigateToQAevalsFromClient(String client)
+	{	
+		//Search for the provider
+		this.searchForAText(client);
+		
+		//Click on provider
+		this.waitUntilElementIsClickable(clientLinkInSearchResult);
+		this.implicitwait(2);
+		this.click(clientLinkInSearchResult);
+		
+		//Wait until navigates provider details
+		this.waitUntilElementIsVisible(clientDetailText);
+		
+		//click on QAEvals button
+		this.clickOnQAevalsButton();
+		
+		//Switch to window
+		this.SwitchToQAEvalsLoginPage();
+		
+		return client;
+	}
+	
+	private void SwitchToQAEvalsLoginPage()
+	{
+		//Switch to window
+		this.implicitwait(3);
+		this.switchToWindowUsingTitle("Login Page");
+	}
+	
+	public String searchForClientEvals(String fromDate, String toDate)
+	{
+		this.sendKeys(fromDateEvalCreated, fromDate);
+		this.sendKeys(toDateEvalCreated, toDate);
+		this.click(searchButtonQAEvals);
+		this.implicitwait(3);
+		String clientName = this.getText(clientNameInClientQAEVals);
+		return clientName;
+	}
+	
+	public void clickSummaryReport() {
+		this.implicitwait(3);
+		Set<String> windowHandles = this.wd.getWindowHandles();
+		this.click(summaryReport);
+		this.implicitwait(2);
+		Set<String> windowHandlesAfter = this.wd.getWindowHandles();
+		for (String s : windowHandlesAfter) {
+			if (windowHandles.toString().contains(s)) {
+
+			} else {
+				this.wd.switchTo().window(s);
+				this.wd.get("https://v_atalas:!Mpr0veMent4@bi.mychg.com");
+				System.out.println("Switched to window");
+			}
+		}
 	}
 }
