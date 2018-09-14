@@ -19,7 +19,5 @@ public class RejectedPractitionersPage extends PageTemplate {
 		this.softAssert = softAssert;
 	}
 
-		
-	}
-	
+}
 	
