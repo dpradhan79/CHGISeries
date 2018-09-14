@@ -73,6 +73,7 @@ public class TestRejectedPractitioners extends TestTemplateMethodLevelInit {
 
       public void testC863583(ITestContext testContext, Hashtable<String, String> data) {
 
+
              // Data
 
              Map<String, String> map = new HashMap<String, String>();
@@ -107,5 +108,18 @@ public class TestRejectedPractitioners extends TestTemplateMethodLevelInit {
 
       }
 	
-	
+
+	  @Test()
+		public void testC863580(ITestContext testContext)
+		{
+			//Initialization
+			RejectedPractitionersPage rejectedPractitionersPage = new RejectedPractitionersPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
+			
+			//Validating login info
+			rejectedPractitionersPage.rejectedPractitionersLogin(testContext);
+			rejectedPractitionersPage.validateRejectedPractitionersLogin();
+
+			this.softAssert.assertAll();
+		}
+
 }

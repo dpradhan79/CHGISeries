@@ -246,8 +246,24 @@ public class RejectedPractitionersPage extends PageTemplate {
            }
 
     }
+    
 
-
+    /**
+    * Validated rejectedPractitioners Login application
+    */
+    public void validateRejectedPractitionersLogin()
+    {
+    String title = this.wd.getTitle();
+    this.softAssert.assertEquals(title, "Rejected Practitioner Search");
+    if(title.equals("Rejected Practitioner Search"))
+    {
+    this.testReport.logSuccess("Validate Page Title", "Expected Test is "+"Rejected Practitioner Search"+" Actual Text is "+title);
+    }
+    else
+    {
+    this.testReport.logFailure("Validate Page Title", "Expected Test is "+"Rejected Practitioner Search"+" Actual Text is "+title, this.getScreenShotName());
+    }
+    }
 	
 
 }
