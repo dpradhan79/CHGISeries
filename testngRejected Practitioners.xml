@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SuiteTestBreyers" parallel="tests" thread-count="5" preserve-order="true">
+<listeners>
+<listener class-name = "org.uncommons.reportng.HTMLReporter"/> 
+<listener class-name = "org.uncommons.reportng.JUnitXMLReporter"/> 
+</listeners> 
+  
+  <!-- Test On Prod URL -->
+  <test name="TestRejectedPractitionersProdEnv" preserve-order="true">
+  <parameter name="appURL" value="https://internal.chgcompanies.com/rejectedPractitioners/" />  
+  <parameter name="automationKit" value="selenium" />  
+  <parameter name="browserName" value="Chrome" />
+  <parameter name="userName" value="iseries" />
+  <parameter name="password" value="!$3r!3$T3$t" />
+     <classes>     
+      <class name="test.iseries.rejectedpractitioners.TestRejectedPractitioners"/>
+    </classes>
+  </test>
+</suite>
