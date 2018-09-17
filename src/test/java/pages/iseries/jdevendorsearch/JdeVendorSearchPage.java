@@ -31,6 +31,12 @@ public class JdeVendorSearchPage extends PageTemplate {
 	private By vendorNumberInput			= By.xpath("//td[text()='Vendor Number:']/parent::tr//input");
 	private By vendorTableHeaders			= By.xpath("//table[@id='VendorList']//th[@role='columnheader']/div");
 	private By vendorSearchResults1stDetail	= By.xpath("//table[@id='VendorList']/tbody/tr[1]/td");
+	private By vendorNumberLink				= By.xpath("//a[@class='vendorNumberLink']");
+	private By vendorNumberInChecks			= By.xpath("//td[@class='value vendorNumber']");
+	private By pagination2					= By.xpath("//*[@id='VendorChecksList_paginate']/span/a[contains(text(),'2')]");
+	private By nextButtonInPagination		= By.xpath("//a[@id='VendorChecksList_next']");
+	private By showEntries					= By.xpath("//select[@name='VendorChecksList_length']");
+	private By recordsDisplayed				= By.xpath("//*[@id='VendorChecksList']/tbody/tr");
 	
 	private SoftAssert softAssert = null;
 	public JdeVendorSearchPage(WebDriver webDriver, IReporter testReport) {
@@ -270,5 +276,57 @@ public class JdeVendorSearchPage extends PageTemplate {
 		
 		this.softAssert.assertEquals(details.get("Vendor Name"), vendorName);
 		validateTextEquals(vendorName, details.get("Vendor Name"));
+	}
+	
+	public Map<String, String> clickOn1stVendorNumberDisplayedInSearchResults()
+	{
+		this.implicitwait(2);
+		this.waitUntilElementIsClickable(vendorNumberLink);
+		String vendorNumber = this.getText(vendorNumberLink);
+		this.click(vendorNumberLink);
+		this.implicitwait(3);
+		String vendorNumberChecks = this.getText(vendorNumberInChecks);
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("VendorInSearchResults", vendorNumber);
+		values.put("vendorNumberInChecks", vendorNumberChecks);
+		return values;
+	}
+	
+	private String clickOnNextInPagination()
+	{
+		this.waitUntilElementIsClickable(nextButtonInPagination);
+		this.click(nextButtonInPagination);
+		this.implicitwait(3);
+		String className = this.getAttribute(pagination2, "class");
+		return className;
+	}
+	
+	public Map<String, String> naviagtingToNextPageInPagination(String vendorNumber)
+	{
+		this.searchForAVendorWithNumberAndValidate(vendorNumber);
+		this.clickOn1stVendorNumberDisplayedInSearchResults();
+		String classNameIn2ndPage = this.clickOnNextInPagination();
+		Map<String,String> values = new HashMap<String, String>();
+		values.put("classNameOf2ndPage", classNameIn2ndPage);
+		return values;
+	}
+	
+	public Map<String, String> updateShowEntries(String entries)
+	{
+		this.implicitwait(3);
+		this.SelectDropDownByText(showEntries, entries);
+		this.implicitwait(3);
+		String attValue = null;
+		int numberZOfRecordsDisplayed = 0;
+		try{
+		attValue = this.getAttribute(By.xpath("//select[@name='VendorChecksList_length']/option[text()='"+entries+"']"), "selected");
+		numberZOfRecordsDisplayed = this.wd.findElements(recordsDisplayed).size();
+		}catch(Exception e){
+			this.testReport.logFailure("Get ClassName of selected", e.getMessage(), this.getScreenShotName());
+		}	
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("attributeValue", attValue);
+		values.put("noOfRecordsDisplayed", Integer.toString(numberZOfRecordsDisplayed));
+		return values;
 	}
 }
