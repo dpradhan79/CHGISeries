@@ -13,7 +13,7 @@ import pages.iseries.loginpage.LoginPage;
 
 public class TestVendorSearch extends TestTemplateMethodLevelInit{
 
-	/*@Test(dataProvider = "getVendorDataFromExcel")
+	@Test(dataProvider = "getVendorDataFromExcel")
 	public void testC939958(Hashtable<String, String> data)
 	{
 		//Initialization
@@ -24,9 +24,9 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		this.softAssert.assertAll();
 	}
 	
-	*//**
+	/**
 	 * description : Login Info
-	 *//*
+	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
 	public void testC939922(ITestContext testContext, Hashtable<String, String> data)
 	{
@@ -42,9 +42,9 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		this.softAssert.assertAll();
 	}
 	
-	*//**
+	/**
 	 * description : Validate fields present in search form
-	 *//*
+	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
 	public void testC939923(ITestContext testContext, Hashtable<String, String> data)
 	{
@@ -60,9 +60,9 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		this.softAssert.assertAll();
 	}
 	
-	*//**
+	/**
 	 * description : Search for a vendor using vendor name
-	 *//*
+	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
 	public void testC939924(ITestContext testContext, Hashtable<String, String> data)
 	{
@@ -78,9 +78,9 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		this.softAssert.assertAll();
 	}
 	
-	*//**
+	/**
 	 * description : Search for a vendor using vendor state
-	 *//*
+	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
 	public void testC939931(ITestContext testContext, Hashtable<String, String> data)
 	{
@@ -96,9 +96,9 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		this.softAssert.assertAll();
 	}
 	
-	*//**
+	/**
 	 * description : Search for a vendor using vendor zip
-	 *//*
+	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
 	public void testC939932(ITestContext testContext, Hashtable<String, String> data)
 	{
@@ -114,9 +114,9 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		this.softAssert.assertAll();
 	}
 	
-	*//**
+	/**
 	 * description : Search for a vendor using vendor number
-	 *//*
+	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
 	public void testC939933(ITestContext testContext, Hashtable<String, String> data)
 	{
@@ -132,9 +132,9 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		this.softAssert.assertAll();
 	}
 	
-	*//**
+	/**
 	 * description : Search for a vendor by filling all the fields in vendor search form
-	 *//*
+	 */
 	@Test(dataProvider = "getVendorDataFromExcel")
 	public void testC939934(ITestContext testContext, Hashtable<String, String> data)
 	{
@@ -191,7 +191,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		jdeVendorSearchPage.validateTextEquals(resultSet.get("classNameOf2ndPage"), data.get("ClassOfDisabledPagination"));
 
 		this.softAssert.assertAll();
-	}*/
+	}
 	
 	@Test(dataProvider = "getVendorDataFromExcel", description = "Verify that user can change number of enteries to display on Vendor Check section")
 	public void testC939927(ITestContext testContext, Hashtable<String, String> data)
