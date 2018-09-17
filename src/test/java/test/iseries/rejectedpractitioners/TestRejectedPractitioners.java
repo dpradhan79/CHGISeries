@@ -108,8 +108,9 @@ public class TestRejectedPractitioners extends TestTemplateMethodLevelInit {
 
       }
 	
+	  //  description = Verify that users can log into the application successfully.
 
-	  @Test()
+	  @Test( description = " Verify that users can log into the application successfully " )
 		public void testC863580(ITestContext testContext)
 		{
 			//Initialization
@@ -118,6 +119,36 @@ public class TestRejectedPractitioners extends TestTemplateMethodLevelInit {
 			//Validating login info
 			rejectedPractitionersPage.rejectedPractitionersLogin(testContext);
 			rejectedPractitionersPage.validateRejectedPractitionersLogin();
+
+			this.softAssert.assertAll();
+		}
+
+	  // description = "Verify that application is not slow"
+	  
+		@Test(dataProvider = "getRejectedPractitionersDataFromExcel", description = "Verify that application is not slow")
+		public void testC863581(Hashtable<String, String> data, ITestContext testContext)
+		{
+			//Initialization
+			RejectedPractitionersPage rejectedPractitionersPage = new RejectedPractitionersPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
+			
+			
+		    // Logging in to Rejected Practitioners
+
+	        rejectedPractitionersPage.rejectedPractitionersLogin(testContext);
+	        
+	        
+	        // Enter Data into first Name field
+	        
+	        Map<String, String> mapidsSerachCriteria = new HashMap<String, String>();
+			
+			mapidsSerachCriteria.put("FirstName", data.get("FirstName"));
+			
+			rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
+			
+			//Verify that application is not slow by clicking on SEARCH COMPHEALTH button
+			
+			rejectedPractitionersPage.verifyAppSpeedSEARCHCOMPHEALTHButton(testContext);
+			
 
 			this.softAssert.assertAll();
 		}

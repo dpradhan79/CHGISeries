@@ -18,6 +18,9 @@ public class RejectedPractitionersPage extends PageTemplate {
 	private By password 								= By.xpath("//input[contains(@name,'password')]");
 	private By loginButton 								= By.xpath("//input[contains(@value,'Login')]");
 	private By searchCOMPHEALTHButton					= By.xpath("//input[@value='SEARCH COMPHEALTH']");
+	private By searchWeatherByButton					= By.xpath("//input[@value='SEARCH WEATHERBY']");
+	private By searchDestinationLocumTenensButton		= By.xpath("//input[@value='SEARCH DESTINATION LOCUM TENENS']");
+	private By searchfmsButton							= By.xpath("//input[@value='SEARCH FMS']");
 	private By searchRejectedPractitionersLink		 	= By.xpath("//a[text()='Search Rejected Practitioners']");
 	private By rejectedPractitionersHomePage		 	= By.xpath("//form[contains(@action,'RejectedPractitionerSearch')]");
 	private By byLastName 								= By.xpath("//input[@name='lastName']");
@@ -53,6 +56,35 @@ public class RejectedPractitionersPage extends PageTemplate {
 	}
 	
 	/**
+	 * Click on Search WeatherBy Button
+	 */
+	private void clickOnSearchWeatherByButtonk() 
+	{
+		this.waitUntilElementIsClickable(searchWeatherByButton);
+		this.click(searchWeatherByButton);
+	}
+
+	/**
+	 * Click on Search DestinationLocumTenensButton button
+	 */
+	private void clickOnSearchDestinationLocumTenensButtonButtonk() 
+	{
+		this.waitUntilElementIsClickable(searchDestinationLocumTenensButton);
+		this.click(searchDestinationLocumTenensButton);
+	}
+	
+	
+	/**
+	 * Click on Search FMS Button
+	 */
+	private void clickOnSearchfmsButtonk() 
+	{
+		this.waitUntilElementIsClickable(searchfmsButton);
+		this.click(searchfmsButton);
+	}
+	
+	
+	/**
 	 * Click on Search COMPHEALTH button
 	 */
 	private void clickOnSearchCompHealthButtonk() 
@@ -60,7 +92,7 @@ public class RejectedPractitionersPage extends PageTemplate {
 		this.waitUntilElementIsClickable(searchCOMPHEALTHButton);
 		this.click(searchCOMPHEALTHButton);
 	}
-
+	
 	/**
 	 * Click on Search Rejected Practitioners Link
 	 */
@@ -72,7 +104,7 @@ public class RejectedPractitionersPage extends PageTemplate {
 
 	
 	/**
-	 * Click on Search Rejected Practitioners Link
+	 * User Successfully back to to search page on clicking on Search Rejected Practioners link
 	 */
 	private void VerifyRejectedPractitionersText() 
 	{
@@ -82,7 +114,7 @@ public class RejectedPractitionersPage extends PageTemplate {
 		
 		if (element.isDisplayed()) {
 
-            this.testReport.logSuccess("User Successfully back to to search page onclicking on Search Rejected Practioners link ");
+            this.testReport.logSuccess("User Successfully back to to search page on clicking on Search Rejected Practioners link ");
 
      } else {
 
@@ -94,8 +126,33 @@ public class RejectedPractitionersPage extends PageTemplate {
 		
 	}
 
+	/**
+	 * Verify that clicking on Search Rejected Practioners link takes user to search page
+	 */
 	
    public void verifyUserBackToSearchPage(ITestContext testContext) {
+		// TODO Auto-generated method stub
+		
+		// click on Search COMPHEALTH button
+		
+		clickOnSearchCompHealthButtonk();
+		
+		// click on Search Rejected Practitioners Link
+		
+		clickOnRejectedPractitionersLink();
+		
+		// Verify that clicking on Search Rejected Practioners link takes user to search page
+		
+		VerifyRejectedPractitionersText();
+	}
+	
+   
+
+	/**
+	 * Verify that clicking on Search Rejected Practioners link takes user to search page
+	 */
+	
+  public void verifyAppSpeedSEARCHCOMPHEALTHButton(ITestContext testContext) {
 		// TODO Auto-generated method stub
 		
 		// click on Search COMPHEALTH button
