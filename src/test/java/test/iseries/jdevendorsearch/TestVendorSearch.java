@@ -259,4 +259,30 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 
 		this.softAssert.assertAll();
 	}
+	
+	@Test(dataProvider = "getVendorDataFromExcel", description = "Verify that clicking on Check/Voucher Number on vendor checks displays related details under Voucher Details section")
+	public void testC939928(ITestContext testContext, Hashtable<String, String> data)
+	{
+		//Initialization
+		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
+				
+		//Logging in to application
+		loginPage.jdeVendorSearchLogin(testContext);
+						
+		//search with Vendor Number and validate record
+		jdeVendorSearchPage.searchForAVendorWithNumberAndValidate(data.get("Number"));
+				
+		//Click on Vendor Number
+		jdeVendorSearchPage.clickOn1stVendorNumberDisplayedInSearchResults();
+		
+		//Click on Voucher Number
+		Map<String, String> resultSet = jdeVendorSearchPage.navigateTo1stVoucherDisplayed();
+		
+		// Validation
+		this.softAssert.assertEquals(resultSet.get("voucherNumberInDetails"), resultSet.get("voucherNumberClicked"));
+		jdeVendorSearchPage.validateTextEquals(resultSet.get("voucherNumberInDetails"), resultSet.get("voucherNumberClicked"));
+
+		this.softAssert.assertAll();
+	}
 }

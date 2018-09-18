@@ -37,6 +37,10 @@ public class JdeVendorSearchPage extends PageTemplate {
 	private By nextButtonInPagination		= By.xpath("//a[@id='VendorChecksList_next']");
 	private By showEntries					= By.xpath("//select[@name='VendorChecksList_length']");
 	private By recordsDisplayed				= By.xpath("//*[@id='VendorChecksList']/tbody/tr");
+	private By checkorVochureNumber			= By.xpath("//td[@class='checkStatus']/parent::tr//a");
+	private By voucherNoInDetails			= By.xpath("//div[text()='Voucher Number']/parent::div/div[@class='value']");
+	
+	Map<String, String> data;
 	
 	private SoftAssert softAssert = null;
 	public JdeVendorSearchPage(WebDriver webDriver, IReporter testReport) {
@@ -328,5 +332,19 @@ public class JdeVendorSearchPage extends PageTemplate {
 		values.put("attributeValue", attValue);
 		values.put("noOfRecordsDisplayed", Integer.toString(numberZOfRecordsDisplayed));
 		return values;
+	}
+	
+	public Map<String, String> navigateTo1stVoucherDisplayed()
+	{
+		this.implicitwait(2);
+		String voucherNumber = this.getText(checkorVochureNumber);
+		this.click(checkorVochureNumber);
+		this.implicitwait(3);
+		String voucherDetailsNumber = this.getText(voucherNoInDetails);
+		
+		data = new HashMap<String, String>();
+		data.put("voucherNumberClicked", voucherNumber);
+		data.put("voucherNumberInDetails", voucherDetailsNumber);
+		return data;		
 	}
 }
