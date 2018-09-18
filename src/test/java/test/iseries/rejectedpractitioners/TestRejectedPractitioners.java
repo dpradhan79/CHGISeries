@@ -39,7 +39,7 @@ public class TestRejectedPractitioners extends TestTemplateMethodLevelInit {
 
     }
 	
-    // description = "Verify that clicking on Search Rejected Practioners link takes user to search page"
+   // description = "Verify that clicking on Search Rejected Practioners link takes user to search page"
 
 	@Test(dataProvider = "getRejectedPractitionersDataFromExcel")
 	public void testC863584(Hashtable<String, String> data, ITestContext testContext)
@@ -152,5 +152,45 @@ public class TestRejectedPractitioners extends TestTemplateMethodLevelInit {
 
 			this.softAssert.assertAll();
 		}
+		
+		 //  description = Verify that users can log into the application and searching by different criteria works as expected
+
+		  @Test(dataProvider = "getRejectedPractitionersDataFromExcel",description = "Verify that users can log into the application and searching by different criteria works as expected" )
+			public void testC863582(ITestContext testContext,Hashtable<String, String> data) throws InterruptedException
+			{
+				//Initialization
+				RejectedPractitionersPage rejectedPractitionersPage = new RejectedPractitionersPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
+				
+				//Validating login info
+				rejectedPractitionersPage.rejectedPractitionersLogin(testContext);
+				rejectedPractitionersPage.validateRejectedPractitionersLogin();
+				Map<String, String> mapidsSerachCriteria = new HashMap<String, String>();
+					
+				mapidsSerachCriteria.put("FirstName", data.get("FirstName_Percent"));
+				rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
+				rejectedPractitionersPage.clickOnSearchCompHealthButtonk();
+				rejectedPractitionersPage.verifyNameLinkAndCommentWindow();
+				
+				rejectedPractitionersPage.clickOnRejectedPractitionersLink();
+				mapidsSerachCriteria.put("FirstName", data.get("FirstName_Percent"));
+				rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
+				rejectedPractitionersPage.clickOnSearchWeatherByButtonk();
+				rejectedPractitionersPage.verifyNameLinkAndCommentWindow();
+				
+				rejectedPractitionersPage.clickOnRejectedPractitionersLink();
+				mapidsSerachCriteria.put("FirstName", data.get("FirstName_Percent"));
+				rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
+				rejectedPractitionersPage.clickOnSearchDestinationLocumTenensButtonButtonk();
+				rejectedPractitionersPage.verifyNameLinkAndCommentWindow();
+				
+				rejectedPractitionersPage.clickOnRejectedPractitionersLink();
+				mapidsSerachCriteria.put("FirstName", data.get("FirstName_Percent"));
+				rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
+				rejectedPractitionersPage.clickOnSearchfmsButtonk();
+				rejectedPractitionersPage.verifyNameLinkAndCommentWindow();
+				
+				
+				this.softAssert.assertAll();
+			}
 
 }

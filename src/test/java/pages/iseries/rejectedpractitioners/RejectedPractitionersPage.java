@@ -28,6 +28,7 @@ public class RejectedPractitionersPage extends PageTemplate {
     private By byDateOfBirth 							= By.xpath("//input[@name='dob']");
     private By bySocialSecurity							= By.xpath("//input[@name='ssn']");
     private By byResetbtn 								= By.xpath("//input[@value='RESET']");
+    private By searchResultNameLink                     = By.xpath("(//font[contains(text(),'Name')]/../../following-sibling::tr//a)[1]");
 
     private SoftAssert softAssert = null;
 	public RejectedPractitionersPage(WebDriver webDriver, IReporter testReport) {
@@ -58,7 +59,7 @@ public class RejectedPractitionersPage extends PageTemplate {
 	/**
 	 * Click on Search WeatherBy Button
 	 */
-	private void clickOnSearchWeatherByButtonk() 
+	public void clickOnSearchWeatherByButtonk() 
 	{
 		this.waitUntilElementIsClickable(searchWeatherByButton);
 		this.click(searchWeatherByButton);
@@ -67,7 +68,7 @@ public class RejectedPractitionersPage extends PageTemplate {
 	/**
 	 * Click on Search DestinationLocumTenensButton button
 	 */
-	private void clickOnSearchDestinationLocumTenensButtonButtonk() 
+	public void clickOnSearchDestinationLocumTenensButtonButtonk() 
 	{
 		this.waitUntilElementIsClickable(searchDestinationLocumTenensButton);
 		this.click(searchDestinationLocumTenensButton);
@@ -77,7 +78,7 @@ public class RejectedPractitionersPage extends PageTemplate {
 	/**
 	 * Click on Search FMS Button
 	 */
-	private void clickOnSearchfmsButtonk() 
+	public void clickOnSearchfmsButtonk() 
 	{
 		this.waitUntilElementIsClickable(searchfmsButton);
 		this.click(searchfmsButton);
@@ -87,7 +88,7 @@ public class RejectedPractitionersPage extends PageTemplate {
 	/**
 	 * Click on Search COMPHEALTH button
 	 */
-	private void clickOnSearchCompHealthButtonk() 
+	public void clickOnSearchCompHealthButtonk() 
 	{
 		this.waitUntilElementIsClickable(searchCOMPHEALTHButton);
 		this.click(searchCOMPHEALTHButton);
@@ -96,7 +97,7 @@ public class RejectedPractitionersPage extends PageTemplate {
 	/**
 	 * Click on Search Rejected Practitioners Link
 	 */
-	private void clickOnRejectedPractitionersLink() 
+	public void clickOnRejectedPractitionersLink() 
 	{
 		this.waitUntilElementIsClickable(searchRejectedPractitionersLink);
 		this.click(searchRejectedPractitionersLink);
@@ -166,6 +167,60 @@ public class RejectedPractitionersPage extends PageTemplate {
 		// Verify that clicking on Search Rejected Practioners link takes user to search page
 		
 		VerifyRejectedPractitionersText();
+	}
+  
+  
+  
+  	/**
+	 * click on Rejected Practitioners Search Name Link
+	 */
+	private void clickOnRejectedPractitionersNameLink() 
+	{
+		this.waitUntilElementIsClickable(searchResultNameLink);
+		this.click(searchResultNameLink);
+	}
+	
+	/**
+	 * Verify the comment window
+	 */
+	private void verifyCommentWindow() 
+	{
+			String title = this.wd.getTitle();
+		    this.softAssert.assertEquals(title, "Comments");
+		    if(title.equals("Comments"))
+		    {
+		    this.testReport.logSuccess("Validate Page Title", "Expected Test is "+"Comments"+" Actual Text is "+title);
+		    }
+		    else
+		    {
+		    this.testReport.logFailure("Validate Page Title", "Expected Test is "+"Comments"+" Actual Text is "+title, this.getScreenShotName());
+		    }
+	}
+	
+	/**
+	 * Verify the search name link and comment window
+	 * @throws InterruptedException 
+	 */
+	
+	public void verifyNameLinkAndCommentWindow() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+		Thread.sleep(5000);
+		// click on Rejected Practitioners Search Name Link
+		
+		clickOnRejectedPractitionersNameLink();
+		
+		switchtoWindow();
+		
+		// Verify the comment window
+		verifyCommentWindow();
+		
+		closeWindow();
+	
+		System.out.println("gellow");
+		
+		switchtoWindow();
+		
 	}
 	
    /**
@@ -303,8 +358,34 @@ public class RejectedPractitionersPage extends PageTemplate {
            }
 
     }
-    
-
+    /**
+	 * Switch To Window
+	 */
+	private void switchtoWindow() 
+	{
+		for(String windowName : wd.getWindowHandles())	
+		{
+		 wd.switchTo().window(windowName);
+		}
+	
+		}
+	/**
+	 * Switch To Default Window
+	 */
+	private void switchtoDefaultWindow() 
+	{	
+		 wd.switchTo().defaultContent();
+	
+	}
+	
+	/**
+	 * Close Window
+	 */
+	private void closeWindow() 
+	{	
+		 wd.close();
+	
+	}
     /**
     * Validated rejectedPractitioners Login application
     */
