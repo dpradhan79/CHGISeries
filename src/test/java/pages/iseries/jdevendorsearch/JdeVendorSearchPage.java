@@ -84,8 +84,8 @@ public class JdeVendorSearchPage extends PageTemplate {
 		this.softAssert.assertEquals(informationtex, this.getText(informationText).replaceAll("[\r\n]+", " "));
 		validateTextPresent(informationText, informationtex);
 		
-		this.softAssert.assertEquals(alertTex+"\"login\".", this.getText(alertText).replaceAll("[\r\n]+", " "));
-		validateTextPresent(alertText, alertTex+"\"login\".");
+		this.softAssert.assertEquals(alertTex.replaceAll("\\s+","")+"\"login\".", (this.getText(alertText).replaceAll("[\r\n]+", " ")).replaceAll("\\s+",""));
+		validateTextEquals(alertTex.replaceAll("\\s+","")+"\"login\".", (this.getText(alertText).replaceAll("[\r\n]+", " ")).replaceAll("\\s+",""));
 		
 		this.softAssert.assertEquals(loginStatus, this.getText(auth).replaceAll("[\r\n]+", " "));
 		validateTextPresent(auth, loginStatus);

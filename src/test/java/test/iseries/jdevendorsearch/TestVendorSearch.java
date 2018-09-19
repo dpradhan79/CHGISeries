@@ -20,7 +20,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		JdeVendorSearchPage jdeVendorSearchPage = new JdeVendorSearchPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
 		
 		//Validating login info
-		jdeVendorSearchPage.validateInformationPresentOnLoginPage(data.get("informationtex"), data.get("alertTex"), data.get("loginStatus"));
+		jdeVendorSearchPage.validateInformationPresentOnLoginPage(data.get("informationtex"), data.get("alertText"), data.get("loginStatus"));
 		this.softAssert.assertAll();
 	}
 	
@@ -215,7 +215,7 @@ public class TestVendorSearch extends TestTemplateMethodLevelInit{
 		//Validation
 		this.softAssert.assertEquals(resultSet.get("attributeValue"), data.get("Selected"));
 		this.softAssert.assertEquals(resultSet.get("noOfRecordsDisplayed"), data.get("Entry1"));
-
+		
 		jdeVendorSearchPage.validateTextEquals(resultSet.get("attributeValue"), data.get("Selected"));
 		jdeVendorSearchPage.validateTextEquals(resultSet.get("noOfRecordsDisplayed"), data.get("Entry1"));
 

@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Map;
 
 import org.testng.ITestContext;
@@ -36,7 +37,7 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 	}
 	
 	@Test(dataProvider = "QAEvals", description = "Validate application navigating to QA Evals from Clients page")
-	public void testC939941(ITestContext testContext) {
+	public void testC939941(ITestContext testContext, Hashtable<String, String> data) {
 		// Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -48,20 +49,23 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		String clientName = qaEvalsPage.navigateToQAevalsFromClient();
 
 		// Login to QAEvals
-		String userName = this.getTestParameter(testContext, "vpnUserName");
-		String password = this.getTestParameter(testContext, "vpnpassword");
+		String userName = this.getTestParameter(testContext, "iSeriesUserName");
+		String password = this.getTestParameter(testContext, "iSeriespassword");
 		loginPage.qaEvalsLogin(userName, password);
 
 		// Get title and store to actual
 		String actual = TestQAevals.threadLocalWebDriver.get().getTitle();
 
 		// Validating Expected and Actual Text
-		qaEvalsPage.validateTextEquals(actual, "Client: " + clientName);
+		this.softAssert.assertEquals(actual.replaceAll("\\s+",""), (data.get("clientEvalsPreTitle") + clientName).replaceAll("\\s+",""));
+		qaEvalsPage.validateTextEquals(actual.replaceAll("\\s+",""), (data.get("clientEvalsPreTitle") + clientName).replaceAll("\\s+",""));
 
+		//Assert All
+		this.softAssert.assertAll();
 	}
 
 	@Test(description = "Validate application navigating to QA Evals from provider page")
-	public void testC939942(ITestContext testContext) {
+	public void testC939942(ITestContext testContext, Hashtable<String, String> data) {
 		// Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -73,8 +77,8 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		String providerName = qaEvalsPage.navigateToQAevalsFromProvider();
 
 		// Login to QAEvals
-		String userName = this.getTestParameter(testContext, "vpnUserName");
-		String password = this.getTestParameter(testContext, "vpnpassword");
+		String userName = this.getTestParameter(testContext, "iSeriesUserName");
+		String password = this.getTestParameter(testContext, "iSeriespassword");
 		loginPage.qaEvalsLogin(userName, password);
 
 		// Get title and store to actual
@@ -82,7 +86,7 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 
 		// Validating Expected and Actual Text
 		try {
-			if ((actual.replaceAll("[\r\n]+", " ")).contains("Provider")) {
+			if ((actual.replaceAll("[\r\n]+", " ")).contains(data.get("providerEvalsTitle"))) {
 				TestQAevals.testReport.logSuccess("Validate Text Present",
 						"Expected Test is " + "Provider: " + providerName + "and Actual Text is " + actual);
 			} else {
@@ -98,7 +102,7 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 	}
 
 	@Test(description = "Verify that users can access QA Evals from assignments page in FOX")
-	public void testC939943(ITestContext testContext) {
+	public void testC939943(ITestContext testContext, Hashtable<String, String> data) {
 		// Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -110,23 +114,23 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		String assignmentName = qaEvalsPage.navigateToQAevalsFromAssignment();
 
 		// Login to QAEvals
-		String userName = this.getTestParameter(testContext, "vpnUserName");
-		String password = this.getTestParameter(testContext, "vpnpassword");
+		String userName = this.getTestParameter(testContext, "iSeriesUserName");
+		String password = this.getTestParameter(testContext, "iSeriespassword");
 		loginPage.qaEvalsLogin(userName, password);
 
 		// Get title and store to actual
 		String actual = TestQAevals.threadLocalWebDriver.get().getTitle();
 
 		// Validating Expected and Actual Text
-		this.softAssert.assertEquals(actual.replaceAll("[\r\n]+", " "), "QA Eval " + assignmentName);
-		qaEvalsPage.validateTextEquals(actual, "QA Eval " + assignmentName);
+		this.softAssert.assertEquals((actual.replaceAll("[\r\n]+", " ")).replaceAll("\\s+",""), (data.get("assignmentEvalsTitle") + assignmentName).replaceAll("\\s+",""));
+		qaEvalsPage.validateTextEquals((actual.replaceAll("[\r\n]+", " ")).replaceAll("\\s+",""), (data.get("assignmentEvalsTitle") + assignmentName).replaceAll("\\s+",""));
 		
 		// Assert All
 		this.softAssert.assertAll();
 	}
 	
 	@Test(description = "Verify Creating Client Eval and Provider Eval from Assignment QA Evals")
-	public void testC939946(ITestContext testContext) {
+	public void testC939946(ITestContext testContext, Hashtable<String, String> data) {
 		// Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -138,8 +142,8 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		qaEvalsPage.navigateToQAevalsFromAssignment();
 
 		// Login to QAEvals
-		String userName = this.getTestParameter(testContext, "vpnUserName");
-		String password = this.getTestParameter(testContext, "vpnpassword");
+		String userName = this.getTestParameter(testContext, "iSeriesUserName");
+		String password = this.getTestParameter(testContext, "iSeriespassword");
 		loginPage.qaEvalsLogin(userName, password);
 
 		//Create Client QA EVAL
@@ -149,20 +153,21 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		String qaEvalTypeInProviderQaEvals = qaEvalsPage.createProviderEval().trim();
 		
 		// Validating Expected and Actual Text
-		this.softAssert.assertEquals(qaEvalTypeInClientQaEvals.replaceAll("[\r\n]+", " "), "Client");
+		this.softAssert.assertEquals(qaEvalTypeInClientQaEvals.replaceAll("[\r\n]+", " "), data.get("clientEvalInAssignment"));
+		this.softAssert.assertEquals(qaEvalTypeInProviderQaEvals.replaceAll("[\r\n]+", " "), data.get("providerEvalInAssignment"));
 		
 		//Validation client eval created
-		qaEvalsPage.validateTextEquals(qaEvalTypeInClientQaEvals, "Client");
+		qaEvalsPage.validateTextEquals(qaEvalTypeInClientQaEvals, data.get("clientEvalInAssignment"));
 
 		//Validate provider Eval created
-		qaEvalsPage.validateTextEquals(qaEvalTypeInProviderQaEvals, "Provider");
+		qaEvalsPage.validateTextEquals(qaEvalTypeInProviderQaEvals, data.get("providerEvalInAssignment"));
 		
 		// Assert All
 		this.softAssert.assertAll();
 	}
 	
 	@Test(description = "Verify that users can access all the links on the Assignemnt QA Evals page")
-	public void testC939947(ITestContext testContext) {
+	public void testC939947(ITestContext testContext, Hashtable<String, String> data) {
 		// Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -175,8 +180,8 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		qaEvalsPage.navigateToQAevalsFromAssignment();
 
 		// Login to QAEvals
-		String userName = this.getTestParameter(testContext, "vpnUserName");
-		String password = this.getTestParameter(testContext, "vpnpassword");
+		String userName = this.getTestParameter(testContext, "iSeriesUserName");
+		String password = this.getTestParameter(testContext, "iSeriespassword");
 		loginPage.qaEvalsLogin(userName, password);
 
 		//Create Client QA EVAL
@@ -189,24 +194,24 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		Map<String, String> actualText = qaEvalsPage.clickLinksPresentInQAEvalsAndGetTitles();
 		
 		//Validating Edit link
-		softAssert.assertEquals(actualText.get("editTitle").replaceAll("[\r\n]+", " "), "Report a technical problem");
-		qaEvalsPage.validateTextEquals(actualText.get("editTitle"), "Report a technical problem");
+		softAssert.assertEquals(actualText.get("editTitle").replaceAll("[\r\n]+", " "), data.get("editPageTitle"));
+		qaEvalsPage.validateTextEquals(actualText.get("editTitle"), data.get("editPageTitle"));
 		
 		//Validating More link
-		softAssert.assertEquals(actualText.get("moreValue").replaceAll("[\r\n]+", " "), "View History");
-		qaEvalsPage.validateTextEquals(actualText.get("moreValue"), "View History");
+		softAssert.assertEquals(actualText.get("moreValue").replaceAll("[\r\n]+", " "), data.get("moreValue"));
+		qaEvalsPage.validateTextEquals(actualText.get("moreValue"), data.get("moreValue"));
 		
 		//Validating assignment name link
-		softAssert.assertEquals(actualText.get("asgTitle").replaceAll("[\r\n]+", " "), "QA Evals " + actualText.get("asgName"));
-		qaEvalsPage.validateTextEquals(actualText.get("asgTitle"), "QA Evals " + actualText.get("asgName"));
+		softAssert.assertEquals(actualText.get("asgTitle").replaceAll("[\r\n]+", " "), data.get("QAEvals") + " " + actualText.get("asgName"));
+		qaEvalsPage.validateTextEquals(actualText.get("asgTitle"), data.get("QAEvals") + " " + actualText.get("asgName"));
 
 		//Validating client name link
-		softAssert.assertEquals(actualText.get("clientTitle").replaceAll("[\r\n]+", " "), "Client QA Evals " + actualText.get("clientName"));
-		qaEvalsPage.validateTextEquals(actualText.get("clientTitle"), "Client QA Evals " + actualText.get("clientName"));
+		softAssert.assertEquals(actualText.get("clientTitle").replaceAll("[\r\n]+", " "), data.get("clientEvals") + " " + actualText.get("clientName"));
+		qaEvalsPage.validateTextEquals(actualText.get("clientTitle"), data.get("clientEvals") + " " + actualText.get("clientName"));
 		
 		//Validating provider name link
-		softAssert.assertEquals(actualText.get("providerTitle").replaceAll("[\r\n]+", " "), "Provider QA Evals " + actualText.get("providerName"));
-		qaEvalsPage.validateTextEquals(actualText.get("providerTitle"), "Provider QA Evals " + actualText.get("providerName"));
+		softAssert.assertEquals(actualText.get("providerTitle").replaceAll("[\r\n]+", " "), data.get("providerEvals") + " " + actualText.get("providerName"));
+		qaEvalsPage.validateTextEquals(actualText.get("providerTitle"), data.get("providerEvals") + " " + actualText.get("providerName"));
 		
 		//Return values stored in map
 		testContext.setAttribute("providerName", actualText.get("providerName"));
@@ -217,7 +222,7 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 	}
 	
 	@Test(dependsOnMethods = {"testC939947"}, description = "Verify that users can access all the links on the Provider QA Evals page")
-	public void testC939945(ITestContext testContext) {
+	public void testC939945(ITestContext testContext, Hashtable<String, String> data) {
 		// Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -231,39 +236,39 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		qaEvalsPage.navigateToQAevalsFromProvider(values.toString());
 
 		// Login to QAEvals
-		String userName = this.getTestParameter(testContext, "vpnUserName");
-		String password = this.getTestParameter(testContext, "vpnpassword");
+		String userName = this.getTestParameter(testContext, "iSeriesUserName");
+		String password = this.getTestParameter(testContext, "iSeriespassword");
 		loginPage.qaEvalsLogin(userName, password);
 		
 		//Click on all the links available and get the page titles
 		Map<String, String> actualText = qaEvalsPage.clickLinksPresentInClientQAEvalsAndGetTitles();
 		
 		//Validating Edit link
-		softAssert.assertEquals(actualText.get("editTitle").replaceAll("[\r\n]+", " "), "Report a technical problem");
-		qaEvalsPage.validateTextEquals(actualText.get("editTitle"), "Report a technical problem");
+		softAssert.assertEquals(actualText.get("editTitle").replaceAll("[\r\n]+", " "), data.get("editPageTitle"));
+		qaEvalsPage.validateTextEquals(actualText.get("editTitle"), data.get("editPageTitle"));
 		
 		//Validating More link
-		softAssert.assertEquals(actualText.get("moreValue").replaceAll("[\r\n]+", " "), "View History");
-		qaEvalsPage.validateTextEquals(actualText.get("moreValue"), "View History");
+		softAssert.assertEquals(actualText.get("moreValue").replaceAll("[\r\n]+", " "), data.get("moreValue"));
+		qaEvalsPage.validateTextEquals(actualText.get("moreValue"), data.get("moreValue"));
 		
 		//Validating assignment name link
-		softAssert.assertEquals(actualText.get("asgTitle").replaceAll("[\r\n]+", " "), "QA Evals " + actualText.get("asgName"));
-		qaEvalsPage.validateTextEquals(actualText.get("asgTitle"), "QA Evals " + actualText.get("asgName"));
+		softAssert.assertEquals(actualText.get("asgTitle").replaceAll("[\r\n]+", " "), data.get("QAEvals") + " " + actualText.get("asgName"));
+		qaEvalsPage.validateTextEquals(actualText.get("asgTitle"), data.get("QAEvals") + " " + actualText.get("asgName"));
 
 		//Validating client name link
-		softAssert.assertEquals(actualText.get("clientTitle").replaceAll("[\r\n]+", " "), "Client QA Evals " + actualText.get("clientName"));
-		qaEvalsPage.validateTextEquals(actualText.get("clientTitle"), "Client QA Evals " + actualText.get("clientName"));
+		softAssert.assertEquals(actualText.get("clientTitle").replaceAll("[\r\n]+", " "), data.get("clientEvals") + " " + actualText.get("clientName"));
+		qaEvalsPage.validateTextEquals(actualText.get("clientTitle"), data.get("clientEvals") + " " + actualText.get("clientName"));
 		
 		//Validating provider name link
-		softAssert.assertEquals(actualText.get("providerTitle").replaceAll("[\r\n]+", " "), "Provider QA Evals " + actualText.get("providerName"));
-		qaEvalsPage.validateTextEquals(actualText.get("providerTitle"), "Provider QA Evals " + actualText.get("providerName"));
+		softAssert.assertEquals(actualText.get("providerTitle").replaceAll("[\r\n]+", " "), data.get("providerEvals") + " " + actualText.get("providerName"));
+		qaEvalsPage.validateTextEquals(actualText.get("providerTitle"), data.get("providerEvals") + " " + actualText.get("providerName"));
 		
 		//Assert All
 		this.softAssert.assertAll();
 	}
 	
 	@Test(description = "Validate application navigating to QA Evals from Assignment page")
-	public void testC939948(ITestContext testContext) {
+	public void testC939948(ITestContext testContext, Hashtable<String, String> data) {
 		// Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -275,17 +280,17 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		String clientName = qaEvalsPage.navigateToQAevalsFromClient();
 
 		// Login to QAEvals
-		String userName = this.getTestParameter(testContext, "vpnUserName");
-		String password = this.getTestParameter(testContext, "vpnpassword");
+		String userName = this.getTestParameter(testContext, "iSeriesUserName");
+		String password = this.getTestParameter(testContext, "iSeriespassword");
 		loginPage.qaEvalsLogin(userName, password);
 
 		// Get title and store to actual
 		String actual = TestQAevals.threadLocalWebDriver.get().getTitle();
 
 		// Validating Expected and Actual Text
-		this.softAssert.assertEquals(actual.replaceAll("[\r\n]+", " "), "Client: " + clientName);
+		this.softAssert.assertEquals(actual.replaceAll("[\r\n]+", " "), data.get("clientEvalsPreTitle") + " " + clientName);
 		
-		qaEvalsPage.validateTextEquals(actual.replaceAll("[\r\n]+", " "), "Client: " + clientName);
+		qaEvalsPage.validateTextEquals(actual.replaceAll("[\r\n]+", " "), data.get("clientEvalsPreTitle") + " " + clientName);
 
 		qaEvalsPage.switchToWindowUsingTitle("Client: Z_CHSD_Automation_Client_UAT ~ Salesforce - Unlimited Edition");
 		
@@ -296,10 +301,10 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		String actual1 = TestQAevals.threadLocalWebDriver.get().getTitle();
 
 		// Validating Expected and Actual Text
-		this.softAssert.assertEquals(actual1.replaceAll("[\r\n]+", " "), "QA Eval " + providerName);
+		this.softAssert.assertEquals(actual1.replaceAll("[\r\n]+", " "), data.get("assignmentEvalsTitle") + " " + providerName);
 			
 		try {
-			if ((actual1.replaceAll("[\r\n]+", " ")).contains("Provider")) {
+			if ((actual1.replaceAll("[\r\n]+", " ")).contains(data.get("providerEvalsTitle"))) {
 				TestQAevals.testReport.logSuccess("Validate Text Present",
 						"Expected Test is " + "Provider: " + providerName + "and Actual Text is " + actual1);
 			} else {
@@ -321,15 +326,15 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		String actual2 = TestQAevals.threadLocalWebDriver.get().getTitle();
 
 		// Validating Expected and Actual Text
-		this.softAssert.assertEquals(actual2.replaceAll("[\r\n]+", " "), "QA Eval " + assignmentName);
-		qaEvalsPage.validateTextEquals(actual2, "QA Eval " + assignmentName);
+		this.softAssert.assertEquals(actual2.replaceAll("[\r\n]+", " "), data.get("assignmentEvalsTitle") + " " + assignmentName);
+		qaEvalsPage.validateTextEquals(actual2, data.get("assignmentEvalsTitle") + " " + assignmentName);
 		
 		// Assert All
 		this.softAssert.assertAll();
 	}
 	
 	@Test(dependsOnMethods = {"testC939947"}, description = "Verify that Summary report and filter evals works as expected on client evals page")
-	public void testC939944(ITestContext testContext) {
+	public void testC939944(ITestContext testContext, Hashtable<String, String> data) {
 		// Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -343,8 +348,8 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		qaEvalsPage.navigateToQAevalsFromClient(values.toString());
 
 		// Login to QAEvals
-		String userName = this.getTestParameter(testContext, "vpnUserName");
-		String password = this.getTestParameter(testContext, "vpnpassword");
+		String userName = this.getTestParameter(testContext, "iSeriesUserName");
+		String password = this.getTestParameter(testContext, "iSeriespassword");
 		loginPage.qaEvalsLogin(userName, password);
 		
 		//Get current Date

@@ -27,7 +27,7 @@
   <parameter name="browserName" value="Chrome" />
   <parameter name="userName" value="test.automation@chghealthcare.com." />
   <parameter name="password" value="testAuto2" />
-  <parameter name="environment" value="UAT" />
+  <parameter name="environment" value="FC" />
   <parameter name="division" value="ITQA chs" />
      <classes>     
       <class name="test.iseries.qaevals.TestQAevals"/>
