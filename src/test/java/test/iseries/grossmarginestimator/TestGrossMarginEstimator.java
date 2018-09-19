@@ -51,7 +51,7 @@ public class TestGrossMarginEstimator extends TestTemplateMethodLevelInit {
 
 	}
 
-	@Test(dataProvider = "getGMEdataFromExcel", description = "Validating page layout for Gross Margin Estimator  ")
+		@Test(dataProvider = "getGMEdataFromExcel", description = "Validating page layout for Gross Margin Estimator  ")
 	public void testC939888(Hashtable<String, String> data)
 			throws URISyntaxException, InterruptedException, AWTException {
 		// Credentials
@@ -105,4 +105,37 @@ public class TestGrossMarginEstimator extends TestTemplateMethodLevelInit {
 
 	}
 
+	
+	@Test(dataProvider = "getGMEdataFromExcel", description = "Calculate Gross Margin")
+	public void testC939889(Hashtable<String, String> data) throws InterruptedException, AWTException {
+
+		// Credentials
+		Map<String, String> mapIdLoginData = new HashMap<String, String>();
+		mapIdLoginData.put("username", data.get("UserName"));
+		mapIdLoginData.put("password", data.get("Password"));
+		mapIdLoginData.put("worksiteState", data.get("WorksiteState"));
+		mapIdLoginData.put("specialty", data.get("Specialty"));
+		mapIdLoginData.put("team", data.get("Team"));
+		mapIdLoginData.put("clientname", data.get("ClientName"));
+		mapIdLoginData.put("fromDate", data.get("FromDate"));
+		mapIdLoginData.put("toDate", data.get("ToDate"));
+		mapIdLoginData.put("malPractice",data.get("MalPractice"));
+		mapIdLoginData.put("rate", data.get("Rate"));
+		mapIdLoginData.put("overTime", data.get("OverTime"));
+		mapIdLoginData.put("callDay", data.get("CallDay"));
+		mapIdLoginData.put("callNight", data.get("CallNight"));
+		mapIdLoginData.put("ratePayInfo", data.get("RatePayInfo"));
+		
+		
+		
+		// Initialization
+		GrossMarginEstimatorPage grossMarginEstimatorPage = new GrossMarginEstimatorPage(
+				TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
+
+		// Login To Gross Margin Estimator And Validate
+		grossMarginEstimatorPage.loginGrossMarginEstimator(mapIdLoginData);
+		grossMarginEstimatorPage.calculateGrossMargin(mapIdLoginData);
+		softAssert.assertAll();
+
+	}
 }

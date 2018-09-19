@@ -10,6 +10,7 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.asserts.SoftAssert;
 
 import com.config.IConstants;
@@ -33,10 +34,27 @@ public class GrossMarginEstimatorPage extends PageTemplate {
 	private By byMealsCarsHousingetc = By.xpath("//*[contains(text(),'Meals')]");
 	private By byBasedOnConsecutiveDays = By.xpath("//*[contains(text(),'consecutive days')]");
 	private By byTo = By.xpath("//input[@id='toDate']");
+	
 	private By byElementNameGME;
 	private By bylogout = By.xpath("//a[@href='logout']");
 	private SoftAssert softAssert = null;
-
+	private By byWorksiteState = By.xpath("(//td[contains(text(),'Worksite State:')]/following-sibling::td//select)[1]");
+	private By byTeam = By.xpath("//span[contains(text(),'Team:')]/..//select");
+	private By bySpecialty = By.xpath("//span[contains(text(),'Specialty:')]/..//select");
+	private By byClientName = By.xpath("(//span[contains(text(),'Client Name:')]/../following-sibling::td//input)[1]");
+	private By byCalculatorbtn = By.xpath("//input[@id='calculate']");
+	private By byErrorHeadingGrossMargin = By.xpath("((//td[contains(.,'Errors')])[3]//div)[1]");
+	private By byFromDate = By.xpath("(//span[contains(text(),'Client Name:')]/../following-sibling::td//input)[2]");
+	private By byToDate = By.xpath("(//span[contains(text(),'Client Name:')]/../following-sibling::td//input)[3]");
+	private By byMalpractice = By.xpath("//td[contains(text(),'Malpractice/Day:')]/following-sibling::td//input");
+	private By byRate = By.xpath("(//td[contains(text(),'Rate:')]/following-sibling::td//input)[1]");
+	private By byRatePayInfo = By.xpath("(//td[contains(text(),'Pay Info')]/../following-sibling::tr//td[2]//input)[1]");
+	private By byOvertime = By.xpath("(//td[contains(text(),'OverTime:')]/following-sibling::td//input)[1]");
+	private By byCallDay = By.xpath("(//td[contains(text(),'OnCall Day:')]/following-sibling::td//input)[1]");
+	private By byCallNight = By.xpath("(//td[contains(text(),'OnCall Night:')]/following-sibling::td//input)[1]");
+	private By byProjectedGrossMargin = By.xpath("//*[contains(text(),'Projected Gross Margin:')]/../following-sibling::td//font");
+	
+	
 	public GrossMarginEstimatorPage(WebDriver webDriver, IReporter testReport) {
 		super(webDriver, testReport);
 		this.softAssert = null;
@@ -125,6 +143,87 @@ public class GrossMarginEstimatorPage extends PageTemplate {
 					this.getScreenShotName());
 
 		}
+	}
+	
+	/**
+	 * @param worksiteState
+	 * @param specialty
+	 * @param team
+	 * @param clientname
+	 *            calculate gross margin
+	 */
+	public void calculateGrossMargin(Map<String, String> mapIdSearchTextBoxes) {
+		
+		this.click(byCalculatorbtn);
+		Boolean b = isElementVisible(byErrorHeadingGrossMargin);
+		String errorText=getText(byErrorHeadingGrossMargin);
+		String errorTextLine =errorText.replace("\n", "");
+		this.softAssert.assertEquals(errorTextLine, "From Date and To Date must be filled.Malpractice Rate must be entered.");
+		    if(errorTextLine.equals("From Date and To Date must be filled.Malpractice Rate must be entered."))
+		    {
+		    this.testReport.logSuccess("Validate Error Msg", "Expected Test is "+"From Date and To Date must be filled.Malpractice Rate must be entered."+" Actual Text is "+errorTextLine);
+		    }
+		    else
+		    {
+		    this.testReport.logFailure("Validate Error Msg", "Expected Test is "+"From Date and To Date must be filled.Malpractice Rate must be entered."+" Actual Text is "+errorTextLine, this.getScreenShotName());
+		    }
+		
+		for (Map.Entry<String, String> entrySet : mapIdSearchTextBoxes.entrySet()) {
+		String searchCriteria = entrySet.getKey();
+		String searchValue = entrySet.getValue();
+
+		switch (searchCriteria) {
+		case "worksiteState":
+			this.selectByVisibleText(byWorksiteState, searchValue);
+			break;
+		case "specialty":
+			this.selectByVisibleText(bySpecialty, searchValue);
+			break;
+		case "team":
+			this.selectByVisibleText(byTeam, searchValue);
+			break;
+		case "fromDate":
+			this.sendKeys(byFromDate, searchValue);
+			break;
+		case "toDate":
+			this.sendKeys(byToDate, searchValue);
+			break;
+		case "malPractice":
+			this.sendKeys(byMalpractice, searchValue);
+			break;
+		case "rate":
+			this.sendKeys(byRate, searchValue);
+			break;
+		case "clientname":
+			this.sendKeys(byClientName, searchValue);
+			break;
+		case "overTime":
+			this.sendKeys(byOvertime, searchValue);
+			break;
+		case "callDay":
+			this.sendKeys(byCallDay, searchValue);
+			break;
+		case "callNight":
+			this.sendKeys(byCallNight, searchValue);
+			break;
+		case "ratePayInfo":
+			this.sendKeys(byRatePayInfo, searchValue);
+			break;
+			
+			}
+		}
+		this.click(byCalculatorbtn);
+		Boolean b1 = isElementVisible(byProjectedGrossMargin);
+		String value=getText(byProjectedGrossMargin);	
+		this.softAssert.assertEquals(value, "($156.00)");
+	    if(value.equals("($156.00)"))
+	    {
+	    this.testReport.logSuccess("Validate value", "Expected Test is "+"($156.00)"+" Actual Text is "+value);
+	    }
+	    else
+	    {
+	    this.testReport.logFailure("Validate value", "Expected Test is "+"($156.00)"+" Actual Text is "+value, this.getScreenShotName());
+	    }
 	}
 
 	/**
@@ -328,5 +427,22 @@ public class GrossMarginEstimatorPage extends PageTemplate {
 
 		return map;
 	}
+	
+	public void selectByVisibleText(By by,String text)
+	{
+		try {
+		Select select=new Select(this.wd.findElement(by));
+		select.selectByVisibleText(text);
+		this.testReport.logSuccess("Gross Margin Estimator page",
+				"Element "+text+" is  successfully selected for Webelement "+by+"on Gross Margin Estimator");
+		
+		}
+		catch(Exception e){
+			this.testReport.logFailure("Gross Margin Estimator page",
+					"Element "+text+" cannot be selected for Webelement "+by+"on Gross Margin Estimator",this.getScreenShotName());
+			
+		}
+	}
+	
 
 }
