@@ -5,21 +5,9 @@
 	<listener class-name = "org.uncommons.reportng.HTMLReporter"/>	
 	<listener class-name = "org.uncommons.reportng.JUnitXMLReporter"/>			
 </listeners>  
-  <!-- Test On Stage URL -->
-  <test name="TestVendorSearchStageEnv" preserve-order="true">
-  <parameter name="appURL" value="https://stage.chgit.com/vendorsearch/" />  
-  <parameter name="automationKit" value="selenium" />  
-  <parameter name="browserName" value="Chrome" />
-  <parameter name="userName" value="iseries" />
-  <parameter name="password" value="!$3r!3$T3$t" />
-     <classes>     
-      <class name="test.iseries.jdevendorsearch.TestVendorSearch"/> 
-      
-    </classes>
-  </test>  
-  
+    
   <!-- Test On Prod URL -->
-	<test name="TestVendorSearchProdEnv" preserve-order="true">
+	<test name="TestVendorSearch" preserve-order="true">
   <parameter name="appURL" value="https://internal.chgcompanies.com/vendorsearch/" />  
   <parameter name="automationKit" value="selenium" />  
   <parameter name="browserName" value="Chrome" />

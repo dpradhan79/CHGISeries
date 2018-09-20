@@ -7,7 +7,7 @@
 </listeners> 
   
   <!-- Test On Prod URL -->
-  <test name="TestRejectedPractitionersProdEnv" preserve-order="true">
+  <test name="TestRejectedPractitioners" preserve-order="true">
   <parameter name="appURL" value="https://internal.chgcompanies.com/rejectedPractitioners/" />  
   <parameter name="automationKit" value="selenium" />  
   <parameter name="browserName" value="Chrome" />

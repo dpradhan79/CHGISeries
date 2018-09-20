@@ -12,6 +12,8 @@ public class TestExecutor {
 		List<String> suiteList = new ArrayList<String>();
 		suiteList.add("testngPhoneBook.xml");
 		suiteList.add("testngVendorSearch.xml");
+		suiteList.add("testngQAevals.xml");
+		suiteList.add("testngRejected Practitioners.xml");
 		testNG.setTestSuites(suiteList);
 		testNG.run();
 	}

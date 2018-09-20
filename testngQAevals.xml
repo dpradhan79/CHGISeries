@@ -6,7 +6,7 @@
 	<listener class-name = "org.uncommons.reportng.JUnitXMLReporter"/>			
 </listeners>  
   <!-- Test On Prod URL -->
-	<test name="TestQAEvalsStageEnv" preserve-order="true">
+	<test name="TestQAEvals" preserve-order="true">
   <parameter name="appURL" value="https://test.salesforce.com/" />  
   <parameter name="automationKit" value="selenium" />  
   <parameter name="browserName" value="Chrome" />
