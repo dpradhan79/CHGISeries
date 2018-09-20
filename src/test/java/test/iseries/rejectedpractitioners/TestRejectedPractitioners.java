@@ -135,21 +135,31 @@ public class TestRejectedPractitioners extends TestTemplateMethodLevelInit {
 		    // Logging in to Rejected Practitioners
 
 	        rejectedPractitionersPage.rejectedPractitionersLogin(testContext);
-	        
-	        
-	        // Enter Data into first Name field
-	        
+	           
+	      //Verify that application is not slow by clicking on SEARCH COMPHEALTH button
 	        Map<String, String> mapidsSerachCriteria = new HashMap<String, String>();
-			
-			mapidsSerachCriteria.put("FirstName", data.get("FirstName"));
-			
+			mapidsSerachCriteria.put("FirstName", data.get("FirstName_Percent"));
 			rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
+			rejectedPractitionersPage.verifyAppPerformanceSEARCHCOMPHEALTHButton(testContext);
 			
 			//Verify that application is not slow by clicking on SEARCH COMPHEALTH button
-			
-			rejectedPractitionersPage.verifyAppSpeedSEARCHCOMPHEALTHButton(testContext);
-			
+			rejectedPractitionersPage.clickOnRejectedPractitionersLink();
+			mapidsSerachCriteria.put("FirstName", data.get("FirstName_Percent"));
+			rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
+			rejectedPractitionersPage.verifyAppPerformanceSEARCHWEATHERBYButton(testContext);
 
+			//Verify that application is not slow by clicking on SEARCH FMS button
+			rejectedPractitionersPage.clickOnRejectedPractitionersLink();
+			mapidsSerachCriteria.put("FirstName", data.get("FirstName_Percent"));
+			rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
+			rejectedPractitionersPage.verifyAppPerformanceSEARCHFMSButton(testContext);
+			
+			//Verify that application is not slow by clicking on SEARCH FMS button
+			rejectedPractitionersPage.clickOnRejectedPractitionersLink();
+			mapidsSerachCriteria.put("FirstName", data.get("FirstName_Percent"));
+			rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
+			rejectedPractitionersPage.verifyAppPerformanceSEARCHDestinationLocumTenensButton(testContext);
+			
 			this.softAssert.assertAll();
 		}
 		
@@ -172,7 +182,7 @@ public class TestRejectedPractitioners extends TestTemplateMethodLevelInit {
 				rejectedPractitionersPage.verifyNameLinkAndCommentWindow();
 				
 				rejectedPractitionersPage.clickOnRejectedPractitionersLink();
-				mapidsSerachCriteria.put("FirstName", data.get("FirstName_Percent"));
+				mapidsSerachCriteria.put("LastName", data.get("LastName"));
 				rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
 				rejectedPractitionersPage.clickOnSearchWeatherByButtonk();
 				rejectedPractitionersPage.verifyNameLinkAndCommentWindow();
@@ -180,7 +190,7 @@ public class TestRejectedPractitioners extends TestTemplateMethodLevelInit {
 				rejectedPractitionersPage.clickOnRejectedPractitionersLink();
 				mapidsSerachCriteria.put("FirstName", data.get("FirstName_Percent"));
 				rejectedPractitionersPage.fillAllFieldsInRejectedPractioners(mapidsSerachCriteria);
-				rejectedPractitionersPage.clickOnSearchDestinationLocumTenensButtonButtonk();
+				rejectedPractitionersPage.clickOnSearchDestinationLocumTenensButtonButton();
 				rejectedPractitionersPage.verifyNameLinkAndCommentWindow();
 				
 				rejectedPractitionersPage.clickOnRejectedPractitionersLink();

@@ -5,6 +5,8 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestContext;
 import org.testng.asserts.SoftAssert;
 
@@ -29,6 +31,7 @@ public class RejectedPractitionersPage extends PageTemplate {
     private By bySocialSecurity							= By.xpath("//input[@name='ssn']");
     private By byResetbtn 								= By.xpath("//input[@value='RESET']");
     private By searchResultNameLink                     = By.xpath("(//font[contains(text(),'Name')]/../../following-sibling::tr//a)[1]");
+    private By searchRejectedPractitionersPage          = By.xpath("//b[contains(text(),'Rejected Practitioners')]");
 
     private SoftAssert softAssert = null;
 	public RejectedPractitionersPage(WebDriver webDriver, IReporter testReport) {
@@ -68,7 +71,7 @@ public class RejectedPractitionersPage extends PageTemplate {
 	/**
 	 * Click on Search DestinationLocumTenensButton button
 	 */
-	public void clickOnSearchDestinationLocumTenensButtonButtonk() 
+	public void clickOnSearchDestinationLocumTenensButtonButton() 
 	{
 		this.waitUntilElementIsClickable(searchDestinationLocumTenensButton);
 		this.click(searchDestinationLocumTenensButton);
@@ -122,6 +125,7 @@ public class RejectedPractitionersPage extends PageTemplate {
             this.testReport.logFailure("User Failed back to search page onclicking on Search Rejected Practioners link " + rejectedPractitionersHomePage,
 
                          this.getScreenShotName());
+            this.softAssert.fail();
 
      }
 		
@@ -150,26 +154,86 @@ public class RejectedPractitionersPage extends PageTemplate {
    
 
 	/**
-	 * Verify that clicking on Search Rejected Practioners link takes user to search page
+	 * Verify that Application is not slow when user clicks on Search COMPHEALTHButton
 	 */
 	
-  public void verifyAppSpeedSEARCHCOMPHEALTHButton(ITestContext testContext) {
+  public void verifyAppPerformanceSEARCHCOMPHEALTHButton(ITestContext testContext) {
 		// TODO Auto-generated method stub
 		
 		// click on Search COMPHEALTH button
 		
 		clickOnSearchCompHealthButtonk();
 		
-		// click on Search Rejected Practitioners Link
-		
-		clickOnRejectedPractitionersLink();
-		
-		// Verify that clicking on Search Rejected Practioners link takes user to search page
-		
-		VerifyRejectedPractitionersText();
+		this.isElementIsVisible(searchRejectedPractitionersPage);
+			
 	}
   
   
+	/**
+	 * Verify that Application is not slow when user clicks on Search WEATHERBY Button
+	 */
+	
+  public void verifyAppPerformanceSEARCHWEATHERBYButton(ITestContext testContext) {
+		// TODO Auto-generated method stub
+		
+		// click on Search WEATHERBY button
+		
+		clickOnSearchWeatherByButtonk();
+		
+		this.isElementIsVisible(searchRejectedPractitionersPage);
+			
+	}
+
+  
+	/**
+	 * Verify that Application is not slow when user clicks on Search FMS Button
+	 */
+	
+  public void verifyAppPerformanceSEARCHFMSButton(ITestContext testContext) {
+	
+		
+		// click on Search FMS button
+		
+		clickOnSearchfmsButtonk();
+		
+		this.isElementIsVisible(searchRejectedPractitionersPage);
+			
+	}
+  
+	/**
+	 * Verify that Application is not slow when user clicks on Search FMS Button
+	 */
+	
+  public void verifyAppPerformanceSEARCHDestinationLocumTenensButton(ITestContext testContext) {
+	
+		
+		// click on Search FMS button
+		
+	  	clickOnSearchDestinationLocumTenensButtonButton();
+		
+		this.isElementIsVisible(searchRejectedPractitionersPage);
+					
+	}
+  
+  // is Element Visible
+  
+	private boolean isElementIsVisible(By byLocator) {
+		boolean isSuccess = false;
+		try {
+			
+			WebDriverWait wait = new WebDriverWait(this.wd, this.implicitWaitInSecs);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(byLocator));
+			this.testReport.logSuccess("waitUntilElementIsVisible",
+					String.format("Element visible - (By - %s)", byLocator));
+			isSuccess = true;
+		} catch (Exception ex) {
+			isSuccess = false;
+			this.testReport.logFailure("waitUntilElementIsVisible",
+			String.format("Exception Encountered - %s, StackTrace - %s", ex.getMessage(), ex.getStackTrace(),
+							this.getScreenShotName()));
+			}
+		return isSuccess;
+	}
   
   	/**
 	 * click on Rejected Practitioners Search Name Link
@@ -217,8 +281,6 @@ public class RejectedPractitionersPage extends PageTemplate {
 		
 		closeWindow();
 	
-		System.out.println("gellow");
-		
 		switchtoWindow();
 		
 	}
