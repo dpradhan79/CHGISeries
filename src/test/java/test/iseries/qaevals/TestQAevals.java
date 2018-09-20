@@ -8,7 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
@@ -317,7 +319,17 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 					this.getScreenShotName());
 		}
 			
-		qaEvalsPage.switchToWindowUsingTitle("Provider or Contact: Dr. CHSTestProvider3 Test3 ~ Salesforce - Unlimited Edition");
+		Set <String> handles =TestQAevals.threadLocalWebDriver.get().getWindowHandles();
+		Iterator<String> it = handles.iterator();
+				
+		String lastElement = it.next();
+	    while(it.hasNext()) {
+	        lastElement = it.next();
+	    }
+	    
+	    TestQAevals.threadLocalWebDriver.get().switchTo().window(lastElement);
+	    
+		//qaEvalsPage.switchToWindowUsingTitle("Provider or Contact: Dr. CHSTestProvider3 Test3 ~ Salesforce - Unlimited Edition");
 				
 		// Navigating QAEvals page
 		String assignmentName = qaEvalsPage.navigateToQAevalsFromAssignment();

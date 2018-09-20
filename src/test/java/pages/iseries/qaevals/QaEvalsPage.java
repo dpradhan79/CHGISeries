@@ -27,7 +27,7 @@ public class QaEvalsPage extends PageTemplate {
 	private By providerDetailText 			= By.xpath("//h2[text()='Provider or Contact Detail']");
 	private By assignmentsTab				= By.xpath("//ul[@id='tabBar']//a[@title='Assignments Tab']");
 	private By assignmentsPage 				= By.xpath("//h1[text()='Assignments']");
-	private By availableAssignment			= By.xpath("//a[contains(text(),'ASG-')]");
+	private By availableAssignment			= By.xpath("//a[contains(text(),'ASG-')]/../parent::tr/td[text()='Closed']/parent::tr//a[contains(text(),'ASG-')]");
 	private By assignmentDetailText			= By.xpath("//h2[text()='Assignment Detail']");
 	private By createClientEval				= By.xpath("//input[contains(@value,'Create Client Eval')]");
 	private By createProviderEval			= By.xpath("//input[contains(@value,'Create Provider Eval')]");
@@ -205,6 +205,9 @@ public class QaEvalsPage extends PageTemplate {
 		} catch (NoSuchElementException e) {
 			this.click(createClientEval);
 			this.implicitwait(3);
+		}catch (Exception e) {
+			this.click(createClientEval);
+			this.implicitwait(3);
 		}
 		// Get Eval type from Created record
 		String evalType = this.getText(evalTypeInClientQAEvals);
@@ -218,6 +221,9 @@ public class QaEvalsPage extends PageTemplate {
 		try {
 			this.wd.findElement(evalTypeInProviderQAEvals);
 		} catch (NoSuchElementException e) {
+			this.click(createProviderEval);
+			this.implicitwait(3);
+		}catch (Exception e) {
 			this.click(createProviderEval);
 			this.implicitwait(3);
 		}
