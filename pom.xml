@@ -100,7 +100,10 @@
 				<configuration>
 					<suiteXmlFiles>										
 						<suiteXmlFile>testngPhoneBook.xml</suiteXmlFile>
-						<suiteXmlFile>testngVendorSearch.xml</suiteXmlFile>						
+						<suiteXmlFile>testngVendorSearch.xml</suiteXmlFile>
+						<suiteXmlFile>testngGrossMarginEstimator.xml</suiteXmlFile>
+						<suiteXmlFile>testngQAevals.xml</suiteXmlFile>
+						<suiteXmlFile>testngRejected Practitioners.xml</suiteXmlFile>						
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
