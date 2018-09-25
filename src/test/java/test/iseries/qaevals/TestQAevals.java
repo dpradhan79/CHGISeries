@@ -402,43 +402,42 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 	public void testC939949(ITestContext testContext, Hashtable<String, String> data) {
 		
 		// Initialization
-				LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-				QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-				
-				// Logging in to application
-				loginPage.loginToFoxApplicationAndDivision(testContext);
+		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 
-				// Navigating QAEvals page
-				String assignmentName = qaEvalsPage.navigateToQAevalsFromAssignment();
-				
-				// Login to QAEvals
-				String userName = this.getTestParameter(testContext, "iSeriesUserName");
-				String password = this.getTestParameter(testContext, "iSeriespassword");
-				loginPage.qaEvalsLogin(userName, password);
-				
-				//Create provider QA Eval
-				qaEvalsPage.createProviderEval().trim();
-				
-				//Click on Edit Link
-				qaEvalsPage.clickOnEditLink();
-				
-				//Fill field values on Edit page
-				qaEvalsPage.fillValuesOnEditPage();
-				
-				//Close the Edit page
-				qaEvalsPage.closeEditPage();
-				
-				//switch to parent window
-				String parent = TestQAevals.threadLocalWebDriver.get().getWindowHandles().toArray()[0].toString();
-				TestQAevals.threadLocalWebDriver.get().switchTo().window(parent);
-				
-				//logout from division
-				loginPage.logoutfromdivision(testContext);
-				
-				qaEvalsPage.verifyQAEvalsTaskGenerated(data.get("taskUser"));
-				
-				
-		//Assert All
+		// Logging in to application
+		loginPage.loginToFoxApplicationAndDivision(testContext);
+
+		// Navigating QAEvals page
+		qaEvalsPage.navigateToQAevalsFromAssignment();
+
+		// Login to QAEvals
+		String userName = this.getTestParameter(testContext, "iSeriesUserName");
+		String password = this.getTestParameter(testContext, "iSeriespassword");
+		loginPage.qaEvalsLogin(userName, password);
+
+		// Create provider QA Eval
+		qaEvalsPage.createProviderEval().trim();
+
+		// Click on Edit Link
+		qaEvalsPage.clickOnEditLink();
+
+		// Fill field values on Edit page
+		qaEvalsPage.fillValuesOnEditPage();
+
+		// Close the Edit page
+		qaEvalsPage.closeEditPage();
+
+		// switch to parent window
+		String parent = TestQAevals.threadLocalWebDriver.get().getWindowHandles().toArray()[0].toString();
+		TestQAevals.threadLocalWebDriver.get().switchTo().window(parent);
+
+		// logout from division
+		loginPage.logoutfromdivision(testContext);
+
+		qaEvalsPage.verifyQAEvalsTaskGenerated(data.get("taskUser"));
+
+		// Assert All
 		this.softAssert.assertAll();
 	}
 	
@@ -447,47 +446,43 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		@Test(dataProvider = "QAEvals")
 		public void testC939950(ITestContext testContext, Hashtable<String, String> data) {
 			
-			// Initialization
-					LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-					QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
-					
-					// Logging in to application
-					loginPage.loginToFoxApplicationAndDivision(testContext);
+		// Initialization
+		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+		QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
 
-					// Navigating QAEvals page
-					String assignmentName = qaEvalsPage.navigateToQAevalsFromAssignment();
-					
-					// Login to QAEvals
-					String userName = this.getTestParameter(testContext, "iSeriesUserName");
-					String password = this.getTestParameter(testContext, "iSeriespassword");
-					loginPage.qaEvalsLogin(userName, password);
-					
-					//Create provider QA Eval
-					qaEvalsPage.createClientEval().trim();
-					
-					//Click on Edit Link
-					qaEvalsPage.clickOnClientEditLink();
-					
-					//Fill field values on Edit page
-					qaEvalsPage.fillValuesOnEditPage();
-					
-					//Close the Edit page
-					qaEvalsPage.closeEditPage();
-					
-					//switch to parent window
-					String parent = TestQAevals.threadLocalWebDriver.get().getWindowHandles().toArray()[0].toString();
-					TestQAevals.threadLocalWebDriver.get().switchTo().window(parent);
-					
-					//logout from division
-					loginPage.logoutfromdivision(testContext);
-					
-					/*//login with Tina Rasmussen user
-					loginPage.loginToDivision(testContext, data.get("taskUser") );*/
-					
-					qaEvalsPage.verifyQAEvalsTaskGenerated(data.get("taskUser"));
-					
-					
-			//Assert All
-			this.softAssert.assertAll();
+		// Logging in to application
+		loginPage.loginToFoxApplicationAndDivision(testContext);
+
+		// Navigating QAEvals page
+		qaEvalsPage.navigateToQAevalsFromAssignment();
+
+		// Login to QAEvals
+		String userName = this.getTestParameter(testContext, "iSeriesUserName");
+		String password = this.getTestParameter(testContext, "iSeriespassword");
+		loginPage.qaEvalsLogin(userName, password);
+
+		// Create provider QA Eval
+		qaEvalsPage.createClientEval().trim();
+
+		// Click on Edit Link
+		qaEvalsPage.clickOnClientEditLink();
+
+		// Fill field values on Edit page
+		qaEvalsPage.fillValuesOnEditPage();
+
+		// Close the Edit page
+		qaEvalsPage.closeEditPage();
+
+		// switch to parent window
+		String parent = TestQAevals.threadLocalWebDriver.get().getWindowHandles().toArray()[0].toString();
+		TestQAevals.threadLocalWebDriver.get().switchTo().window(parent);
+
+		// logout from division
+		loginPage.logoutfromdivision(testContext);
+
+		qaEvalsPage.verifyQAEvalsTaskGenerated(data.get("taskUser"));
+
+		// Assert All
+		this.softAssert.assertAll();
 		}
 }
