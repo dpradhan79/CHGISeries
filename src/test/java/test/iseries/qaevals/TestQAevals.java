@@ -38,7 +38,7 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		return objMetrics;
 	}
 	
-/*	@Test(dataProvider = "QAEvals", description = "Validate application navigating to QA Evals from Clients page")
+	@Test(dataProvider = "QAEvals", description = "Validate application navigating to QA Evals from Clients page")
 	public void testC939941(ITestContext testContext, Hashtable<String, String> data) {
 		// Initialization
 		LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
@@ -65,7 +65,7 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		//Assert All
 		this.softAssert.assertAll();
 	}
-
+	
 	@Test(dataProvider = "QAEvals", description = "Validate application navigating to QA Evals from provider page")
 	public void testC939942(ITestContext testContext, Hashtable<String, String> data) {
 		// Initialization
@@ -166,7 +166,7 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		
 		// Assert All
 		this.softAssert.assertAll();
-	}*/
+	}
 	
 	@Test(dataProvider = "QAEvals", description = "Verify that users can access all the links on the Assignemnt QA Evals page")
 	public void testC939947(ITestContext testContext, Hashtable<String, String> data) {
@@ -394,4 +394,100 @@ public class TestQAevals extends TestTemplateMethodLevelInit {
 		//Assert everything
 		this.softAssert.assertAll();
 	}
+	
+		
+	//description = " Verify that a Provider QA Evals can be completed and a task gets created for negative status "
+		
+	@Test(dataProvider = "QAEvals")
+	public void testC939949(ITestContext testContext, Hashtable<String, String> data) {
+		
+		// Initialization
+				LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+				QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+				
+				// Logging in to application
+				loginPage.loginToFoxApplicationAndDivision(testContext);
+
+				// Navigating QAEvals page
+				String assignmentName = qaEvalsPage.navigateToQAevalsFromAssignment();
+				
+				// Login to QAEvals
+				String userName = this.getTestParameter(testContext, "iSeriesUserName");
+				String password = this.getTestParameter(testContext, "iSeriespassword");
+				loginPage.qaEvalsLogin(userName, password);
+				
+				//Create provider QA Eval
+				qaEvalsPage.createProviderEval().trim();
+				
+				//Click on Edit Link
+				qaEvalsPage.clickOnEditLink();
+				
+				//Fill field values on Edit page
+				qaEvalsPage.fillValuesOnEditPage();
+				
+				//Close the Edit page
+				qaEvalsPage.closeEditPage();
+				
+				//switch to parent window
+				String parent = TestQAevals.threadLocalWebDriver.get().getWindowHandles().toArray()[0].toString();
+				TestQAevals.threadLocalWebDriver.get().switchTo().window(parent);
+				
+				//logout from division
+				loginPage.logoutfromdivision(testContext);
+				
+				qaEvalsPage.verifyQAEvalsTaskGenerated(data.get("taskUser"));
+				
+				
+		//Assert All
+		this.softAssert.assertAll();
+	}
+	
+	//description = " Verify that a Client QA Evals can be completed and a task gets created for negative status "
+	
+		@Test(dataProvider = "QAEvals")
+		public void testC939950(ITestContext testContext, Hashtable<String, String> data) {
+			
+			// Initialization
+					LoginPage loginPage = new LoginPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+					QaEvalsPage qaEvalsPage = new QaEvalsPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport);
+					
+					// Logging in to application
+					loginPage.loginToFoxApplicationAndDivision(testContext);
+
+					// Navigating QAEvals page
+					String assignmentName = qaEvalsPage.navigateToQAevalsFromAssignment();
+					
+					// Login to QAEvals
+					String userName = this.getTestParameter(testContext, "iSeriesUserName");
+					String password = this.getTestParameter(testContext, "iSeriespassword");
+					loginPage.qaEvalsLogin(userName, password);
+					
+					//Create provider QA Eval
+					qaEvalsPage.createClientEval().trim();
+					
+					//Click on Edit Link
+					qaEvalsPage.clickOnClientEditLink();
+					
+					//Fill field values on Edit page
+					qaEvalsPage.fillValuesOnEditPage();
+					
+					//Close the Edit page
+					qaEvalsPage.closeEditPage();
+					
+					//switch to parent window
+					String parent = TestQAevals.threadLocalWebDriver.get().getWindowHandles().toArray()[0].toString();
+					TestQAevals.threadLocalWebDriver.get().switchTo().window(parent);
+					
+					//logout from division
+					loginPage.logoutfromdivision(testContext);
+					
+					/*//login with Tina Rasmussen user
+					loginPage.loginToDivision(testContext, data.get("taskUser") );*/
+					
+					qaEvalsPage.verifyQAEvalsTaskGenerated(data.get("taskUser"));
+					
+					
+			//Assert All
+			this.softAssert.assertAll();
+		}
 }

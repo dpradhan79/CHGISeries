@@ -32,7 +32,9 @@ public class RejectedPractitionersPage extends PageTemplate {
     private By byResetbtn 								= By.xpath("//input[@value='RESET']");
     private By searchResultNameLink                     = By.xpath("(//font[contains(text(),'Name')]/../../following-sibling::tr//a)[1]");
     private By searchRejectedPractitionersPage          = By.xpath("//b[contains(text(),'Rejected Practitioners')]");
-
+    private By loginPageText                            = By.xpath("//td[contains(text(),'Sign On')]");
+    private By loginPageText1                           = By.xpath("//p[contains(text(),' bookmark this page. Doing so will cause an error on your next visit. The correct procedure is to bookmark the page that appears after you click \"login\". ')]");
+    private By loginPageText2                           = By.xpath("//p[contains(text(),'You have requested access to a site that requires authentication')]");
     private SoftAssert softAssert = null;
 	public RejectedPractitionersPage(WebDriver webDriver, IReporter testReport) {
 		super(webDriver, testReport);
@@ -465,6 +467,22 @@ public class RejectedPractitionersPage extends PageTemplate {
     }
     }
 	
+	/**
+	 * Get Text from Login Page
+	 */
+	public void getTextLoginPageText() {
+		
+		String text = this.getText(loginPageText);
+		this.softAssert.assertEquals(text, "Sign On");
+		this.validateTextEquals(text, "Sign On");
+		String text1 = this.getText(loginPageText2);
+		this.softAssert.assertEquals(text1 , " You have requested access to a site that requires authentication.");
+		this.validateTextEquals(text1 , " You have requested access to a site that requires authentication.");
+		String text2 = this.getText(loginPageText1);
+		this.softAssert.assertEquals(text2,	" Do not bookmark this page. Doing so will cause an error on your next visit. The correct procedure is to bookmark the page that appears after you click \"login\".");
+		this.validateTextEquals(text2, " Do not bookmark this page. Doing so will cause an error on your next visit. The correct procedure is to bookmark the page that appears after you click \"login\".");
+	}
+
 
 }
 	

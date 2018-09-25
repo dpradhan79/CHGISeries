@@ -18,20 +18,22 @@ public class LoginPage extends PageTemplate {
 		this.softAssert = new SoftAssert();
 	}
 	
-	private By userName = By.xpath("//input[contains(@name,'username')]");
-	private By password = By.xpath("//input[contains(@name,'password')]");
-	private By loginButton = By.xpath("//span[contains(text(),'Login')]");
-	private By foxUserName = By.xpath("//*[@id='username']");
-	private By foxPassword = By.xpath("//*[@id='password']");
-	private By foxLoginButton = By.xpath("//*[@id='Login']");
-	private By titleAfterFoxLogin = By.xpath("//*[contains(text(),'CHG Healthcare Services Internal')]");
-	private By foxSearchField = By.xpath("//*[@id='phSearchInput']");
-	private By arrowIcon = By.xpath("//b[contains(@class,'selectArrow')]/parent::a[@id='moderatorMutton']");
-	private By userDetail = By.xpath("//*[@id='USER_DETAIL']/span");
-	private By userDetailLogin = By.xpath("(//input[@title='Login'])[1]");
-	private By qaEvalsUserName = By.xpath("//*[@id='j_username']");
-	private By qaEvalsPassword = By.xpath("//*[@id='j_password']");
-	private By qaEvalsSubmitButton = By.xpath("//*[@id='submit']");
+	private By userName 			 = By.xpath("//input[contains(@name,'username')]");
+	private By password 			 = By.xpath("//input[contains(@name,'password')]");
+	private By loginButton			 = By.xpath("//span[contains(text(),'Login')]");
+	private By foxUserName			 = By.xpath("//*[@id='username']");
+	private By foxPassword 			 = By.xpath("//*[@id='password']");
+	private By foxLoginButton 		 = By.xpath("//*[@id='Login']");
+	private By titleAfterFoxLogin    = By.xpath("//*[contains(text(),'CHG Healthcare Services Internal')]");
+	private By foxSearchField 		 = By.xpath("//*[@id='phSearchInput']");
+	private By arrowIcon 			 = By.xpath("//b[contains(@class,'selectArrow')]/parent::a[@id='moderatorMutton']");
+	private By userDetail     		 = By.xpath("//*[@id='USER_DETAIL']/span");
+	private By userDetailLogin		 = By.xpath("(//input[@title='Login'])[1]");
+	private By qaEvalsUserName		 = By.xpath("//*[@id='j_username']");
+	private By qaEvalsPassword		 = By.xpath("//*[@id='j_password']");
+	private By qaEvalsSubmitButton	 = By.xpath("//*[@id='submit']");
+	private By logouthyperlink		 = By.xpath("//a[@title='Press space bar or Enter key to open']");
+	private By logoutButton			 = By.xpath("//a[text()='Logout']");
 	
 	/**
 	 * Login to JDE vendor search application
@@ -115,4 +117,25 @@ public class LoginPage extends PageTemplate {
 		//Wait until application logged in
 		//this.waitUntilElementIsVisible(titleAfterFoxLogin);
 	}
+	
+	/**
+	 * @param testContext
+	 * Logout from division
+	 */
+	public void logoutfromdivision(ITestContext testContext)
+	{
+				
+		//Wait until logout link visible
+		this.waitUntilElementIsClickable(logouthyperlink);
+		this.click(logouthyperlink);
+		
+		//Wait until logout button visible
+		this.waitUntilElementIsClickable(logoutButton);
+		this.click(logoutButton);
+		
+		System.out.println("Logout Sucessfuly");
+			
+	}
+	
+		
 }

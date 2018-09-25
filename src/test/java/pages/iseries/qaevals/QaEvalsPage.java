@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -16,45 +17,54 @@ import dweb.aut.pages.templates.PageTemplate;
 
 public class QaEvalsPage extends PageTemplate {
 
-	private By clientsTab 					= By.xpath("//ul[@id='tabBar']//a[@title='Clients Tab']");
-	private By clientsPage 					= By.xpath("//h1[text()='Clients']");
-	private By availableClientInCLientsTab 	= By.xpath("//th[text()='Client Name']/../parent::tbody/tr[2]//a");
-	private By clientDetailText 			= By.xpath("//h2[text()='Client Detail']");
-	private By qaEvalsButton 				= By.xpath("//input[@title='QA Evals']");
-	private By providersAndContactsTab		= By.xpath("//ul[@id='tabBar']//a[@title='Providers and Contacts Tab']");
-	private By availableProviderTab 		= By.xpath("//th[text()='Name']/../parent::tbody/tr[2]/td[2][text()='Provider']/parent::tr//a");
-	private By providersPage 				= By.xpath("//h1[text()='Providers and Contacts']");
-	private By providerDetailText 			= By.xpath("//h2[text()='Provider or Contact Detail']");
-	private By assignmentsTab				= By.xpath("//ul[@id='tabBar']//a[@title='Assignments Tab']");
-	private By assignmentsPage 				= By.xpath("//h1[text()='Assignments']");
-	private By availableAssignment			= By.xpath("//a[contains(text(),'CHSD') and contains(text(),'Client')]/../parent::tr//a[contains(text(),'ASG')]");
-	private By assignmentDetailText			= By.xpath("//h2[text()='Assignment Detail']");
-	private By createClientEval				= By.xpath("//input[contains(@value,'Create Client Eval')]");
-	private By createProviderEval			= By.xpath("//input[contains(@value,'Create Provider Eval')]");
-	private By evalTypeInClientQAEvals		= By.xpath("//div[text()='Client Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[2]");
-	private By evalTypeInProviderQAEvals	= By.xpath("//div[text()='Provider Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[2]");
-	private By providerEvalsEditLink		= By.xpath("//div[text()='Provider Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='Edit']");
-	private By providerEvalsPDFLink			= By.xpath("//div[text()='Provider Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='PDF']");
-	private By providerEvalsMoreLink		= By.xpath("//div[text()='Provider Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[1]/a[contains(text(),'More')]");
-	private By providerEvalsAsgNameLink		= By.xpath("//a[contains(@href,'assignmentSummary')]");
-	private By providerEvalsClientNameLink	= By.xpath("//td[contains(@class,'clientName')]/a");
-	private By providerEvalsProviderNameLink= By.xpath("//td[contains(@class,'providerName')]/a");
-	private By editPageText					= By.xpath("//a[contains(text(),'Report a technical')]");
-	private By linkAfterClikingMore			= By.xpath("//a[text()='View History']");
-	private By PageTitle					= By.xpath("//div[contains(@class,'headerFrame')]/h1");
-	private By searchField					= By.xpath("//*[@id='phSearchInput']");
-	private By searchButton					= By.xpath("//*[@id='phSearchButton']");
-	private By providerLinkInSearchResults	= By.xpath("//a[text()='Provider Status']/../parent::tr/following-sibling::tr/th/a");
-	private By clientEvalsEditLinkInProvider	= By.xpath("//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='Edit']");
-	private By clientEvalsPDFLinkInProvider		= By.xpath("//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='PDF']");
-	private By clientEvalsMoreLinkInProvider	= By.xpath("//tr[contains(@class,'status_CREATED')]/td[1]/a[contains(text(),'More')]");
-	private By clientLinkInSearchResult			= By.xpath("//a[text()='Client Type']/../parent::tr/following-sibling::tr/th/a");
-	private By summaryReport					= By.xpath("//input[@value='Summary Report']");
-	private By fromDateEvalCreated				= By.xpath("//*[@id='fromDate']");
-	private By toDateEvalCreated				= By.xpath("//*[@id='toDate']");
-	private By searchButtonQAEvals				= By.xpath("//input[@value='Search']");
-	private By clientNameInClientQAEVals		= By.xpath("//tr[contains(@class,'CREATED')]/td[@class='clientName']/a");
-
+	private By clientsTab 							= By.xpath("//ul[@id='tabBar']//a[@title='Clients Tab']");
+	private By clientsPage 							= By.xpath("//h1[text()='Clients']");
+	private By availableClientInCLientsTab 			= By.xpath("//th[text()='Client Name']/../parent::tbody/tr[2]//a");
+	private By clientDetailText 					= By.xpath("//h2[text()='Client Detail']");
+	private By qaEvalsButton 						= By.xpath("//input[@title='QA Evals']");
+	private By providersAndContactsTab				= By.xpath("//ul[@id='tabBar']//a[@title='Providers and Contacts Tab']");
+	private By availableProviderTab 				= By.xpath("//th[text()='Name']/../parent::tbody/tr[2]/td[2][text()='Provider']/parent::tr//a");
+	private By providersPage 						= By.xpath("//h1[text()='Providers and Contacts']");
+	private By providerDetailText 					= By.xpath("//h2[text()='Provider or Contact Detail']");
+	private By assignmentsTab						= By.xpath("//ul[@id='tabBar']//a[@title='Assignments Tab']");
+	private By assignmentsPage 						= By.xpath("//h1[text()='Assignments']");
+	private By availableAssignment					= By.xpath("//a[contains(text(),'CHSD') and contains(text(),'Client')]/../parent::tr//a[contains(text(),'ASG')]");
+	private By assignmentDetailText					= By.xpath("//h2[text()='Assignment Detail']");
+	private By createClientEval						= By.xpath("//input[contains(@value,'Create Client Eval')]");
+	private By createProviderEval					= By.xpath("//input[contains(@value,'Create Provider Eval')]");
+	private By evalTypeInClientQAEvals				= By.xpath("//div[text()='Client Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[2]");
+	private By evalTypeInProviderQAEvals			= By.xpath("//div[text()='Provider Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[2]");
+	private By providerEvalsEditLink				= By.xpath("//div[text()='Provider Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='Edit']");
+	private By providerEvalsPDFLink					= By.xpath("//div[text()='Provider Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='PDF']");
+	private By providerEvalsMoreLink				= By.xpath("//div[text()='Provider Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[1]/a[contains(text(),'More')]");
+	private By providerEvalsAsgNameLink				= By.xpath("//a[contains(@href,'assignmentSummary')]");
+	private By providerEvalsClientNameLink			= By.xpath("//td[contains(@class,'clientName')]/a");
+	private By providerEvalsProviderNameLink		= By.xpath("//td[contains(@class,'providerName')]/a");
+	private By editPageText							= By.xpath("//a[contains(text(),'Report a technical')]");
+	private By linkAfterClikingMore					= By.xpath("//a[text()='View History']");
+	private By PageTitle							= By.xpath("//div[contains(@class,'headerFrame')]/h1");
+	private By searchField							= By.xpath("//*[@id='phSearchInput']");
+	private By searchButton							= By.xpath("//*[@id='phSearchButton']");
+	private By providerLinkInSearchResults			= By.xpath("//a[text()='Provider Status']/../parent::tr/following-sibling::tr/th/a");
+	private By clientEvalsEditLinkInProvider	    = By.xpath("//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='Edit']");
+	private By clientEvalsPDFLinkInProvider			= By.xpath("//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='PDF']");
+	private By clientEvalsMoreLinkInProvider		= By.xpath("//tr[contains(@class,'status_CREATED')]/td[1]/a[contains(text(),'More')]");
+	private By clientLinkInSearchResult				= By.xpath("//a[text()='Client Type']/../parent::tr/following-sibling::tr/th/a");
+	private By summaryReport						= By.xpath("//input[@value='Summary Report']");
+	private By fromDateEvalCreated					= By.xpath("//*[@id='fromDate']");
+	private By toDateEvalCreated					= By.xpath("//*[@id='toDate']");
+	private By searchButtonQAEvals					= By.xpath("//input[@value='Search']");
+	private By clientNameInClientQAEVals			= By.xpath("//tr[contains(@class,'CREATED')]/td[@class='clientName']/a");
+	private By editProviderRequiredRadioButton		= By.xpath("//span[contains(@class,'requiredQuestion')]/../following-sibling::td//input[@title='Yes']");
+	private By editProviderRequiredEvaluatorName	= By.xpath("//input[@title='Evaluator name']");
+	private By editProviserEvaluatorTitleSpecialty	= By.xpath("//input[@title='Evaluator title/specialty']");
+	private By submitAll							= By.xpath("//input[@type='submit']");
+	private By Close								= By.xpath("//input[@value='Close']");
+	private By homeButton 							= By.xpath("//a[@title='Home Tab']");
+	private By taskLink								= By.xpath("//a[text()='Tasks']");
+	private By assignedInput						= By.xpath("//label[contains(text(),'Assigned')]/../following-sibling::td//span//input");
+	private By filterButton							= By.xpath("//input[@value='Filter']");
+	private By clientEvalsEditLink					= By.xpath("//div[text()='Client Evals']/following-sibling::div[1]//tr[contains(@class,'status_CREATED')]/td[1]/a[text()='Edit']");
 	
 	
 	public QaEvalsPage(WebDriver webDriver, IReporter testReport) {
@@ -423,4 +433,70 @@ public class QaEvalsPage extends PageTemplate {
 			}
 		}
 	}
+	
+	public void clickOnEditLink() {
+		
+		// Click on Edit link and get title
+		this.clickWithJavascript(providerEvalsEditLink);
+		this.waitUntilElementIsVisible(editPageText);
+	}
+	
+	public void clickOnClientEditLink() {
+		
+		// Click on Edit link and get title
+		this.clickWithJavascript(clientEvalsEditLink);
+		this.waitUntilElementIsVisible(editPageText);
+	}
+	
+	public void fillValuesOnEditPage()
+	{
+		//Fill the Fields in Edit page
+				
+		this.waitUntilElementIsVisible(editProviderRequiredEvaluatorName);
+		this.sendKeys(editProviderRequiredEvaluatorName, "Test");
+		
+		this.waitUntilElementIsVisible(editProviserEvaluatorTitleSpecialty);
+		this.sendKeys(editProviserEvaluatorTitleSpecialty, "Automation");
+		
+		this.waitUntilElementIsClickable(editProviderRequiredRadioButton);
+		this.click(editProviderRequiredRadioButton);
+		
+		this.waitUntilElementIsClickable(submitAll);
+		this.click(submitAll);
+		
+		this.wd.switchTo().alert().accept();
+		
+	}
+	
+	public void closeEditPage()
+	{
+		//Fill the Fields in Edit page
+				
+		this.waitUntilElementIsClickable(Close);
+		this.click(Close);
+		
+	}
+	
+	public void verifyQAEvalsTaskGenerated(String value)
+	{
+		//Click on Home Button
+		this.waitUntilElementIsClickable(homeButton);
+		this.click(homeButton);
+		
+		//Click on TASK lINK
+		this.waitUntilElementIsClickable(taskLink);
+		this.click(taskLink);
+		
+		//Sent text to Assigned input field
+		this.waitUntilElementIsVisible(assignedInput);
+		this.sendKeys( assignedInput , value );
+		
+		//click on filter button
+		this.waitUntilElementIsClickable(filterButton);
+		this.click(filterButton);
+		
+		System.out.println("Sucessfully clicked Filter button");
+			
+	}
+	
 }

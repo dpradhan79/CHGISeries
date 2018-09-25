@@ -203,4 +203,15 @@ public class TestRejectedPractitioners extends TestTemplateMethodLevelInit {
 				this.softAssert.assertAll();
 			}
 
+		  // description = "Verify login page text of Rejected Practitioners"
+
+		  @Test(dataProvider = "getRejectedPractitionersDataFromExcel")
+		  public void testC940696(Hashtable<String, String> data, ITestContext testContext)
+		  {
+		  //Initialization
+		  RejectedPractitionersPage rejectedPractitionersPage = new RejectedPractitionersPage(TestTemplate.threadLocalWebDriver.get(), TestTemplate.testReport, this.softAssert);
+		      // Logging in to Rejected Practitioners
+
+		          rejectedPractitionersPage.getTextLoginPageText();
+		  }
 }
